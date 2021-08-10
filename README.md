@@ -1,4 +1,4 @@
-# Ideas for the Project of Q3 (Qualifikationsphase 3) of the Abitur
+# Ideas for the Project of Q3 (Qualifikationsphase 3) of Oberstufe (High School)
 
 <br>
 
