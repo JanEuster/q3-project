@@ -36,6 +36,12 @@
 <br/> <br/> <br/>
 
 WORKING WITH THIS REPOSITORY
+	
+Prerequisites:
+- Git
+- NodeJS
+
+
 1. Clone the Repo
 ```shell
 $ git clone https://github.com/janeuster/q3-project.git
