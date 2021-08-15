@@ -1,6 +1,55 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+
+import Canvas from "./components/Canvas/Canvas.jsx";
+
+
+function App() {
+	drawCanvas();
+  return (
+	<Router>
+		<div className="App">
+
+	<Switch>
+		<Route path="/new">
+			<Navbar side="bottom"/>
+			<Canvas />
+		</Route>
+		
+		<Route exact path="/"> // "/" path Route always last
+			<Navbar />
+			<Home/>	
+		</Route>
+		
+		<Route render={() => <h1> 404 Error: Page not Found <br/> Go <Link to="/"> Home </Link></h1>} />
+
+	</Switch>
+
+
+		</div>
+	</Router>
+	);
+}
+
+function Home(props) {
+	return (
+		<div className="home">
+			<div className="main-buttons">
+				<MainButton title="New Document" subtitle="fileformat" link="new" />	
+				<MainButton title="Import" subtitle="pdf png jgp flipchart" />	
+			</div>
+			<div className="small-buttons">
+				<SmallButton title="fiel1.???" link="/" />
+				<SmallButton title="fiel1.???" link="/" />
+				<SmallButton title="fiel1.???" link="/" />
+				<SmallButton title="fiel1.???" link="/" />
+				<SmallButton title="fiel1.???" link="/" />
+			</div>
+		</div>
+	)	
+}
 
 function NavItem(props) {
 	const right = props.right;
@@ -8,26 +57,35 @@ function NavItem(props) {
 	<div>	
 		{ right ? 
 		<li className="right-nav">
-			<a href="">
+			<Link to={props.link}>
 			{props.title}			
-			</a>
+			</Link>
 		</li>
 		:
 		<li> 
-			<a href="">
+			<Link to={props.link}>
 			{props.title}			
-			</a>
+			</Link>
 		</li> }
 	</div>	
 	)
 }
 
 function Navbar(props) {
-	console.log(props);
+	let nav_class = "none";
+
+	if (props.side == "bottom") {
+		let nav_class = "navbar-bottom";	
+	}
+	console.log(props.side, nav_class);
 	return (
-		<nav>
+		<nav className={nav_class}>
 			<ul className="Navbar">
-				{props.children}
+				<NavItem link="/" title="Home" />
+				<NavItem link="/" title="Document1" />
+				<NavItem link="/" title="Document2" />
+				<NavItem link="/" title="Document3" />
+				<NavItem link="/" title="Settings" right="true" />
 			</ul>
 		</nav>
 	);
@@ -35,64 +93,27 @@ function Navbar(props) {
 
 function MainButton(props) {
 	return (
-		<a href={props.link} className="main-file-button">
+		<Link to={props.link} className="main-file-button">
 			<div className="main-file-button-top">
 				<h1> {props.title} </h1>	
 			</div>
 			<div className="main-file-button-bottom">
 				<h3> {props.subtitle} </h3>
 			</div>
-		</a>	
+		</Link>	
 	);
 }
 
 function SmallButton(props) {
 	return (
-		<a href={props.link} className="small-file-button">
+		<Link to={props.link} className="small-file-button">
 			<div className="small-file-button-top">
 				<p>||preview||</p>
 			</div>
 			<div className="small-file-button-bottom">
 				<h3> {props.title} </h3>
 			</div>
-		</a>	
-	);
-
-}
-
-function Home(props) {
-	return (
-		<div className="home">
-			<div className="main-buttons">
-				<MainButton title="New Document" subtitle="fileformat" />	
-				<MainButton title="Import" subtitle="pdf png jgp flipchart" />	
-			</div>
-			<div className="small-buttons">
-				<SmallButton title="fiel1.???" />
-				<SmallButton title="fiel1.???" />
-				<SmallButton title="fiel1.???" />
-				<SmallButton title="fiel1.???" />
-				<SmallButton title="fiel1.???" />
-			</div>
-		</div>
-	)	
-}
-
-function App() {
-  return (
-		<div className="App">
-			<Home/>	
-			<Navbar>
-				<NavItem title="HOME"/>
-				<NavItem title="DOCUMENT1"/>
-				<NavItem title="DOCUMENT2"/>
-				<NavItem title="DOCUMENT3"/>
-				<NavItem right="true" title="Settings"/>
-			</Navbar>
-	
-
-
-		</div>
+		</Link>	
 	);
 }
 

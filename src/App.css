@@ -24,6 +24,7 @@
 
 .App {
   text-align: center;
+/*	background-color: var(--light-light-grey); */
 }
 .App-header {
   background-color: #282c34;
@@ -44,6 +45,13 @@ nav {
 	background-color: var(--light-orange); 
 	color: var(--light-light-grey);
 }
+
+.none {}
+
+.navbar-bottom {
+	top: 100vh;
+}
+
 
 nav ul {
 	vertical-align: center;
@@ -70,16 +78,12 @@ nav ul li a {
 }
 
 .home {
-	position: absolute;
-	top: 0;
-	left: 0;
 	width: 100%;
 	min-height: 100vh;
-	background-color: var(--light-grey);	
 }
 
 .main-buttons {
-	margin-top: 16vh;
+	padding-top: 16vh;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
