@@ -7,7 +7,6 @@ import Canvas from "./components/Canvas/Canvas.jsx";
 
 
 function App() {
-	drawCanvas();
   return (
 	<Router>
 		<div className="App">
