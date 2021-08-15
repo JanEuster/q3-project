@@ -47,15 +47,25 @@
 <br/>
 
 1. #### **Clone the Repo**
-```shell
+```console
 $ git clone https://github.com/janeuster/q3-project.git
 ```
-2. #### **Install Node Package Depencencies** 
 
 <br/>
 
+2. Switch to ideas Branch
 MUST be executed in the folder of the cloned repo 
-```shell
+```console
+$ git checkout ideas
+```
+
+<br/>
+
+2. #### **Install Node Package Depencencies** 
+
+
+MUST be executed in the folder of the cloned repo 
+```console
 $ npm install
 ```
 3. #### **Start the Live Development Version**
@@ -63,7 +73,7 @@ $ npm install
 <br/>
 
 MUST be executed in the folder of the cloned repo 
-```shell
+```console
 $ npm run dev
 ```
 You will see a desktop application appear. Anytime a file within the repositories directory is changed, those changes will appear in the live development desktop application.
