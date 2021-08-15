@@ -48,7 +48,7 @@
 
 1. #### **Clone the Repo**
 ```console
-$ git clone https://github.com/janeuster/q3-project.git
+foo@bar:~$ git clone https://github.com/janeuster/q3-project.git
 ```
 
 <br/>
@@ -56,7 +56,7 @@ $ git clone https://github.com/janeuster/q3-project.git
 2. Switch to ideas Branch
 MUST be executed in the folder of the cloned repo 
 ```console
-$ git checkout ideas
+foo@bar:~$ git checkout ideas
 ```
 
 <br/>
@@ -66,7 +66,7 @@ $ git checkout ideas
 
 MUST be executed in the folder of the cloned repo 
 ```console
-$ npm install
+foo@bar:~$ npm install
 ```
 3. #### **Start the Live Development Version**
 
@@ -74,7 +74,7 @@ $ npm install
 
 MUST be executed in the folder of the cloned repo 
 ```console
-$ npm run dev
+foo@bar:~$ npm run dev
 ```
 You will see a desktop application appear. Anytime a file within the repositories directory is changed, those changes will appear in the live development desktop application.
 The app can also be accessed via the browser(localhost:PORT). BY default the port is set to 3000(**localhost:3000**).
