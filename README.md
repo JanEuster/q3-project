@@ -35,6 +35,21 @@
 
 <br/> <br/> <br/>
 
+WORKING WITH THIS REPOSITORY
+1. Clone the Repo
+```shell
+$ git clone https://github.com/janeuster/q3-project.git
+```
+2. Install Node Package Depencencies
+```shell
+$ npm install
+```
+3. Start the Live Development Version
+```shell
+$ npm run dev
+```
+You will see a desktop application appear. Anytime a file within the repositories directory is changed, those changes will appear in the live development desktop application.
+The app can also be accessed via the browser(localhost:PORT). BY default the port is set to 3000(localhost:3000).
 BUILDING
 
 - Windows
