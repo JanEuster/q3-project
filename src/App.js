@@ -13,12 +13,12 @@ function App() {
 
 	<Switch>
 		<Route path="/new">
-			<Navbar side="bottom"/>
+			<Navbar side="nav-bottom"/>
 			<Canvas />
 		</Route>
 		
 		<Route exact path="/"> // "/" path Route always last
-			<Navbar />
+			<Navbar side="nav-top"/>
 			<Home/>	
 		</Route>
 		
@@ -53,7 +53,7 @@ function Home(props) {
 function NavItem(props) {
 	const right = props.right;
 	return (
-	<div>	
+	<React.Fragment>	
 		{ right ? 
 		<li className="right-nav">
 			<Link to={props.link}>
@@ -66,19 +66,13 @@ function NavItem(props) {
 			{props.title}			
 			</Link>
 		</li> }
-	</div>	
+	</React.Fragment>	
 	)
 }
 
 function Navbar(props) {
-	let nav_class = "none";
-
-	if (props.side == "bottom") {
-		let nav_class = "navbar-bottom";	
-	}
-	console.log(props.side, nav_class);
 	return (
-		<nav className={nav_class}>
+		<nav className={props.side}>
 			<ul className="Navbar">
 				<NavItem link="/" title="Home" />
 				<NavItem link="/" title="Document1" />
