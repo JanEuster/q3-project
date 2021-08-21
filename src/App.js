@@ -3,6 +3,7 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+import Navbar from "./Navbar.js"
 import Canvas from "./components/Canvas/Canvas.jsx";
 
 
@@ -14,7 +15,7 @@ function App() {
 	<Switch>
 		<Route path="/new">
 			<Navbar side="nav-bottom"/>
-			<Canvas />
+			<Canvas draw={drawCanvas} />
 		</Route>
 		
 		<Route exact path="/"> // "/" path Route always last
@@ -32,12 +33,17 @@ function App() {
 	);
 }
 
+function drawCanvas(context) {
+		context.fillStyle = '#dddddd';
+		context.fillRect(0, 0, context.canvas.width*(2/3), context.canvas.height/2);
+}
+
 function Home(props) {
 	return (
 		<div className="home">
 			<div className="main-buttons">
 				<MainButton title="New Document" subtitle="fileformat" link="new" />	
-				<MainButton title="Import" subtitle="pdf png jgp flipchart" />	
+				<MainButton title="Import" subtitle="pdf png jgp flipchart" link="doc/"/>	
 			</div>
 			<div className="small-buttons">
 				<SmallButton title="fiel1.???" link="/" />
@@ -50,39 +56,6 @@ function Home(props) {
 	)	
 }
 
-function NavItem(props) {
-	const right = props.right;
-	return (
-	<React.Fragment>	
-		{ right ? 
-		<li className="right-nav">
-			<Link to={props.link}>
-			{props.title}			
-			</Link>
-		</li>
-		:
-		<li> 
-			<Link to={props.link}>
-			{props.title}			
-			</Link>
-		</li> }
-	</React.Fragment>	
-	)
-}
-
-function Navbar(props) {
-	return (
-		<nav className={props.side}>
-			<ul className="Navbar">
-				<NavItem link="/" title="Home" />
-				<NavItem link="/" title="Document1" />
-				<NavItem link="/" title="Document2" />
-				<NavItem link="/" title="Document3" />
-				<NavItem link="/" title="Settings" right="true" />
-			</ul>
-		</nav>
-	);
-}
 
 function MainButton(props) {
 	return (
