@@ -15,7 +15,7 @@ function App() {
 	<Switch>
 		<Route path="/new">
 			<Navbar side="nav-bottom"/>
-			<Canvas draw={drawCanvas} />
+			<Canvas />
 		</Route>
 		
 		<Route exact path="/"> // "/" path Route always last
@@ -33,10 +33,6 @@ function App() {
 	);
 }
 
-function drawCanvas(context) {
-		context.fillStyle = '#dddddd';
-		context.fillRect(0, 0, context.canvas.width*(2/3), context.canvas.height/2);
-}
 
 function Home(props) {
 	return (
