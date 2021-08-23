@@ -1,14 +1,21 @@
 import React, { useRef, useEffect, useState } from "react";
-
+import Artboard from "./Artboard.js";
 import "./Canvas.css";
 
+
 const Canvas = (props) => {
-  const { draw, ...otherProps } = props;
+	
+	let Doc = new Artboard(2100, 2970, [], '#dddddd');
 
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
   });
+
+	//TODO: find a way to combine react & electron so that the electron.js win events etc. can be accessed in react	
+	//const [maximized, setMaximized] = useState({
+		//maximized: window.isMaximized()
+		//})
 
   const canvasRef = useRef(null);
 
@@ -23,20 +30,25 @@ const Canvas = (props) => {
         height: window.innerHeight,
         width: window.innerWidth,
       });
+			//setMaximized({
+				//maximized: window.isMaximized()
+				//})
       console.log("resize", dimensions.width, "x", dimensions.height);
 
 			const { width, height } = canvas.getBoundingClientRect();	
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;
-      draw(context);
+      Doc.draw(context);
     }
-    draw(context);
+    Doc.draw(context);
 
     console.log("update");
 
     window.addEventListener("resize", handleResize);
+		//window.addEventListener("maximize", handleResize);
     return (_) => {
       window.removeEventListener("resize", handleResize);
+			//window.addEventListener("maximize", handleResize);
     };
     // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
 
