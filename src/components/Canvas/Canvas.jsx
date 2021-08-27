@@ -1,11 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard.js";
+import BaseObject from "./Objects/BaseObject";
 import "./Canvas.css";
 
 
 const Canvas = (props) => {
 	
 	let Doc = new Artboard(2100, 2970, [], '#dddddd');
+    
+  Doc.addObjects([new BaseObject(200, 200, 150, 150, '#FF0000')]);
+
 
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,

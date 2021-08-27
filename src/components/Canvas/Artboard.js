@@ -1,4 +1,4 @@
-
+import BaseObject from "./Objects/BaseObject.js";
 
 class Artboard {
 	// 
@@ -9,7 +9,16 @@ class Artboard {
 		this.bgColor = bgColor; 
 
 		this.margin = 10;	// margin to be set around the artboard
+		this.objects = [];
+
+
 	}
+
+	addObjects(objs) {
+        objs.forEach((obj) => {
+            this.objects.push(obj);
+        });
+    }
 
 
 	calcOrientation(scrW, scrH) {
@@ -51,9 +60,16 @@ class Artboard {
 		}
 	}
 
+    drawObjects(context) {
+        this.objects.forEach((obj) => {
+            obj.render(context);
+        });
+    }
+
 	draw(context) {
 		var { artW, artH, orient } = this.calcOrientation(context.canvas.width, context.canvas.height);
 		this.drawArtboard(context, artW, artH, orient);		
+        this.drawObjects(context);
 	
 		
 	}
