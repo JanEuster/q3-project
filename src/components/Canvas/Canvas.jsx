@@ -8,7 +8,7 @@ const Canvas = (props) => {
 	
 	let Doc = new Artboard(2100, 2970, [], '#dddddd');
     
-  Doc.addObjects([new BaseObject(200, 200, 150, 150, '#FF0000')]);
+  Doc.addObjects([new BaseObject(200, 200, 1200, 600, '#FF0000')]);
 
 
   const [dimensions, setDimensions] = useState({

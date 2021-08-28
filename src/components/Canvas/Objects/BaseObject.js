@@ -13,10 +13,14 @@ class BaseObject {
    }
 
 
-   render(context) {
-       console.log("fillColor", this.fillColor);
-       context.fillStyle = this.fillColor;
-       context.fillRect(this.xCoord, this.yCoord, this.width, this.height);
+   render(context, pixelRatio, baseCoord) {
+        console.log("fillColor", this.fillColor);
+        context.fillStyle = this.fillColor;
+
+        console.log("baseCoords: ", baseCoord.w, baseCoord.h);
+        console.log(pixelRatio);
+        console.log(baseCoord.w + pixelRatio*this.xCoord, baseCoord.h + pixelRatio*this.yCoord);
+        context.fillRect(baseCoord.w + pixelRatio*this.xCoord, baseCoord.h + pixelRatio*this.yCoord, pixelRatio*this.width, pixelRatio*this.height);
    }
 }
 

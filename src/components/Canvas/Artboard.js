@@ -26,50 +26,59 @@ class Artboard {
 		if ((scrW/scrH) > (this.width/this.height)) {
 			var orient = 'v';
 			var artH = scrH - m;
-			var artW = this.width * (scrH/this.height) - m;
+			var artW = this.width * (artH/this.height);
+            var baseW = (scrW-artW)/2;
+            var baseH = this.margin;
 		} else if ((scrW/scrH) < (this.width/this.height)) {
 			var orient = 'h';
 			var artW = scrW - m;
-			var artH = this.height * (scrW/this.width) - m;
+			var artH = this.height * (artW/this.width);
+            var baseW = this.margin;
+            var baseH = (scrH-artH)/2;
 		} else {
 			var orient = 'sq'
 			if (scrW >= scrH) {
 				var artW = scrW - m;
-				var artH = this.height * (this.width/scrW) - m;
+				var artH = this.height * (this.width/scrW);
 			} else {
 				var artH = scrH - m;
-				var artW = this.width * (this.height/scrH) - m;
+				var artW = this.width * (this.height/scrH);
 			}
 		}
-		console.log(artW, artH, orient);
-		return { artW, artH, orient };
+        
+        if (orient === 'v'){
+             var pixelRatio = artW/this.width;
+        } else {
+             var pixelRatio = artH/this.height;
+        }
+
+		return {width: artW, height: artH, orient: orient, baseCoord: {w: baseW, h: baseH}, pixelRatio: pixelRatio};
 	}
 
-	drawArtboard(context, artW, artH, orient) {
-		if (orient === 'v') {
-			var d = (context.canvas.width-artW)/2;
-			context.fillStyle = this.bgColor; 
-			context.fillRect(d + this.margin, this.margin, artW, artH);
-		} else if (orient === 'h') {
-			var d = (context.canvas.height-artH)/2;
-			context.fillStyle = this.bgColor;
-			context.fillRect(this.margin, d + this.margin, artW, artH);
-		} else {
-			context.fillStyle = '#dd2222';
-			context.fillRect(200, 200, 500, 500); 
-		}
+	drawArtboard(context, artMeta) {
+        console.log("orientation: ", artMeta.orient);
+        
+		context.fillStyle = this.bgColor; 	
+		context.fillRect(artMeta.baseCoord.w, artMeta.baseCoord.h, artMeta.width, artMeta.height);
 	}
 
-    drawObjects(context) {
+    drawObjects(context, artMeta) {
+        console.log(artMeta.pixelRatio);
+
         this.objects.forEach((obj) => {
-            obj.render(context);
+            obj.render(context, artMeta.pixelRatio, artMeta.baseCoord);
         });
     }
 
 	draw(context) {
-		var { artW, artH, orient } = this.calcOrientation(context.canvas.width, context.canvas.height);
-		this.drawArtboard(context, artW, artH, orient);		
-        this.drawObjects(context);
+        // reset canvas
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height); 
+
+
+		var artMeta = this.calcOrientation(context.canvas.width, context.canvas.height);
+
+		this.drawArtboard(context, artMeta);		
+        this.drawObjects(context, artMeta);
 	
 		
 	}
