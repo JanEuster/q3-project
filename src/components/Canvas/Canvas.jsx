@@ -8,7 +8,7 @@ const Canvas = (props) => {
 	
 	let Doc = new Artboard(2100, 2970, [], '#dddddd');
     
-  Doc.addObjects([new BaseObject(200, 200, 1200, 600, '#FF0000')]);
+  Doc.addObjects([new BaseObject(200, 200, 1200, 600, '#FF0000'), new BaseObject(0, 0, 100, 100, '#00DD00'), new BaseObject(1600, 2200, 400, 600, '#3333FF')]);
 
 
   const [dimensions, setDimensions] = useState({
@@ -39,7 +39,7 @@ const Canvas = (props) => {
 				//})
       console.log("resize", dimensions.width, "x", dimensions.height);
 
-			const { width, height } = canvas.getBoundingClientRect();	
+	//  const { width, height } = canvas.getBoundingClientRect();	
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;
       Doc.draw(context);
