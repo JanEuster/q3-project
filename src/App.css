@@ -57,7 +57,7 @@ nav {
 
 .nav-bottom {
 	bottom: 0;
-	position: fixed;
+	position: absolute;
 	width: 100%;
 	background-color: var(--light-orange); 
 	color: var(--light-light-grey);

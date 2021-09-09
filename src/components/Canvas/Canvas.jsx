@@ -4,6 +4,7 @@ import BaseObject from "./Objects/BaseObject";
 import "./Canvas.css";
 
 
+
 const Canvas = (props) => {
 	
 	let Doc = new Artboard(2100, 2970, [], '#dddddd');

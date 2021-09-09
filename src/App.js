@@ -3,7 +3,7 @@ import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-import Navbar from "./Navbar.js"
+import Navbar from "./Navbar.js";
 import Canvas from "./components/Canvas/Canvas.jsx";
 
 

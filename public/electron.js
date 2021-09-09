@@ -1,15 +1,19 @@
 const path = require('path');
 
+require('@electron/remote/main').initialize();
 const { app, BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
 
+console.log(app);
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 700,
     webPreferences: {
       nodeIntegration: true,
+			enableRemoteModule: true,
+			contextIsolation: false,
     },
   });
 
