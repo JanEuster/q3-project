@@ -26,7 +26,7 @@
   - Auswahl (Select)
   - Pinsel (Brush)
   - Radierer
-  - (Shapes)
+  - Formen (Shapes)
     - Rechteck
     - Dreieck
     - Ellipse
