@@ -6,9 +6,11 @@
 
 ### Teilnehmer: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
 
-### Thema: Web based GUI Application for Classrooms
+### Thema: Web basierte GUI Applikation fürs Klassenzimmer
 
 ### Name: Expanded Board
+
+### <img src="concept-art/logoish.png" style="zoom:10%;" />
 
 ### <u>Nutzung:</u> 
 
@@ -111,3 +113,10 @@ foo@bar:~/q3-project$ npm run dev
 ```
 You will see a desktop application appear. Anytime a file within the repositories directory is changed, those changes will appear in the live development desktop application.
 The app can also be accessed via the browser(localhost:PORT). BY default the port is set to 3000(**localhost:3000**).
+
+
+
+## Concept Art
+
+![](concept-art/q3-project.png)
+
