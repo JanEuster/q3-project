@@ -8,7 +8,7 @@
 
 ### Thema: Web based GUI Application for Classrooms
 
-### Name: 
+### Name: Expanded Board
 
 ### <u>Nutzung:</u> 
 
