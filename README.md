@@ -4,7 +4,7 @@
 
 ### Lehrer: Sergej Lessin
 
-### Teilnehmer: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
+### Schüler: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
 
 ### Thema: Web basierte GUI Applikation fürs Klassenzimmer
 
