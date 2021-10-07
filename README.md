@@ -50,9 +50,9 @@
 
 
 
-- ## Sprachen / Software
-    - HTML, CSS
-    - Javascript / node.js
+## Sprachen / Software
+   - HTML, CSS
+   - Javascript / node.js
         - Libraries / node packages
             - React (Web UI)
             - electron
@@ -60,12 +60,12 @@
 
     
 
-    ## Funktionsweise 
+## Funktionsweise 
 
-    - Web Applikation
+   - Web Applikation
         - Website für Menüs, Dateiauswahl, etc.
         - Dokumente werden als <Canvas/> Komponente implementiert und können via Javascript gesteuert werden
-    - Desktop Applikation
+   - Desktop Applikation
         - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatsapp)
         - da **electron** auf Chromium basiert, ist es auf jeglichen Plattformen anwendbar
 
