@@ -25,7 +25,8 @@
   - Bewegung (Move)
   - Auswahl (Select)
   - Pinsel (Brush)
-  - Radierer (Shapes)
+  - Radierer
+  - (Shapes)
     - Rechteck
     - Dreieck
     - Ellipse
