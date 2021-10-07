@@ -83,7 +83,7 @@
 
 - ### Vorraussetzungen:
 	- git
-	- nodejs
+	- node.js
 
 <br/>
 
