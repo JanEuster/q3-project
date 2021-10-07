@@ -6,7 +6,7 @@
 
 ### Schüler: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
 
-### Thema: Web basierte GUI Applikation fürs Klassenzimmer
+### Thema: Webbasierte GUI Applikation für das Klassenzimmer
 
 ### Name: Expanded Board
 
@@ -66,8 +66,8 @@
         - Website für Menüs, Dateiauswahl, etc.
         - Dokumente werden als <Canvas/> Komponente implementiert und können via Javascript gesteuert werden
     - Desktop Applikation
-        - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatspp)
-        - da **electron** auf chromium basiert, ist es auf jeglichen plattformen anwendbar
+        - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatsapp)
+        - da **electron** auf Chromium basiert, ist es auf jeglichen Plattformen anwendbar
 
 ## Phasen
 
