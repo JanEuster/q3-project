@@ -6,7 +6,7 @@
 
 ### Schüler: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
 
-### Thema: Webbasierte GUI Applikation für das Klassenzimmer
+### Thema: Web basierte GUI Applikation fürs Klassenzimmer
 
 ### Name: Expanded Board
 
@@ -17,15 +17,13 @@
 - Lehrer: Whiteboard Programm
 - Schüler: Notizen Programm
 
-
-
 ## Planung
 
 - **Werkzeuge (Tools)**
   - Bewegung (Move)
   - Auswahl (Select)
   - Pinsel (Brush)
-  - Radierer
+  - Radierer 
   - Formen (Shapes)
     - Rechteck
     - Dreieck
@@ -48,11 +46,9 @@
   - unendlich erweiterbares Zeichenbrett
 
 
-
-
-## Sprachen / Software
-   - HTML, CSS
-   - Javascript / node.js
+- ## Sprachen / Software
+    - HTML, CSS
+    - Javascript / node.js
         - Libraries / node packages
             - React (Web UI)
             - electron
@@ -60,14 +56,14 @@
 
     
 
-## Funktionsweise 
+    ## Funktionsweise 
 
-   - Web Applikation
+    - Web Applikation
         - Website für Menüs, Dateiauswahl, etc.
-        - Dokumente werden als <Canvas/> Komponente implementiert und können via Javascript gesteuert werden
-   - Desktop Applikation
-        - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatsapp)
-        - da **electron** auf Chromium basiert, ist es auf jeglichen Plattformen anwendbar
+        - Dokumente werden als HTML Canvas Komponente implementiert und können via Javascript gesteuert werden
+    - Desktop Applikation
+        - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatspp)
+        - da **electron** auf chromium basiert, ist es auf jeglichen plattformen anwendbar
 
 ## Phasen
 
@@ -79,11 +75,15 @@
 
 
 
+
+
+
+
 ## Testen / Entwickeln
 
 - ### Vorraussetzungen:
 	- git
-	- node.js
+	- nodejs
 
 <br/>
 
