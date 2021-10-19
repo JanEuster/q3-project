@@ -1,20 +1,24 @@
 import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard";
 import Toolbox from "./Toolbox";
-import BaseObject from "./Objects/BaseObject";
+import BaseShape, { Circle, Rectangle } from "./Objects/BasicShapes";
 import "./Canvas.css";
-const colors = require("../colors.json");
+// simport { ipcRenderer } from "electron";
+// const app = require("electron").remote.app;
+const appColors = require("../colors.json");
+
+let Doc = new Artboard(2100, 2970, [], "#dddddd");
+let Tools = new Toolbox();
+
+Doc.addObjects([
+  new Rectangle(200, 200, 1200, 600, "#FF0000"),
+  new Rectangle(0, 0, 100, 100, "#00DD00"),
+  new Rectangle(1600, 2200, 400, 600, "#3333FF"),
+  new Rectangle(1000, 1000, 300, 300, "#DD0066"),
+  new Circle(1000, 1000, 300, "#DD00DD", "#DD00DD", false, null),
+]);
 
 const Canvas = (props) => {
-  let Doc = new Artboard(2100, 2970, [], "#dddddd");
-  let Tools = new Toolbox();
-
-  Doc.addObjects([
-    new BaseObject(200, 200, 1200, 600, "#FF0000"),
-    new BaseObject(0, 0, 100, 100, "#00DD00"),
-    new BaseObject(1600, 2200, 400, 600, "#3333FF"),
-  ]);
-
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -27,8 +31,9 @@ const Canvas = (props) => {
 
   const canvasRef = useRef(null);
 
-  // get canvas Context
+  // runs after every page render -> checks for events
   useEffect(() => {
+    // get canvas Context
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
 
@@ -51,12 +56,56 @@ const Canvas = (props) => {
     }
     Doc.draw(context);
     Tools.render(context);
-    console.log("update");
+    console.log("update on resize");
+
+    // ipcRenderer.Renderer.on("resize", (e, name) => {
+    //   console.log(name, e);
+    //   handleResize();
+    // });
 
     window.addEventListener("resize", handleResize);
-    //window.addEventListener("maximize", handleResize);
+    canvas.addEventListener("click", (e) => {
+      console.log(e);
+      console.log("click at", e.pageX, e.pageY);
+      var relativeCoords = Doc.relativeCoords(
+        e.pageX,
+        e.pageY,
+        dimensions.width,
+        dimensions.height
+      );
+      var scaledCoords = Doc.ratioedCoords(
+        relativeCoords.x,
+        relativeCoords.y,
+        dimensions.width,
+        dimensions.height
+      );
+      Doc.addObject(
+        // new Circle(
+        //   scaledCoords.x,
+        //   scaledCoords.y,
+        //   50,
+        //   "#009955",
+        //   undefined,
+        //   true
+        // )
+        new Rectangle(
+          scaledCoords.x,
+          scaledCoords.y,
+          50,
+          50,
+          "#995500",
+          undefined,
+          true
+        )
+      );
+      Doc.draw(context);
+      Tools.render(context);
+      console.log("update on click");
+    });
+    // window.addEventListener("maximize", handleResize);
     return (_) => {
       window.removeEventListener("resize", handleResize);
+      canvas.removeEventListener("click", (e) => {});
       //window.addEventListener("maximize", handleResize);
     };
     // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
@@ -64,6 +113,7 @@ const Canvas = (props) => {
     // useEffect executes function on update of the canvas
     // second arguement([]): all items to be watched for changes, which result in recurring execution of the useEffect callback
   });
+
   return (
     <canvas
       ref={canvasRef}

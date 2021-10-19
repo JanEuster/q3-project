@@ -1,5 +1,3 @@
-import BaseObject from "./Objects/BaseObject.js";
-
 class Artboard {
   //
   constructor(width, height, content, bgColor) {
@@ -12,13 +10,29 @@ class Artboard {
     this.objects = [];
   }
 
+  addObject(obj) {
+    this.objects.push(obj);
+  }
+
   addObjects(objs) {
     objs.forEach((obj) => {
       this.objects.push(obj);
     });
   }
 
-  calcOrientation(scrW, scrH) {
+  ratioedCoords(x, y, scrW, scrH) {
+    // convert canvas coordinates to artboard coordinates
+    //-> scaled by pixelRatio
+    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    return { x: x / artMeta.pixelRatio, y: y / artMeta.pixelRatio };
+  }
+  relativeCoords(x, y, scrW, scrH) {
+    // converts global coordinates to ones that are relative to the artboard
+    //-> i.e.if coord is left of artboard relative coord is negative
+    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    return { x: x - artMeta.baseCoord.w, y: y - artMeta.baseCoord.h };
+  }
+  getArtboardMetadata(scrW, scrH) {
     var m = this.margin * 2;
     if (scrW / scrH > this.width / this.height) {
       var orient = "v";
@@ -59,7 +73,7 @@ class Artboard {
   }
 
   drawArtboard(context, artMeta) {
-    console.log("orientation: ", artMeta.orient);
+    // console.log("orientation: ", artMeta.orient);
 
     context.fillStyle = this.bgColor;
     context.fillRect(
@@ -71,7 +85,7 @@ class Artboard {
   }
 
   drawObjects(context, artMeta) {
-    console.log(artMeta.pixelRatio);
+    // console.log("pixelRatio:", artMeta.pixelRatio);
 
     this.objects.forEach((obj) => {
       obj.render(context, artMeta.pixelRatio, artMeta.baseCoord);
@@ -79,10 +93,11 @@ class Artboard {
   }
 
   draw(context) {
+    console.log(this.objects);
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-    var artMeta = this.calcOrientation(
+    var artMeta = this.getArtboardMetadata(
       context.canvas.width,
       context.canvas.height
     );
