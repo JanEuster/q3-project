@@ -54,17 +54,8 @@ const Canvas = (props) => {
       Doc.draw(context);
       Tools.render(context);
     }
-    Doc.draw(context);
-    Tools.render(context);
-    console.log("update on resize");
 
-    // ipcRenderer.Renderer.on("resize", (e, name) => {
-    //   console.log(name, e);
-    //   handleResize();
-    // });
-
-    window.addEventListener("resize", handleResize);
-    canvas.addEventListener("click", (e) => {
+    function testhandleClick(e) {
       console.log(e);
       console.log("click at", e.pageX, e.pageY);
       var relativeCoords = Doc.relativeCoords(
@@ -100,18 +91,30 @@ const Canvas = (props) => {
       );
       Doc.draw(context);
       Tools.render(context);
-      console.log("update on click");
-    });
+      console.log("update on resize");
+    }
+
+    // ipcRenderer.Renderer.on("resize", (e, name) => {
+    //   console.log(name, e);
+    //   handleResize();
+    // });
+
+    window.addEventListener("resize", handleResize);
+    canvas.addEventListener("click", testhandleClick);
+    Doc.draw(context);
+    Tools.render(context);
+    console.log("update on click");
+
     // window.addEventListener("maximize", handleResize);
     return (_) => {
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("click", (e) => {});
+      canvas.removeEventListener("click", testhandleClick);
       //window.addEventListener("maximize", handleResize);
-    };
-    // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
 
-    // useEffect executes function on update of the canvas
-    // second arguement([]): all items to be watched for changes, which result in recurring execution of the useEffect callback
+      // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
+      // useEffect executes function on update of the canvas
+      // second arguement([]): all items to be watched for changes, which result in recurring execution of the useEffect callback
+    };
   });
 
   return (
