@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard";
-import Toolbox from "./Panels/Toolbox";
+import ToolManager from "./Tools";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import "./Canvas.css";
 // simport { ipcRenderer } from "electron";
@@ -8,7 +8,7 @@ import "./Canvas.css";
 const appColors = require("../colors.json");
 
 let Doc = new Artboard(2100, 2970, [], "#dddddd");
-let Tools = new Toolbox();
+let Tools = new ToolManager();
 
 Doc.addObjects([
   new Rectangle(200, 200, 1200, 600, "#FF0000"),
@@ -52,7 +52,7 @@ const Canvas = (props) => {
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;
       Doc.draw(context);
-      Tools.render(context);
+      ToolManager.panel.render(context);
     }
 
     function testhandleClick(e) {

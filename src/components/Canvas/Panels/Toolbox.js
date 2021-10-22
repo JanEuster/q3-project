@@ -1,12 +1,5 @@
 const colors = require("../../colors.json");
 
-class Tool {
-  constructor(name, icon) {
-    this.name = name;
-    this.icon = icon;
-  }
-}
-
 class Toolbox {
   constructor() {
     this.width = 120;

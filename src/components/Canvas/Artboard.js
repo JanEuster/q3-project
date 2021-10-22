@@ -7,6 +7,9 @@ class Artboard {
     this.bgColor = bgColor;
 
     this.margin = 10; // margin to be set around the artboard
+
+    // variable to store all objects in document
+    // objects at the end of the list are on top of the other ones --> layer system
     this.objects = [];
   }
 
