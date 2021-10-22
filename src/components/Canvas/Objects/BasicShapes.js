@@ -1,5 +1,10 @@
+import BoundingBox from "./BoundingBox";
+
 class BaseShape {
-  constructor() {}
+  constructor(xCoord, yCoord, width, height) {
+    // every object inherits a boundingbox
+    this.boundingBox = new BoundingBox(xCoord, yCoord, width, height);
+  }
 
   render() {}
 }
@@ -14,7 +19,7 @@ class Rectangle extends BaseShape {
     borderColor = "#393939",
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-    super();
+    super(xCoord, yCoord, width, height);
 
     if (mode === "centered") {
       this.xOffset = -width / 2;
@@ -71,7 +76,7 @@ class Circle extends BaseShape {
     borderColor = "#393939",
     mode = "centered" // mode=center means x and y coords are at the center of the objects
   ) {
-    super();
+    super(xCoord, yCoord, radius, radius);
 
     if (mode === "centered") {
       this.Offset = 0;
