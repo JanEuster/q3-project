@@ -1,44 +1,51 @@
 class BoundingBox {
   constructor(xCoord, yCoord, width, height) {
-    this.#coords = [xCoord, yCoord];
-    this.#wh = [width, height];
-    this.#endCoords = [xCoord + width, yCoord + height];
+    this.coords = [xCoord, yCoord];
+    this.wh = [width, height];
+    this.endCoords = [xCoord + width, yCoord + height];
   }
 
   // dont know if i actually should define basic getters and setters
-  get #coords() {
-    return this.#coords;
+  getCoords() {
+    return this.coords;
   }
-  set #coords(xy) {
-    this.#coords = xy;
+  setCoords(xy) {
+    this.coords = xy;
     //also define new width and height values
-    this.#wh = [this.#endCoords[0] - xy[0], this.#endCoords[1] - xy[1]];
+    this.wh = [this.endCoords[0] - xy[0], this.endCoords[1] - xy[1]];
   }
 
-  get #wh() {
-    return this.#coords;
+  getEndCoords() {
+    return this.endCoords;
   }
-  set #wh(wh) {
-    this.#wh = wh;
+  setEndCoords(xy) {
+    this.endCoords = xy;
+    //also define new width and height values
+    this.wh = [xy[0] - this.coords[0], xy[1] - this.coords[1]];
+  }
+
+  getWH() {
+    return this.coords;
+  }
+  setWH(wh) {
+    this.wh = wh;
     //also define new endCoords values
-    this.#endCoords = [this.#coords[0] + wh[0], this.#coords[1] + wh[1]];
+    this.endCoords = [this.coords[0] + wh[0], this.coords[1] + wh[1]];
   }
 
-  get #endCoords() {
-    return this.#endCoords;
-  }
-  set #endCoords(xy) {
-    this.#endCoords = xy;
-    //also define new width and height values
-    this.#wh = [xy[0] - this.#coords[0], xy[1] - this.#coords[1]];
+  setBounds(xy, xyEnd) {
+    this.setCoords(xy);
+    this.setEndCoords(xyEnd);
+    this.setWH([xyEnd[0] - xy[0], xyEnd[1] - xy[1]]);
   }
 
-  checkCollision(x, y) {
+  checkCollision(x, y, pixelRatio) {
+    // pixelRatio needed because x and y positions are of users cursor, which has global/non-scaled canvas coordinates
     if (
-      x >= this.#coords[0] &&
-      x <= this.#endCoords[0] &&
-      y >= this.#coords[1] &&
-      y <= this.#endCoords[1]
+      x >= pixelRatio * this.coords[0] &&
+      x <= pixelRatio * this.endCoords[0] &&
+      y >= pixelRatio * this.coords[1] &&
+      y <= pixelRatio * this.endCoords[1]
     ) {
       // collison
       return true;
@@ -47,3 +54,5 @@ class BoundingBox {
     }
   }
 }
+
+export default BoundingBox;
