@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard";
-import Toolbox from "./Toolbox";
-import BaseShape, { Circle, Rectangle } from "./Objects/BasicShapes";
+import Toolbox from "./Panels/Toolbox";
+import { Circle, Rectangle } from "./Objects/BasicShapes";
 import "./Canvas.css";
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
