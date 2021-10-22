@@ -25,9 +25,6 @@ class ToolManager {
     this.activeTool = pencilTool;
     this.panel = new Toolbox();
   }
-  get activeTool() {
-    return this.activeTool;
-  }
 
   toolSelect(e) {
     this.activeTool.select(e);

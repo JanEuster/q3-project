@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard";
 import ToolManager from "./Tools";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
+import Path from "./Objects/Paths";
 import "./Canvas.css";
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
@@ -16,6 +17,11 @@ Doc.addObjects([
   new Rectangle(1600, 2200, 400, 600, "#3333FF"),
   new Rectangle(1000, 1000, 300, 300, "#DD0066"),
   new Circle(1000, 1000, 300, "#DD00DD", "#DD00DD", false, null),
+  new Path([
+    [0, 100],
+    [500, 2970],
+    [1000, 100],
+  ]),
 ]);
 
 const Canvas = (props) => {
@@ -52,7 +58,7 @@ const Canvas = (props) => {
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;
       Doc.draw(context);
-      ToolManager.panel.render(context);
+      Tools.panel.render(context);
     }
 
     function testhandleClick(e) {
@@ -90,7 +96,7 @@ const Canvas = (props) => {
         )
       );
       Doc.draw(context);
-      Tools.render(context);
+      Tools.panel.render(context);
       console.log("update on resize");
     }
 
@@ -102,7 +108,7 @@ const Canvas = (props) => {
     window.addEventListener("resize", handleResize);
     canvas.addEventListener("click", testhandleClick);
     Doc.draw(context);
-    Tools.render(context);
+    Tools.panel.render(context);
     console.log("update on click");
 
     // window.addEventListener("maximize", handleResize);
