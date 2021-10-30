@@ -9,7 +9,8 @@ import "./Canvas.css";
 const appColors = require("../colors.json");
 
 let Doc = new Artboard(2100, 2970, [], "#dddddd");
-let Tools = new ToolManager();
+let Tools = new ToolManager(Doc);
+let useTool = Tools.toolUse; //create object bound function - when passing functions to other functions the this is lost
 
 Doc.addObjects([
   new Rectangle(200, 200, 1200, 600, "#FF0000"),
@@ -29,11 +30,12 @@ const Canvas = (props) => {
     height: window.innerHeight,
     width: window.innerWidth,
   });
-
   //TODO: find a way to combine react & electron so that the electron.js win events etc. can be accessed in react
   //const [maximized, setMaximized] = useState({
   //maximized: window.isMaximized()
   //})
+
+  Tools.setScreenDimensions(dimensions);
 
   const canvasRef = useRef(null);
 
@@ -42,6 +44,7 @@ const Canvas = (props) => {
     // get canvas Context
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
+    Tools.setCanvasContext(context);
 
     function handleResize() {
       // TODO: limit the amount of resizes for performace purposes
@@ -49,6 +52,7 @@ const Canvas = (props) => {
         height: window.innerHeight,
         width: window.innerWidth,
       });
+      Tools.setScreenDimensions(dimensions);
       //setMaximized({
       //maximized: window.isMaximized()
       //})
@@ -106,7 +110,11 @@ const Canvas = (props) => {
     // });
 
     window.addEventListener("resize", handleResize);
-    canvas.addEventListener("click", testhandleClick);
+    canvas.addEventListener("click", useTool);
+    canvas.addEventListener("mousedown", useTool);
+    canvas.addEventListener("mouseup", useTool);
+    canvas.addEventListener("mousemove", useTool);
+
     Doc.draw(context);
     Tools.panel.render(context);
     console.log("update on click");
@@ -114,9 +122,12 @@ const Canvas = (props) => {
     // window.addEventListener("maximize", handleResize);
     return (_) => {
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("click", testhandleClick);
-      //window.addEventListener("maximize", handleResize);
+      canvas.removeEventListener("click", useTool);
+      canvas.removeEventListener("mousedown", useTool);
+      canvas.removeEventListener("mouseup", useTool);
+      canvas.removeEventListener("mousemove", useTool);
 
+      //window.addEventListener("maximize", handleResize);
       // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
       // useEffect executes function on update of the canvas
       // second arguement([]): all items to be watched for changes, which result in recurring execution of the useEffect callback

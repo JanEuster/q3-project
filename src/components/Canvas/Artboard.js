@@ -11,6 +11,7 @@ class Artboard {
     // variable to store all objects in document
     // objects at the end of the list are on top of the other ones --> layer system
     this.objects = [];
+    this.draw = this.draw.bind(this);
   }
 
   addObject(obj) {
@@ -35,6 +36,15 @@ class Artboard {
     var artMeta = this.getArtboardMetadata(scrW, scrH);
     return { x: x - artMeta.baseCoord.w, y: y - artMeta.baseCoord.h };
   }
+  localCoords(x, y, scrW, scrH) {
+    // ratioedCoords + relativeCoords
+    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    return {
+      x: (x - artMeta.baseCoord.w) / artMeta.pixelRatio,
+      y: (y - artMeta.baseCoord.h) / artMeta.pixelRatio,
+    };
+  }
+
   getArtboardMetadata(scrW, scrH) {
     var m = this.margin * 2;
     if (scrW / scrH > this.width / this.height) {

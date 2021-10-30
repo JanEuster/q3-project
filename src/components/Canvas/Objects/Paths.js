@@ -13,6 +13,9 @@ class Path extends BaseShape {
 
     this.strokeWidth = strokeWidth;
     this.strokeColor = strokeColor;
+
+    this.addPoint = this.addPoint.bind(this);
+    this.addPoints = this.addPoint.bind(this);
   }
 
   addPoint(x, y) {
@@ -47,6 +50,7 @@ class Path extends BaseShape {
 
   render(context, pixelRatio, baseCoord) {
     console.log("render path");
+    console.log(this.points);
     context.lineWidth = this.strokeWidth;
     context.strokeStyle = pixelRatio * this.strokeColor;
 
