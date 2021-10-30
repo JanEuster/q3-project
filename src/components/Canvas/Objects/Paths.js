@@ -6,7 +6,7 @@ function Point(x, y) {
 }
 
 class Path extends BaseShape {
-  constructor(points = [], strokeWidth = 2, strokeColor = "#0D79F2") {
+  constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2") {
     super(0, 0, 0, 0);
     this.points = []; // ...splits x and y into separate parameters
     this.addPoints(points);
@@ -50,8 +50,8 @@ class Path extends BaseShape {
 
   render(context, pixelRatio, baseCoord) {
     console.log(this.points);
-    context.lineWidth = this.strokeWidth;
-    context.strokeStyle = pixelRatio * this.strokeColor;
+    context.lineWidth = pixelRatio * this.strokeWidth;
+    context.strokeStyle = this.strokeColor;
 
     context.beginPath();
     this.points.forEach((p) => {
