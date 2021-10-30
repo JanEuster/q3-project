@@ -17,6 +17,7 @@ class Rectangle extends BaseShape {
     height,
     fillColor = "#000000",
     borderColor = "#393939",
+    borderWidth = 25,
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
     super(xCoord, yCoord, width, height);
@@ -36,18 +37,15 @@ class Rectangle extends BaseShape {
     this.height = height;
     this.fillColor = fillColor;
     this.borderColor = borderColor;
+    this.borderWidth = borderWidth;
   }
 
   render(context, pixelRatio, baseCoord) {
     //    console.log("fillColor", this.fillColor);
     context.fillStyle = this.fillColor;
-    if (this.borderColor == undefined) {
-      context.lineWidth = 0;
-      context.strokeStyle = "#00000000";
-    } else {
-      context.lineWidth = 25 * pixelRatio; //TODO: lineWidth parameter;
-      context.strokeStyle = this.borderColor;
-    }
+
+    context.lineWidth = this.borderWidth * pixelRatio; //TODO: lineWidth parameter;
+    context.strokeStyle = this.borderColor;
     //    console.log("baseCoords: ", baseCoord.w, baseCoord.h);
     //    console.log(pixelRatio);
     //    console.log(baseCoord.w + pixelRatio*this.xCoord, baseCoord.h + pixelRatio*this.yCoord);
@@ -74,6 +72,7 @@ class Circle extends BaseShape {
     radius,
     fillColor = "#000000",
     borderColor = "#393939",
+    borderWidth = 25,
     mode = "centered" // mode=center means x and y coords are at the center of the objects
   ) {
     super(xCoord, yCoord, radius, radius);
@@ -90,18 +89,15 @@ class Circle extends BaseShape {
     this.radius = radius;
     this.fillColor = fillColor;
     this.borderColor = borderColor;
+    this.borderWidth = borderWidth;
   }
 
   render(context, pixelRatio, baseCoord) {
-    console.log(this.Offset);
+    console.log("color", this.fillColor, this.borderColor);
     context.fillStyle = this.fillColor;
-    if (this.borderColor == undefined) {
-      context.lineWidth = 0;
-      context.strokeStyle = "#00000000";
-    } else {
-      context.lineWidth = 25 * pixelRatio; //TODO: lineWidth parameter;
-      context.strokeStyle = this.borderColor;
-    }
+
+    context.lineWidth = this.borderWidth * pixelRatio; //TODO: lineWidth parameter;
+    context.strokeStyle = this.borderColor;
 
     console.log(baseCoord.w + this.xCoord, baseCoord.h + this.yCoord);
     context.beginPath();
@@ -113,7 +109,7 @@ class Circle extends BaseShape {
       2 * Math.PI // end point -> 2pi=360°
     );
     context.fill();
-    context.stroke();
+    if (this.borderWidth > 0) context.stroke();
 
     context.closePath();
   }

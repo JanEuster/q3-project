@@ -28,6 +28,8 @@ class PencilTool {
   constructor() {
     this.currentPath = NaN;
     this.eventCount = 0;
+    this.pointsToAdd = [];
+    this.lastMoveEvent = new Date();
 
     this.use = this.use.bind(this);
   }
@@ -35,16 +37,16 @@ class PencilTool {
   use(e, Doc, screenDimensions) {
     this.eventCount += 1;
     console.log(this.eventCount);
-    // Doc.addObject(new Circle(e.pageX, e.pageY, 300, "red"));
+    let coords = Doc.localCoords(
+      e.pageX,
+      e.pageY,
+      screenDimensions.width,
+      screenDimensions.height
+    );
     if (e.type == "mousedown") {
       console.log("NEW PATH");
       this.inUse = true;
-      let coords = Doc.localCoords(
-        e.pageX,
-        e.pageY,
-        screenDimensions.width,
-        screenDimensions.height
-      );
+      Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
         [[coords.x, coords.y]],
         ToolManager.strokeWidth,
@@ -53,10 +55,20 @@ class PencilTool {
       Doc.addObject(this.currentPath);
     } else if (this.inUse && e.type == "mousemove") {
       console.log("PATH CONTINUE");
-      this.currentPath.addPoint(e.pageX, e.pageY);
+      this.currentPath.addPoint(coords.x, coords.y);
+      // this.pointsToAdd.push([coords.x, coords.y]);
+      // if ((new Date().getTime() - this.lastMoveEvent.getTime()) > 20) {
+      //   // at least 20 ms between updates
+      //   this.currentPath.addPoints(this.pointsToAdd);
+      //   this.pointsToAdd = [];
+      //   console.log("agjkasjgkldjgklasdjklgasdjklögjasdkljgklasdjlgkasdklgjsdl")
+      //   this.lastMoveEvent = new Date();
+      // }
     } else if (this.inUse && e.type == "mouseup") {
       console.log("PATH END");
-      this.currentPath.addPoint(e.pageX, e.pageY);
+      this.currentPath.addPoints(coords.x, coords.y);
+      Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
+
       this.inUse = false;
       this.currentPath = NaN;
     }
@@ -93,8 +105,7 @@ class ToolManager {
   toolUse(e) {
     // this.activeTool.use(e);
     this.activeTool.use(e, this.Doc, this.screenDimensions);
-    this.Doc.draw(this.context);
-    this.panel.render(this.context);
+    this.updateCanvas();
   }
   toolDeselect(e) {
     this.activeTool.deselect(e);
@@ -110,6 +121,10 @@ class ToolManager {
   //   });
   //   throw new ReferenceError(`Tool ${toolName} not defined`);
   // }
+  updateCanvas() {
+    this.Doc.draw(this.context);
+    this.panel.render(this.context);
+  }
 }
 
 export default ToolManager;

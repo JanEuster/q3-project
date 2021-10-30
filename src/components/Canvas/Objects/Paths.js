@@ -49,14 +49,12 @@ class Path extends BaseShape {
   }
 
   render(context, pixelRatio, baseCoord) {
-    console.log("render path");
     console.log(this.points);
     context.lineWidth = this.strokeWidth;
     context.strokeStyle = pixelRatio * this.strokeColor;
 
     context.beginPath();
     this.points.forEach((p) => {
-      console.log(p);
       context.lineTo(
         baseCoord.w + pixelRatio * p.x,
         baseCoord.h + pixelRatio * p.y
