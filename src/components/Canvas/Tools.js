@@ -36,7 +36,7 @@ class PencilTool {
   select(e) {}
   use(e, Doc, screenDimensions) {
     this.eventCount += 1;
-    console.log(this.eventCount);
+    console.log("event count:", this.eventCount);
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
@@ -54,7 +54,6 @@ class PencilTool {
       );
       Doc.addObject(this.currentPath);
     } else if (this.inUse && e.type == "mousemove") {
-      console.log("PATH CONTINUE");
       this.currentPath.addPoint(coords.x, coords.y);
       // this.pointsToAdd.push([coords.x, coords.y]);
       // if ((new Date().getTime() - this.lastMoveEvent.getTime()) > 20) {
@@ -86,7 +85,6 @@ class ToolManager {
     this.strokeStyle = "#111111";
 
     this.screenDimensions = {};
-    console.log("screen Dimensions", this.screenDimensions);
 
     this.panel = new Toolbox();
     this.toolUse = this.toolUse.bind(this);
@@ -101,7 +99,6 @@ class ToolManager {
   toolUse(e) {
     // this.activeTool.use(e);
     this.activeTool.use(e, this.Doc, this.screenDimensions);
-    this.updateCanvas();
   }
   toolDeselect(e) {
     this.activeTool.deselect(e);
@@ -117,10 +114,6 @@ class ToolManager {
   //   });
   //   throw new ReferenceError(`Tool ${toolName} not defined`);
   // }
-  updateCanvas() {
-    // this.Doc.draw(this.context);
-    // this.panel.render(this.context);
-  }
 }
 
 export default ToolManager;

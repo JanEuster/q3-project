@@ -86,7 +86,6 @@ class Artboard {
   }
 
   drawArtboard(context, artMeta) {
-    // console.log("orientation: ", artMeta.orient);
 
     context.fillStyle = this.bgColor;
     context.fillRect(
@@ -98,7 +97,6 @@ class Artboard {
   }
 
   drawObjects(context, artMeta) {
-    // console.log("pixelRatio:", artMeta.pixelRatio);
 
     this.objects.forEach((obj) => {
       obj.render(context, artMeta.pixelRatio, artMeta.baseCoord);

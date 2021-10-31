@@ -47,7 +47,6 @@ const Canvas = (props) => {
   
   // runs after every page render -> checks for events
   useEffect(() => {
-    let lastTime = new Date().getTime()
     // get canvas Context
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -57,10 +56,7 @@ const Canvas = (props) => {
       Doc.draw(context);
       Tools.panel.render(context);
     }
-    // if ((new Date().getTime() - lastTime) > 1000 / 60) {
-    //   updateCanvas()
-    //   lastTime = new Date().getTime()
-    // }
+
 
     function handleResize() {
       // TODO: limit the amount of resizes for performace purposes
@@ -74,50 +70,10 @@ const Canvas = (props) => {
       //})
       console.log("resize", dimensions.width, "x", dimensions.height);
 
-      //  const { width, height } = canvas.getBoundingClientRect();
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;
 
       updateCanvas()
-    }
-
-    function testhandleClick(e) {
-      console.log(e);
-      console.log("click at", e.pageX, e.pageY);
-      var relativeCoords = Doc.relativeCoords(
-        e.pageX,
-        e.pageY,
-        dimensions.width,
-        dimensions.height
-      );
-      var scaledCoords = Doc.ratioedCoords(
-        relativeCoords.x,
-        relativeCoords.y,
-        dimensions.width,
-        dimensions.height
-      );
-      Doc.addObject(
-        // new Circle(
-        //   scaledCoords.x,
-        //   scaledCoords.y,
-        //   50,
-        //   "#009955",
-        //   undefined,
-        //   true
-        // )
-        new Rectangle(
-          scaledCoords.x,
-          scaledCoords.y,
-          50,
-          50,
-          "#995500",
-          undefined,
-          true
-        )
-      );
-      // Doc.draw(context);
-      // Tools.panel.render(context);
-      console.log("update on resize");
     }
 
     // ipcRenderer.Renderer.on("resize", (e, name) => {
@@ -133,10 +89,6 @@ const Canvas = (props) => {
     canvas.addEventListener("mousedown", useTool);
     canvas.addEventListener("mouseup", useTool);
     canvas.addEventListener("mousemove", useTool);
-
-    // Doc.draw(context);
-    // Tools.panel.render(context);
-    console.log("update on click");
 
     // window.addEventListener("maximize", handleResize);
     return (_) => {

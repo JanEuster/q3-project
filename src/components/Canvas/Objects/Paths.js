@@ -50,7 +50,6 @@ class Path extends BaseShape {
   }
 
   render(context, pixelRatio, baseCoord) {
-    console.log(this.points);
     context.lineWidth = pixelRatio * this.strokeWidth;
     context.strokeStyle = this.strokeColor;
 

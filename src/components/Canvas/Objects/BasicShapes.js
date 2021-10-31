@@ -25,11 +25,9 @@ class Rectangle extends BaseShape {
     if (mode === "centered") {
       this.xOffset = -width / 2;
       this.yOffset = -height / 2;
-      console.log("centered");
     } else {
       this.xOffset = 0;
       this.yOffset = 0;
-      console.log("not centered");
     }
     this.xCoord = xCoord;
     this.yCoord = yCoord;
@@ -79,10 +77,8 @@ class Circle extends BaseShape {
 
     if (mode === "centered") {
       this.Offset = 0;
-      console.log("centered");
     } else {
       this.Offset = radius;
-      console.log("not centered");
     }
     this.xCoord = xCoord;
     this.yCoord = yCoord;
@@ -93,13 +89,11 @@ class Circle extends BaseShape {
   }
 
   render(context, pixelRatio, baseCoord) {
-    console.log("color", this.fillColor, this.borderColor);
     context.fillStyle = this.fillColor;
 
     context.lineWidth = this.borderWidth * pixelRatio; //TODO: lineWidth parameter;
     context.strokeStyle = this.borderColor;
 
-    console.log(baseCoord.w + this.xCoord, baseCoord.h + this.yCoord);
     context.beginPath();
     context.arc(
       baseCoord.w + pixelRatio * (this.xCoord + this.Offset),
