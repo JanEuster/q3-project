@@ -79,7 +79,6 @@ class PencilTool {
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
-    this.context = undefined;
     this.tools = [];
     this.tools.push(new SelectionTool(), new PencilTool());
     this.activeTool = this.tools[1];
@@ -94,9 +93,6 @@ class ToolManager {
   }
   setScreenDimensions(dimensions) {
     this.screenDimensions = dimensions;
-  }
-  setCanvasContext(context) {
-    this.context = context;
   }
 
   toolSelect(e) {
@@ -122,8 +118,8 @@ class ToolManager {
   //   throw new ReferenceError(`Tool ${toolName} not defined`);
   // }
   updateCanvas() {
-    this.Doc.draw(this.context);
-    this.panel.render(this.context);
+    // this.Doc.draw(this.context);
+    // this.panel.render(this.context);
   }
 }
 

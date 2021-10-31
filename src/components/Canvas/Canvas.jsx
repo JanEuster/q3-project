@@ -8,9 +8,14 @@ import "./Canvas.css";
 // const app = require("electron").remote.app;
 const appColors = require("../colors.json");
 
-let Doc = new Artboard(2100, 2970, [], "#dddddd");
-let Tools = new ToolManager(Doc);
-let useTool = Tools.toolUse; //create object bound function - when passing functions to other functions the this is lost
+var FPS = 120
+
+
+var Doc = new Artboard(2100, 2970, [], "#dddddd");
+var Tools = new ToolManager(Doc);
+var useTool = Tools.toolUse; //create object bound function - when passing functions to other functions the this is lost
+
+
 
 Doc.addObjects([
   new Rectangle(200, 200, 1200, 600, "#FF0000"),
@@ -39,12 +44,23 @@ const Canvas = (props) => {
 
   const canvasRef = useRef(null);
 
+  
   // runs after every page render -> checks for events
   useEffect(() => {
+    let lastTime = new Date().getTime()
     // get canvas Context
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    Tools.setCanvasContext(context);
+    
+    
+    function updateCanvas() {
+      Doc.draw(context);
+      Tools.panel.render(context);
+    }
+    // if ((new Date().getTime() - lastTime) > 1000 / 60) {
+    //   updateCanvas()
+    //   lastTime = new Date().getTime()
+    // }
 
     function handleResize() {
       // TODO: limit the amount of resizes for performace purposes
@@ -61,8 +77,8 @@ const Canvas = (props) => {
       //  const { width, height } = canvas.getBoundingClientRect();
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;
-      Doc.draw(context);
-      Tools.panel.render(context);
+
+      updateCanvas()
     }
 
     function testhandleClick(e) {
@@ -99,8 +115,8 @@ const Canvas = (props) => {
           true
         )
       );
-      Doc.draw(context);
-      Tools.panel.render(context);
+      // Doc.draw(context);
+      // Tools.panel.render(context);
       console.log("update on resize");
     }
 
@@ -109,18 +125,24 @@ const Canvas = (props) => {
     //   handleResize();
     // });
 
+    let updateInterval = setInterval(updateCanvas, 1000/FPS)
+
+
     window.addEventListener("resize", handleResize);
     canvas.addEventListener("click", useTool);
     canvas.addEventListener("mousedown", useTool);
     canvas.addEventListener("mouseup", useTool);
     canvas.addEventListener("mousemove", useTool);
 
-    Doc.draw(context);
-    Tools.panel.render(context);
+    // Doc.draw(context);
+    // Tools.panel.render(context);
     console.log("update on click");
 
     // window.addEventListener("maximize", handleResize);
     return (_) => {
+      clearInterval(updateInterval)
+
+
       window.removeEventListener("resize", handleResize);
       canvas.removeEventListener("click", useTool);
       canvas.removeEventListener("mousedown", useTool);
