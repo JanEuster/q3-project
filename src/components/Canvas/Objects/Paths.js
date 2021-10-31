@@ -5,6 +5,7 @@ function Point(x, y) {
   this.y = y;
 }
 
+// TODO: smoothed paths: quadratic curves
 class Path extends BaseShape {
   constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2") {
     super(0, 0, 0, 0);
