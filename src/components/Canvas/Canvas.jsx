@@ -73,7 +73,6 @@ const Canvas = (props) => {
       //setMaximized({
       //maximized: window.isMaximized()
       //})
-      console.log("resize", dimensions.width, "x", dimensions.height);
 
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;

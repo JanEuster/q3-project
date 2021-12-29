@@ -9,34 +9,34 @@ class BoundingBox {
   getCoords() {
     return this.coords;
   }
-  setCoords(xy) {
-    this.coords = xy;
+  setCoords(x, y) {
+    this.coords = [x, y];
     //also define new width and height values
-    this.wh = [this.endCoords[0] - xy[0], this.endCoords[1] - xy[1]];
+    this.wh = [this.endCoords[0] - this.coords[0], this.endCoords[1] - this.coords[1]];
   }
 
   getEndCoords() {
     return this.endCoords;
   }
-  setEndCoords(xy) {
-    this.endCoords = xy;
+  setEndCoords(x, y) {
+    this.endCoords = [x, y];
     //also define new width and height values
-    this.wh = [xy[0] - this.coords[0], xy[1] - this.coords[1]];
+    this.wh = [this.endCoords[0] - this.coords[0], this.endCoords[1] - this.coords[1]];
   }
 
   getWH() {
     return this.coords;
   }
-  setWH(wh) {
-    this.wh = wh;
+  setWH(w, h) {
+    this.wh = [w, h];
     //also define new endCoords values
-    this.endCoords = [this.coords[0] + wh[0], this.coords[1] + wh[1]];
+    this.endCoords = [this.coords[0] + w, this.coords[1] + h];
   }
 
-  setBounds(xy, xyEnd) {
-    this.setCoords(xy);
-    this.setEndCoords(xyEnd);
-    this.setWH([xyEnd[0] - xy[0], xyEnd[1] - xy[1]]);
+  setBounds(x, y, xEnd, yEnd) {
+    this.setCoords(x, y);
+    this.setEndCoords(xEnd, yEnd);
+    this.setWH(this.endCoords[0] - this.coords[0], this.endCoords[1] - this.coords[1]);
   }
 
   checkCollision(x, y) {

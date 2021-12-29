@@ -19,7 +19,6 @@ class Toolbox {
     for (let i = 0; i < 6; i++) {
       let offsetX = (this.margin + toolWidth) * (i % 2);
       let offsetY = (this.margin + toolWidth) * Math.ceil((i + 0.5) / 2 - 1);
-      // console.log(offsetX, offsetY);
 
       context.fillStyle = context.fillStyle = colors.darkgrey;
       context.fillRect(

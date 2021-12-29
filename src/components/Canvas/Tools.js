@@ -7,6 +7,8 @@ const colors = require("../colors.json");
 class SelectionTool {
   constructor() {
     this.selectedObject = NaN;
+    this.moving = false
+    this.lastPos = {x: NaN, y: NaN}
   }
 
   collisionOnObjects(coords, scrD, Doc) {
@@ -34,18 +36,32 @@ class SelectionTool {
     screenDimensions.width,
     screenDimensions.height
     );
-
     if (e.type === "click") {
       this.selectedObject = this.collisionOnObjects(coords, screenDimensions, Doc)
-      console.log("SELECTED", this.selectedObject)
 
     } else if (e.type === "mousedown") {
+      this.selectedObject = this.collisionOnObjects(coords, screenDimensions, Doc)
+      if (this.selectedObject) {
+        this.moving = true
+      }
+      
+      this.lastPos.x = coords.x
+      this.lastPos.y = coords.y
+      
 
-    } else if (this.inUse && e.type === "mousemove") {
+    } else if (this.moving && e.type === "mousemove") {
+      let xDelta = coords.x - this.lastPos.x
+      let yDelta = coords.y - this.lastPos.y
 
-    } else if (this.inUse && e.type === "mouseup") {
+      this.selectedObject.move(xDelta, yDelta)
 
-    }
+      this.lastPos.x = coords.x
+      this.lastPos.y = coords.y
+
+
+    } else if (this.selectedObject && e.type === "mouseup") {
+      this.moving = false
+   }
 
   }
 
@@ -93,7 +109,7 @@ class PencilTool {
   
   use(e, Doc, screenDimensions) {
     this.eventCount += 1;
-    console.log("event count:", this.eventCount);
+    // console.log("event count:", this.eventCount);
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
@@ -101,7 +117,6 @@ class PencilTool {
       screenDimensions.height
     );
     if (e.type == "mousedown") {
-      console.log("NEW PATH");
       this.inUse = true;
       Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
@@ -110,18 +125,11 @@ class PencilTool {
         ToolManager.strokeStyle
       );
       Doc.addObject(this.currentPath);
+
     } else if (this.inUse && e.type == "mousemove") {
       this.currentPath.addPoint(coords.x, coords.y);
-      // this.pointsToAdd.push([coords.x, coords.y]);
-      // if ((new Date().getTime() - this.lastMoveEvent.getTime()) > 20) {
-      //   // at least 20 ms between updates
-      //   this.currentPath.addPoints(this.pointsToAdd);
-      //   this.pointsToAdd = [];
-      //   console.log("agjkasjgkldjgklasdjklgasdjklögjasdkljgklasdjlgkasdklgjsdl")
-      //   this.lastMoveEvent = new Date();
-      // }
+
     } else if (this.inUse && e.type == "mouseup") {
-      console.log("PATH END");
       this.currentPath.addPoints(coords.x, coords.y);
       Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
 
@@ -163,8 +171,7 @@ class ToolManager {
     this.activeTool.select(e);
   }
   toolUse(e) {
-    // this.activeTool.use(e);
-    this.activeTool.use(e, this.Doc, this.screenDimensions);
+      this.activeTool.use(e, this.Doc, this.screenDimensions);
   }
   toolDeselect(e) {
     this.activeTool.deselect(e);
