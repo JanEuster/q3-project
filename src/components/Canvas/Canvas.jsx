@@ -58,8 +58,8 @@ const Canvas = (props) => {
       context.canvas.height
     );
       Doc.draw(context, artMeta);
-      Tools.panel.render(context);
       Tools.toolGraphic(context, artMeta)
+      Tools.panel.render(context);
     }
 
 
