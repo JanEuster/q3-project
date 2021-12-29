@@ -39,13 +39,13 @@ class BoundingBox {
     this.setWH([xyEnd[0] - xy[0], xyEnd[1] - xy[1]]);
   }
 
-  checkCollision(x, y, pixelRatio) {
-    // pixelRatio needed because x and y positions are of users cursor, which has global/non-scaled canvas coordinates
+  checkCollision(x, y) {
+
     if (
-      x >= pixelRatio * this.coords[0] &&
-      x <= pixelRatio * this.endCoords[0] &&
-      y >= pixelRatio * this.coords[1] &&
-      y <= pixelRatio * this.endCoords[1]
+      x >= this.coords[0] &&
+      x <= this.endCoords[0] &&
+      y >= this.coords[1] &&
+      y <= this.endCoords[1]
     ) {
       // collison
       return true;

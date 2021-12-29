@@ -53,8 +53,13 @@ const Canvas = (props) => {
     
     
     function updateCanvas() {
-      Doc.draw(context);
+      var artMeta = Doc.getArtboardMetadata(
+      context.canvas.width,
+      context.canvas.height
+    );
+      Doc.draw(context, artMeta);
       Tools.panel.render(context);
+      Tools.toolGraphic(context, artMeta)
     }
 
 

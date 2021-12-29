@@ -73,7 +73,7 @@ class Circle extends BaseShape {
     borderWidth = 25,
     mode = "centered" // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord, yCoord, radius, radius);
+    super(xCoord, yCoord, radius*2, radius*2);
 
     if (mode === "centered") {
       this.Offset = 0;

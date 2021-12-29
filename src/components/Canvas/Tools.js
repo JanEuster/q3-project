@@ -1,28 +1,83 @@
 import Toolbox from "./Panels/Toolbox";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
+const colors = require("../colors.json");
 
 // function object
-class Tool {
-  constructor(name) {
-    this.name = name;
-    this.icon = null; //TODO:NaN or null?
-    this.select = NaN;
-    this.use = NaN;
-    this.deselect = NaN;
-    this.inUse = false;
-  }
-}
-
-class SelectionTool extends Tool {
+class SelectionTool {
   constructor() {
-    super("select");
     this.selectedObject = NaN;
   }
-  select() {}
-  use() {}
-  deselct() {}
+
+  collisionOnObjects(coords, scrD, Doc) {
+    let objects = Doc.objects.slice(0).reverse() // create reveresed copy of objects list
+    let pixelRatio = Doc.getArtboardMetadata(scrD.width, scrD.height).pixelRatio
+
+    for (var i = 0; i < objects.length; i++) {
+      let obj = objects[i]
+
+      if (obj.boundingBox.checkCollision(coords.x, coords.y, pixelRatio)) {
+        return obj
+      }
+      
+    }
+    return false
+  }
+
+  select(e) { }
+  
+  use(e, Doc, screenDimensions) {
+
+    let coords = Doc.localCoords(
+    e.pageX,
+    e.pageY,
+    screenDimensions.width,
+    screenDimensions.height
+    );
+
+    if (e.type === "click") {
+      this.selectedObject = this.collisionOnObjects(coords, screenDimensions, Doc)
+      console.log("SELECTED", this.selectedObject)
+
+    } else if (e.type === "mousedown") {
+
+    } else if (this.inUse && e.type === "mousemove") {
+
+    } else if (this.inUse && e.type === "mouseup") {
+
+    }
+
+  }
+
+  deselect(e) { }
+
+  graphic(context, artMeta) {
+    // show selection box
+    if (this.selectedObject) {
+      let x = this.selectedObject.boundingBox.coords[0]
+      let y = this.selectedObject.boundingBox.coords[1]
+      let w = this.selectedObject.boundingBox.wh[0]
+      let h = this.selectedObject.boundingBox.wh[1]
+
+      let pixelRatio = artMeta.pixelRatio
+      let baseCoord = artMeta.baseCoord
+      
+      let offset = 32
+      // context.fillStyle = "#00FF00";
+      context.lineWidth = 3; //TODO: lineWidth parameter;
+      context.strokeStyle = colors.midorange;
+
+      context.strokeRect(
+        baseCoord.w + pixelRatio * (x - offset),
+        baseCoord.h + pixelRatio * (y - offset),
+        pixelRatio * (w + offset*2),
+        pixelRatio * (h + offset*2)
+      );
+    }
+  }
+
 }
+
 
 class PencilTool {
   constructor() {
@@ -31,9 +86,11 @@ class PencilTool {
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
 
-    this.use = this.use.bind(this);
+    // this.use = this.use.bind(this);
   }
-  select(e) {}
+
+  select(e) { }
+  
   use(e, Doc, screenDimensions) {
     this.eventCount += 1;
     console.log("event count:", this.eventCount);
@@ -72,22 +129,31 @@ class PencilTool {
       this.currentPath = NaN;
     }
   }
-  deselct(e) {}
+
+  deselect(e) { }
+  
+  graphic(context, artMeta) {}
 }
+
+
+
+
+var selectionT = new SelectionTool()
+var pencilT = new PencilTool()
 
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
     this.tools = [];
-    this.tools.push(new SelectionTool(), new PencilTool());
-    this.activeTool = this.tools[1];
+    this.tools.push(selectionT, pencilT);
+    this.toolUse = this.toolUse.bind(this);
+    this.activeTool = this.tools[0];
     this.strokeWidth = 5;
     this.strokeStyle = "#111111";
 
     this.screenDimensions = {};
 
     this.panel = new Toolbox();
-    this.toolUse = this.toolUse.bind(this);
   }
   setScreenDimensions(dimensions) {
     this.screenDimensions = dimensions;
@@ -104,6 +170,11 @@ class ToolManager {
     this.activeTool.deselect(e);
   }
 
+  toolGraphic(context, artMeta) {
+    // function to display tool related graphics on redraw; i.e. selection box if selection tool is this.activeTool
+    this.activeTool.graphic(context, artMeta)
+  }
+
   // switchTool(toolName) {
   //   this.tools.forEach((tool) => {
   //     console.log(tool);
@@ -117,4 +188,4 @@ class ToolManager {
 }
 
 export default ToolManager;
-export { Tool };
+export { selectionT, pencilT };
