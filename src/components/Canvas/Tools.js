@@ -1,6 +1,7 @@
 import Toolbox from "./Panels/Toolbox";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
+//import Artboard from "./Artboard";
 
 // function object
 class Tool {
@@ -75,12 +76,46 @@ class PencilTool {
   deselct(e) {}
 }
 
+class Eraser extends PencilTool {
+  constructor(radius = "10") {
+    super();
+    this.radius = radius
+  }
+  use(e, Doc, screenDimensions) {
+    let coords = Doc.localCoords(
+      e.pageX,
+      e.pageY,
+      screenDimensions.width,
+      screenDimensions.height
+    );
+
+    if (e.type == "mousedown") {
+      this.inUse = true;
+      Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0)); //colour --> getBackgroundColour Artboard Class
+      this.currentPath = new Path(
+        [[coords.x, coords.y]],
+        ToolManager.strokeWidth,
+        Doc.getBackgroundColour()
+      );
+      Doc.addObject(this.currentPath);
+    } else if(this.inUse && e.type == "mousemove") {
+      this.currentPath.addPoint(coords.x,coords.y);
+    } else if(this.inUse && e.type == "mouseup") {
+      this.currentPath.addPoints(coords.x,coords.y);
+      Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0));
+
+      this.inUse = false;
+      this.currentPath = NaN;
+    }
+  }
+}
+
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
     this.tools = [];
-    this.tools.push(new SelectionTool(), new PencilTool());
-    this.activeTool = this.tools[1];
+    this.tools.push(new SelectionTool(), new PencilTool(), new Eraser());
+    this.activeTool = this.tools[2];
     this.strokeWidth = 5;
     this.strokeStyle = "#111111";
 

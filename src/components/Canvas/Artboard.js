@@ -24,6 +24,10 @@ class Artboard {
     });
   }
 
+  getBackgroundColour() {
+    return this.bgColor;
+  }
+
   ratioedCoords(x, y, scrW, scrH) {
     // convert canvas coordinates to artboard coordinates
     //-> scaled by pixelRatio
