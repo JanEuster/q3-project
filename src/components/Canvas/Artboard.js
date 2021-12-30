@@ -107,18 +107,15 @@ class Artboard {
     });
   }
 
-  draw(context) {
-    console.log(this.objects);
+  draw(context, artMeta) {
+    // console.log(this.objects);
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-    var artMeta = this.getArtboardMetadata(
-      context.canvas.width,
-      context.canvas.height
-    );
 
     this.drawArtboard(context, artMeta);
     this.drawObjects(context, artMeta);
+
   }
 }
 

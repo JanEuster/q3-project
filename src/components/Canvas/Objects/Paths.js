@@ -49,6 +49,16 @@ class Path extends BaseShape {
     ];
   }
 
+  // TODO: move Method for Path Objects 
+  moveBounds(x, y) {
+
+  }
+  move(x, y) {
+
+  }
+
+
+
   render(context, pixelRatio, baseCoord) {
     context.lineWidth = pixelRatio * this.strokeWidth;
     context.strokeStyle = this.strokeColor;

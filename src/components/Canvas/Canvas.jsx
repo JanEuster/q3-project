@@ -53,7 +53,12 @@ const Canvas = (props) => {
     
     
     function updateCanvas() {
-      Doc.draw(context);
+      var artMeta = Doc.getArtboardMetadata(
+      context.canvas.width,
+      context.canvas.height
+    );
+      Doc.draw(context, artMeta);
+      Tools.toolGraphic(context, artMeta)
       Tools.panel.render(context);
     }
 
@@ -68,7 +73,6 @@ const Canvas = (props) => {
       //setMaximized({
       //maximized: window.isMaximized()
       //})
-      console.log("resize", dimensions.width, "x", dimensions.height);
 
       canvas.width = dimensions.width;
       canvas.height = dimensions.height;

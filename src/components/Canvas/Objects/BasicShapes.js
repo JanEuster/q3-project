@@ -4,9 +4,23 @@ class BaseShape {
   constructor(xCoord, yCoord, width, height) {
     // every object inherits a boundingbox
     this.boundingBox = new BoundingBox(xCoord, yCoord, width, height);
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+  }
+  moveBounds(x, y) {
+    let coords = this.boundingBox.getCoords()
+    let endCoords = this.boundingBox.getEndCoords()
+
+    this.boundingBox.setBounds(coords[0] + x, coords[1] + y, endCoords[0] + x, endCoords[1] + y)
+  }
+  move(x, y) {
+    this.moveBounds(x, y)
+
+    this.xCoord += x
+    this.yCoord += y
   }
 
-  render() {}
+  render() { }
 }
 
 class Rectangle extends BaseShape {
@@ -29,8 +43,7 @@ class Rectangle extends BaseShape {
       this.xOffset = 0;
       this.yOffset = 0;
     }
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+
     this.width = width;
     this.height = height;
     this.fillColor = fillColor;
@@ -39,14 +52,10 @@ class Rectangle extends BaseShape {
   }
 
   render(context, pixelRatio, baseCoord) {
-    //    console.log("fillColor", this.fillColor);
     context.fillStyle = this.fillColor;
 
     context.lineWidth = this.borderWidth * pixelRatio; //TODO: lineWidth parameter;
     context.strokeStyle = this.borderColor;
-    //    console.log("baseCoords: ", baseCoord.w, baseCoord.h);
-    //    console.log(pixelRatio);
-    //    console.log(baseCoord.w + pixelRatio*this.xCoord, baseCoord.h + pixelRatio*this.yCoord);
 
     context.fillRect(
       baseCoord.w + pixelRatio * (this.xCoord + this.xOffset),
@@ -73,15 +82,14 @@ class Circle extends BaseShape {
     borderWidth = 25,
     mode = "centered" // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord, yCoord, radius, radius);
+    super(xCoord, yCoord, radius*2, radius*2);
 
     if (mode === "centered") {
       this.Offset = 0;
     } else {
       this.Offset = radius;
     }
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+
     this.radius = radius;
     this.fillColor = fillColor;
     this.borderColor = borderColor;
