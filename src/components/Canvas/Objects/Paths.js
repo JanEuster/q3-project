@@ -1,6 +1,7 @@
 import BaseShape from "./BasicShapes";
 
 function Point(x, y) {
+  console.log(x, y)
   this.x = x;
   this.y = y;
 }
@@ -9,6 +10,8 @@ function Point(x, y) {
 class Path extends BaseShape {
   constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2") {
     super(0, 0, 0, 0);
+    console.log("init path bounds", this.boundingBox)
+
     this.points = []; // ...splits x and y into separate parameters
     this.addPoints(points);
 
@@ -22,12 +25,16 @@ class Path extends BaseShape {
   addPoint(x, y) {
     this.points.push(new Point(x, y));
     this.boundingBox.setBounds(...this.determineNewBounds());
+    console.log("path bounds", this.boundingBox)
   }
   addPoints(points) {
     points.forEach((p) => {
       this.points.push(new Point(p[0], p[1]));
     });
+    console.log(this.determineNewBounds())
     this.boundingBox.setBounds(...this.determineNewBounds());
+    console.log("path bounds", this.boundingBox)
+
   }
 
   determineNewBounds() {
@@ -36,25 +43,29 @@ class Path extends BaseShape {
     let minY = this.points[0].y;
     let maxX = this.points[0].x;
     let maxY = this.points[0].y;
-    for (const point in this.points) {
+    console.log( minX, minY, maxX, maxY)
+    this.points.map(point => {
+      console.log(point.x, point.y)
       if (point.x < minX) minX = point.x;
       if (point.y < minY) minY = point.y;
       if (point.x > maxX) maxX = point.x;
-      if (point.y < maxY) maxY = point.y;
-    }
-
+      if (point.y > maxY) maxY = point.y;
+      console.log( minX, minY, maxX, maxY)
+    }) 
     return [
-      [minX, minY],
-      [maxX, maxY],
+      minX, minY,
+      maxX, maxY,
     ];
   }
 
   // TODO: move Method for Path Objects 
-  moveBounds(x, y) {
-
-  }
   move(x, y) {
-
+    this.points.map(point => {
+      point.x += x
+      point.y += y
+    })
+    
+    this.boundingBox.setBounds(...this.determineNewBounds());
   }
 
 
