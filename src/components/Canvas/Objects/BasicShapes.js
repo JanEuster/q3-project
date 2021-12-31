@@ -4,6 +4,7 @@ class BaseShape {
   constructor(xCoord, yCoord, width, height) {
     // every object inherits a boundingbox
     this.boundingBox = new BoundingBox(xCoord, yCoord, width, height);
+
     this.xCoord = xCoord;
     this.yCoord = yCoord;
   }
@@ -18,6 +19,7 @@ class BaseShape {
 
     this.xCoord += x
     this.yCoord += y
+
   }
 
   render() { }

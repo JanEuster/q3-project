@@ -46,6 +46,7 @@ class BoundingBox {
       x <= this.endCoords[0] &&
       y >= this.coords[1] &&
       y <= this.endCoords[1]
+
     ) {
       // collison
       return true;

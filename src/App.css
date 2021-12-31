@@ -179,7 +179,8 @@ div a {
   }
 }
 
-@media sceen and (max-width: 500px) {
+
+@media screen and (max-width: 500px) {
   nav ul li {
     height: 30px;
   }

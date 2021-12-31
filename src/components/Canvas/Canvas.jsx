@@ -3,6 +3,7 @@ import Artboard from "./Artboard";
 import ToolManager from "./Tools";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
+
 import "./Canvas.css";
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
