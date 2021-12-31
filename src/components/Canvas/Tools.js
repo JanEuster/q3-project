@@ -9,7 +9,9 @@ class SelectionTool {
   constructor() {
     this.selectedObject = NaN;
     this.moving = false
-    this.lastPos = {x: NaN, y: NaN}
+    this.lastPos = { x: NaN, y: NaN }
+    
+    this.lastEventUp = false // was last event mouseup -> next click event can be ignored
   }
 
   collisionOnObjects(coords, scrD, Doc) {
@@ -30,6 +32,12 @@ class SelectionTool {
   select(e) { }
   
   use(e, Doc, screenDimensions) {
+
+    if (this.lastEventUp && e.type === "click") {
+      return
+    } // if last event was mouseup mouse move has just finished and therefore a click at the position of mouseup is not needed
+    this.lastEventUp = false
+
 
     let coords = Doc.localCoords(
     e.pageX,
@@ -62,6 +70,7 @@ class SelectionTool {
 
     } else if (this.selectedObject && e.type === "mouseup") {
       this.moving = false
+      this.lastEventUp = true
    }
 
   }
@@ -117,7 +126,7 @@ class PencilTool {
       screenDimensions.width,
       screenDimensions.height
     );
-    if (e.type == "mousedown") {
+    if (e.type === "mousedown") {
       this.inUse = true;
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
@@ -127,10 +136,10 @@ class PencilTool {
       );
       Doc.addObject(this.currentPath);
 
-    } else if (this.inUse && e.type == "mousemove") {
+    } else if (this.inUse && e.type === "mousemove") {
       this.currentPath.addPoint(coords.x, coords.y);
 
-    } else if (this.inUse && e.type == "mouseup") {
+    } else if (this.inUse && e.type === "mouseup") {
       this.currentPath.addPoints(coords.x, coords.y);
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
 
@@ -157,7 +166,7 @@ class Eraser extends PencilTool {
       screenDimensions.height
     );
 
-    if (e.type == "mousedown") {
+    if (e.type === "mousedown") {
       this.inUse = true;
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0)); //colour --> getBackgroundColour Artboard Class
       this.currentPath = new Path(
@@ -166,9 +175,9 @@ class Eraser extends PencilTool {
         Doc.getBackgroundColour()
       );
       Doc.addObject(this.currentPath);
-    } else if(this.inUse && e.type == "mousemove") {
+    } else if(this.inUse && e.type === "mousemove") {
       this.currentPath.addPoint(coords.x,coords.y);
-    } else if(this.inUse && e.type == "mouseup") {
+    } else if(this.inUse && e.type === "mouseup") {
       this.currentPath.addPoints(coords.x,coords.y);
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0));
 
