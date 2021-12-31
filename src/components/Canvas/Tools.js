@@ -119,7 +119,7 @@ class PencilTool {
   
   use(e, Doc, screenDimensions) {
     this.eventCount += 1;
-    // console.log("event count:", this.eventCount);
+    
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
