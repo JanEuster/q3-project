@@ -7,7 +7,11 @@ class Artboard {
     this.bgColor = bgColor;
 
     this.margin = 10; // margin to be set around the artboard
+
+    // variable to store all objects in document
+    // objects at the end of the list are on top of the other ones --> layer system
     this.objects = [];
+    this.draw = this.draw.bind(this);
   }
 
   addObject(obj) {
@@ -18,6 +22,10 @@ class Artboard {
     objs.forEach((obj) => {
       this.objects.push(obj);
     });
+  }
+
+  getBackgroundColour() {
+    return this.bgColor;
   }
 
   ratioedCoords(x, y, scrW, scrH) {
@@ -32,6 +40,15 @@ class Artboard {
     var artMeta = this.getArtboardMetadata(scrW, scrH);
     return { x: x - artMeta.baseCoord.w, y: y - artMeta.baseCoord.h };
   }
+  localCoords(x, y, scrW, scrH) {
+    // ratioedCoords + relativeCoords
+    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    return {
+      x: (x - artMeta.baseCoord.w) / artMeta.pixelRatio,
+      y: (y - artMeta.baseCoord.h) / artMeta.pixelRatio,
+    };
+  }
+
   getArtboardMetadata(scrW, scrH) {
     var m = this.margin * 2;
     if (scrW / scrH > this.width / this.height) {
@@ -73,7 +90,6 @@ class Artboard {
   }
 
   drawArtboard(context, artMeta) {
-    // console.log("orientation: ", artMeta.orient);
 
     context.fillStyle = this.bgColor;
     context.fillRect(
@@ -85,25 +101,21 @@ class Artboard {
   }
 
   drawObjects(context, artMeta) {
-    // console.log("pixelRatio:", artMeta.pixelRatio);
 
     this.objects.forEach((obj) => {
       obj.render(context, artMeta.pixelRatio, artMeta.baseCoord);
     });
   }
 
-  draw(context) {
-    console.log(this.objects);
+  draw(context, artMeta) {
+    // console.log(this.objects);
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-    var artMeta = this.getArtboardMetadata(
-      context.canvas.width,
-      context.canvas.height
-    );
 
     this.drawArtboard(context, artMeta);
     this.drawObjects(context, artMeta);
+
   }
 }
 

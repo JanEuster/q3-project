@@ -1,12 +1,28 @@
-// import BoundingBox from "./BoundingBox";
+import BoundingBox from "./BoundingBox";
 
 class BaseShape {
   constructor(xCoord, yCoord, width, height) {
     // every object inherits a boundingbox
-    // this.boundingBox = new BoundingBox(xCoord, yCoord, width, height);
+    this.boundingBox = new BoundingBox(xCoord, yCoord, width, height);
+
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+  }
+  moveBounds(x, y) {
+    let coords = this.boundingBox.getCoords()
+    let endCoords = this.boundingBox.getEndCoords()
+
+    this.boundingBox.setBounds(coords[0] + x, coords[1] + y, endCoords[0] + x, endCoords[1] + y)
+  }
+  move(x, y) {
+    this.moveBounds(x, y)
+
+    this.xCoord += x
+    this.yCoord += y
+
   }
 
-  render() {}
+  render() { }
 }
 
 class Rectangle extends BaseShape {
@@ -17,6 +33,7 @@ class Rectangle extends BaseShape {
     height,
     fillColor = "#000000",
     borderColor = "#393939",
+    borderWidth = 25,
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
     super(xCoord, yCoord, width, height);
@@ -24,33 +41,23 @@ class Rectangle extends BaseShape {
     if (mode === "centered") {
       this.xOffset = -width / 2;
       this.yOffset = -height / 2;
-      console.log("centered");
     } else {
       this.xOffset = 0;
       this.yOffset = 0;
-      console.log("not centered");
     }
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+
     this.width = width;
     this.height = height;
     this.fillColor = fillColor;
     this.borderColor = borderColor;
+    this.borderWidth = borderWidth;
   }
 
   render(context, pixelRatio, baseCoord) {
-    //    console.log("fillColor", this.fillColor);
     context.fillStyle = this.fillColor;
-    if (this.borderColor == undefined) {
-      context.lineWidth = 0;
-      context.strokeStyle = "#00000000";
-    } else {
-      context.lineWidth = 25 * pixelRatio; //TODO: lineWidth parameter;
-      context.strokeStyle = this.borderColor;
-    }
-    //    console.log("baseCoords: ", baseCoord.w, baseCoord.h);
-    //    console.log(pixelRatio);
-    //    console.log(baseCoord.w + pixelRatio*this.xCoord, baseCoord.h + pixelRatio*this.yCoord);
+
+    context.lineWidth = this.borderWidth * pixelRatio; //TODO: lineWidth parameter;
+    context.strokeStyle = this.borderColor;
 
     context.fillRect(
       baseCoord.w + pixelRatio * (this.xCoord + this.xOffset),
@@ -74,36 +81,29 @@ class Circle extends BaseShape {
     radius,
     fillColor = "#000000",
     borderColor = "#393939",
+    borderWidth = 25,
     mode = "centered" // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord, yCoord, radius, radius);
+    super(xCoord, yCoord, radius*2, radius*2);
 
     if (mode === "centered") {
       this.Offset = 0;
-      console.log("centered");
     } else {
       this.Offset = radius;
-      console.log("not centered");
     }
-    this.xCoord = xCoord;
-    this.yCoord = yCoord;
+
     this.radius = radius;
     this.fillColor = fillColor;
     this.borderColor = borderColor;
+    this.borderWidth = borderWidth;
   }
 
   render(context, pixelRatio, baseCoord) {
-    console.log(this.Offset);
     context.fillStyle = this.fillColor;
-    if (this.borderColor == undefined) {
-      context.lineWidth = 0;
-      context.strokeStyle = "#00000000";
-    } else {
-      context.lineWidth = 25 * pixelRatio; //TODO: lineWidth parameter;
-      context.strokeStyle = this.borderColor;
-    }
 
-    console.log(baseCoord.w + this.xCoord, baseCoord.h + this.yCoord);
+    context.lineWidth = this.borderWidth * pixelRatio; //TODO: lineWidth parameter;
+    context.strokeStyle = this.borderColor;
+
     context.beginPath();
     context.arc(
       baseCoord.w + pixelRatio * (this.xCoord + this.Offset),
@@ -113,7 +113,7 @@ class Circle extends BaseShape {
       2 * Math.PI // end point -> 2pi=360°
     );
     context.fill();
-    context.stroke();
+    if (this.borderWidth > 0) context.stroke();
 
     context.closePath();
   }
