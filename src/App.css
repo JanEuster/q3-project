@@ -43,6 +43,7 @@
 
 nav {
   z-index: 1000;
+  -webkit-app-region:drag; /* drag frameless window */
 }
 
 .nav-top {
