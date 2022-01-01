@@ -1,4 +1,4 @@
-// import BoundingBox from "./BoundingBox";
+import BoundingBox from "./BoundingBox";
 
 class BaseShape {
   constructor(xCoord, yCoord, width, height) {
