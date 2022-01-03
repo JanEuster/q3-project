@@ -54,6 +54,19 @@ class BoundingBox {
       return false;
     }
   }
+
+  render(context, offset={x:0, y:0}) {
+    // render bounding box for testing
+    context.strokeStyle = "#FF0000"
+    context.lineWidth = 3
+
+    context.strokeRect(
+      offset.x + this.coords[0],
+      offset.y + this.coords[1],
+      this.wh[0],
+      this.wh[1]
+    )
+  }
 }
 
 export default BoundingBox;
