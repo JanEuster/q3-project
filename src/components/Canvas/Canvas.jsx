@@ -5,6 +5,8 @@ import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 
 import "./Canvas.css";
+import Panel from "./Panels/BasePanel";
+
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
 const appColors = require("../colors.json");
@@ -15,6 +17,8 @@ var FPS = 120
 var Doc = new Artboard(2100, 2970, [], "#dddddd");
 var Tools = new ToolManager(Doc);
 var useTool = Tools.toolUse; //create object bound function - when passing functions to other functions the this is lost
+var Panels = [Tools.panel, new Panel(100, 100, 200, 400, 16, 8)]
+
 
 
 
@@ -60,7 +64,11 @@ const Canvas = (props) => {
     );
       Doc.draw(context, artMeta);
       Tools.toolGraphic(context, artMeta)
-      Tools.panel.render(context);
+
+      // show panels
+      Panels.map(panel => {
+        panel.render(context)
+      })
     }
 
 
@@ -81,6 +89,27 @@ const Canvas = (props) => {
       updateCanvas()
     }
 
+    let lastEventType = NaN
+    function handleMouseEvent(e) {
+
+      if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
+        lastEventType = e.type
+        return
+      }
+      lastEventType = e.type
+
+      // check click / mousedown collision with panels
+      if (e.type === "click" || e.type === "mousedown") {
+        for (let i = 0; i < Panels.length; i++) {
+          let panel = Panels[i]
+          if (panel.checkBoundsCollision(e.pageX, e.pageY)) {
+            return
+          }
+        }
+      } 
+      Tools.toolUse(e)
+    }
+
     // ipcRenderer.Renderer.on("resize", (e, name) => {
     //   console.log(name, e);
     //   handleResize();
@@ -90,10 +119,10 @@ const Canvas = (props) => {
 
 
     window.addEventListener("resize", handleResize);
-    canvas.addEventListener("click", useTool);
-    canvas.addEventListener("mousedown", useTool);
-    canvas.addEventListener("mouseup", useTool);
-    canvas.addEventListener("mousemove", useTool);
+    canvas.addEventListener("click", handleMouseEvent);
+    canvas.addEventListener("mousedown", handleMouseEvent);
+    canvas.addEventListener("mouseup", handleMouseEvent);
+    canvas.addEventListener("mousemove", handleMouseEvent);
 
     // window.addEventListener("maximize", handleResize);
     return (_) => {
@@ -101,10 +130,10 @@ const Canvas = (props) => {
 
 
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("click", useTool);
-      canvas.removeEventListener("mousedown", useTool);
-      canvas.removeEventListener("mouseup", useTool);
-      canvas.removeEventListener("mousemove", useTool);
+      canvas.removeEventListener("click", handleMouseEvent);
+      canvas.removeEventListener("mousedown", handleMouseEvent);
+      canvas.removeEventListener("mouseup", handleMouseEvent);
+      canvas.removeEventListener("mousemove", handleMouseEvent);
 
       //window.addEventListener("maximize", handleResize);
       // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
