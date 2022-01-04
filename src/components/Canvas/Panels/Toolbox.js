@@ -25,6 +25,15 @@ class PanelToolButton extends PanelButton {
         this.width,
         this.height
     )
+    
+    let icon = new Image()
+    icon.src = this.tool.icon
+    context.drawImage(
+      icon,
+      panelOffset.x + this.coords.x,
+      panelOffset.y + this.coords.y
+    )
+    
     context.strokeRect(
         panelOffset.x + this.coords.x,
         panelOffset.y + this.coords.y,
@@ -32,6 +41,7 @@ class PanelToolButton extends PanelButton {
         this.height
     )
 
+      
     // this.boundingBox.render(context, panelOffset)
 
 }
