@@ -90,9 +90,8 @@ const Canvas = (props) => {
       //maximized: window.isMaximized()
       //})
 
-      canvas.width = dimensions.width;
-      canvas.height = dimensions.height;
-
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
       updateCanvas()
     }
 
