@@ -47,13 +47,6 @@ class Panel {
         return {x: x, y: y}
     }
 
-    setXY() {
-        // set x and y base values on resize
-    }
-
-    onResize() {
-        this.setXY()
-    }
 
     renderComponents(context, panelXY) {
         this.components.map(comp => {

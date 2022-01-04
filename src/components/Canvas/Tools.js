@@ -231,16 +231,6 @@ class ToolManager {
     this.activeTool.graphic(context, artMeta)
   }
 
-  // switchTool(toolName) {
-  //   this.tools.forEach((tool) => {
-  //     console.log(tool);
-  //     if (tool.name == toolName) {
-  //       this.activeTool = tool;
-  //       return;
-  //     }
-  //   });
-  //   throw new ReferenceError(`Tool ${toolName} not defined`);
-  // }
 }
 
 export default ToolManager;

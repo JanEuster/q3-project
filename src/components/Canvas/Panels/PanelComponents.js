@@ -48,11 +48,8 @@ class PanelButton extends BasePanelComponent {
             this.width,
             this.height
         )
-
         // this.boundingBox.render(context, panelOffset)
-
     }
-
 }
 
 class PanelText extends BasePanelComponent {
@@ -81,7 +78,6 @@ class PanelText extends BasePanelComponent {
         context.fillText(this.text, panelOffset.x + this.coords.x, panelOffset.y + this.coords.y)
         // this.boundingBox.render(context, panelOffset)
     }
-
 }
 
 class PanelTitle extends PanelText {
@@ -150,10 +146,9 @@ class PanelTextSwitch extends PanelText {
             this.switchDiameter,
             this.switchDiameter
         )
-
         // this.boundingBox.render(context, panelOffset)
     }
-
 }
+
 
 export { PanelButton, PanelText, PanelTitle, PanelTextSwitch }

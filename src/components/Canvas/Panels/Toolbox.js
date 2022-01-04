@@ -40,19 +40,16 @@ class PanelToolButton extends PanelButton {
         this.width,
         this.height
     )
-
-      
     // this.boundingBox.render(context, panelOffset)
-
-}
+  }
 }
 
 class Toolbox extends Panel {
   constructor(toolManager) {
-    let width = 120
+    let width = 120;
     let height = width/2 * Math.ceil(toolManager.tools.length / 2);
     let margin = 16;
-    let border = margin * 4 / 6
+    let border = 8;
     
     super(-1.5*width, -1.5*height, width, height, margin, border)
     this.toolManager = toolManager;
@@ -77,9 +74,7 @@ class Toolbox extends Panel {
 
       this.boundingBox = new BoundingBox(panelXY.x - this.bhalf, panelXY.y - this.bhalf, this.width + this.border, this.height + this.border)
       if (this.boundingBox.checkCollision(x, y)) {
-          console.log(this)
           this.components.map(comp => {
-              console.log(comp)
               if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y)) this.handleColission(comp.tool)
           })
           return true
