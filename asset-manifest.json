@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/expanded-board/static/css/main.a7be353e.chunk.css",
+    "main.js": "/expanded-board/static/js/main.f5ac4521.chunk.js",
+    "main.js.map": "/expanded-board/static/js/main.f5ac4521.chunk.js.map",
+    "runtime-main.js": "/expanded-board/static/js/runtime-main.36be2017.js",
+    "runtime-main.js.map": "/expanded-board/static/js/runtime-main.36be2017.js.map",
+    "static/js/2.a82b2819.chunk.js": "/expanded-board/static/js/2.a82b2819.chunk.js",
+    "static/js/2.a82b2819.chunk.js.map": "/expanded-board/static/js/2.a82b2819.chunk.js.map",
+    "index.html": "/expanded-board/index.html",
+    "precache-manifest.f901450405a2ef6259a05541bebae907.js": "/expanded-board/precache-manifest.f901450405a2ef6259a05541bebae907.js",
+    "service-worker.js": "/expanded-board/service-worker.js",
+    "static/css/main.a7be353e.chunk.css.map": "/expanded-board/static/css/main.a7be353e.chunk.css.map",
+    "static/js/2.a82b2819.chunk.js.LICENSE.txt": "/expanded-board/static/js/2.a82b2819.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/expanded-board/static/media/iosevka-regular.cb7bfe98.ttc",
+    "static/media/logo.svg": "/expanded-board/static/media/logo.06e73328.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.36be2017.js",
+    "static/js/2.a82b2819.chunk.js",
+    "static/css/main.a7be353e.chunk.css",
+    "static/js/main.f5ac4521.chunk.js"
+  ]
+}
