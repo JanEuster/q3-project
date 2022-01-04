@@ -1,62 +1,91 @@
+import BoundingBox from "../Objects/BoundingBox";
+import Panel from "./BasePanel";
+import { PanelButton } from "./PanelComponents";
 const colors = require("../../colors.json");
 
+class PanelToolButton extends PanelButton {
+  constructor(x, y, w, h, tool) {
+    super(x, y, w, h)
 
-class Toolbox {
-  constructor() {
-    this.width = 120;
-    this.height = 240;
-    this.margin = 8;
-    this.innerWidth = this.width - 2 * this.margin;
-    this.innerHeight = this.height - 2 * this.margin;
-    this.toolWidth = 20;
-
-    this.tools = [];
+    this.tool = tool
+    this.fS = colors.lightgrey
+    this.activeSS = colors.midorange
+    this.lW = 6
   }
 
-  renderTools(context, boxX, boxY) {
-    let toolWidth = (this.innerWidth - 3 * this.margin) / 2;
-    let border = 4;
+  render(context, panelOffset, active=false) {
+    context.fillStyle = this.fS
+    context.strokeStyle = this.sS
+    if (active) context.strokeStyle = this.activeSS
+    context.lineWidth = this.lW
 
-    for (let i = 0; i < 6; i++) {
-      let offsetX = (this.margin + toolWidth) * (i % 2);
-      let offsetY = (this.margin + toolWidth) * Math.ceil((i + 0.5) / 2 - 1);
+    context.fillRect(
+        panelOffset.x + this.coords.x,
+        panelOffset.y + this.coords.y,
+        this.width,
+        this.height
+    )
+    context.strokeRect(
+        panelOffset.x + this.coords.x,
+        panelOffset.y + this.coords.y,
+        this.width,
+        this.height
+    )
 
+    // this.boundingBox.render(context, panelOffset)
 
-      context.fillStyle = context.fillStyle = colors.darkgrey;
-      context.fillRect(
-        boxX + offsetX + 2 * this.margin,
-        boxY + offsetY + 2 * this.margin,
-        toolWidth,
-        toolWidth
-      );
+}
+}
 
-      context.fillStyle = colors.lightgrey;
-      if (i === 0) {
-        context.fillStyle = colors.midorange;
-      }
-      context.fillRect(
-        boxX + offsetX + 2 * this.margin + border,
-        boxY + offsetY + 2 * this.margin + border,
-        toolWidth - 2 * border,
-        toolWidth - 2 * border
-      );
+class Toolbox extends Panel {
+  constructor(toolManager) {
+    let width = 120
+    let height = width/2 * Math.ceil(toolManager.tools.length / 2);
+    let margin = 16;
+    let border = margin * 4 / 6
+    
+    super(-1.5*width, -1.5*height, width, height, margin, border)
+    this.toolManager = toolManager;
+    
+    this.toolWidth = 36;
+    
+    this.componenets = []
+    for (let i = 0; i < this.toolManager.tools.length; i++) {
+      let offsetX = this.margin + (this.margin + this.toolWidth) * (i % 2);
+      let offsetY = this.margin + (this.margin + this.toolWidth) * Math.ceil((i + 0.5) / 2 - 1);
+      this.components.push(new PanelToolButton(offsetX, offsetY, this.toolWidth, this.toolWidth, this.toolManager.tools[i]))
     }
   }
 
-  render(context) {
-    let toolBoxX = window.innerWidth - 1.5 * this.width;
-    let toolBoxY = window.innerHeight - 1.5 * this.height;
-    context.fillStyle = colors.darkgrey;
-    context.fillRect(toolBoxX, toolBoxY, this.width, this.height);
-    context.fillStyle = colors.grey;
-    context.fillRect(
-      toolBoxX + this.margin,
-      toolBoxY + this.margin,
-      this.width - 2 * this.margin,
-      this.height - 2 * this.margin
-    );
+  handleColission(tool) {
+    this.toolManager.activeTool = tool
+  }
 
-    this.renderTools(context, toolBoxX, toolBoxY);
+
+  checkBoundsCollision(x, y) { 
+      let panelXY = this.getXY()
+
+      this.boundingBox = new BoundingBox(panelXY.x - this.bhalf, panelXY.y - this.bhalf, this.width + this.border, this.height + this.border)
+      if (this.boundingBox.checkCollision(x, y)) {
+          console.log(this)
+          this.components.map(comp => {
+              console.log(comp)
+              if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y)) this.handleColission(comp.tool)
+          })
+          return true
+      }
+      return false
+  }
+
+  renderComponents(context, panelXY) {
+    this.components.map(comp => {
+      let panelOffset = panelXY // {x: x, y: y} panel offset to 
+
+      let active = false
+      if (comp.tool === this.toolManager.activeTool) active = true // if tool is the active tool it needs to rendered distictively
+    
+      comp.render(context, panelOffset, active)
+    })
   }
 }
 

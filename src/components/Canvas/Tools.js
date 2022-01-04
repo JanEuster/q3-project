@@ -205,7 +205,7 @@ class ToolManager {
 
     this.screenDimensions = {};
 
-    this.panel = new Toolbox();
+    this.panel = new Toolbox(this);
   }
   setScreenDimensions(dimensions) {
     this.screenDimensions = dimensions;
@@ -215,7 +215,7 @@ class ToolManager {
     this.activeTool.select(e);
   }
   toolUse(e) {
-      this.activeTool.use(e, this.Doc, this.screenDimensions);
+    this.activeTool.use(e, this.Doc, this.screenDimensions);
   }
   toolDeselect(e) {
     this.activeTool.deselect(e);

@@ -6,6 +6,7 @@ import Path from "./Objects/Paths";
 
 import "./Canvas.css";
 import Panel from "./Panels/BasePanel";
+import { PanelButton, PanelText, PanelTextSwitch, PanelTitle } from "./Panels/PanelComponents";
 
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
@@ -17,8 +18,13 @@ var FPS = 120
 var Doc = new Artboard(2100, 2970, [], "#dddddd");
 var Tools = new ToolManager(Doc);
 var useTool = Tools.toolUse; //create object bound function - when passing functions to other functions the this is lost
-var Panels = [Tools.panel, new Panel(100, 100, 200, 400, 16, 8)]
 
+// testing panels
+var settingsPanel = new Panel(20, -350, 200, 300, 16, 8)
+settingsPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Settings" ), new PanelText( 20, 50, "Settings" ), new PanelTextSwitch( 20, 80, "Settings" )]
+var Panels = [Tools.panel, settingsPanel]
+console.log(Panels)
+// var Panels = [Tools.panel] // actual panels
 
 
 

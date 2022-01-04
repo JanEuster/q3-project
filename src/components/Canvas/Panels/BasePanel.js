@@ -16,7 +16,7 @@ class Panel {
         this.border = border
         this.bhalf = this.border/2
 
-        this.components = [ new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Settings" ), new PanelText( 20, 50, "Settings" ), new PanelTextSwitch( 20, 80, "Settings" )]
+        this.components = [ ]
 
         this.boundingBox = new BoundingBox(this.x - this.bhalf, this.y - this.bhalf, this.width + this.border, this.height + this.border)
     }
