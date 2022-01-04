@@ -20,10 +20,11 @@ var Tools = new ToolManager(Doc);
 var useTool = Tools.toolUse; //create object bound function - when passing functions to other functions the this is lost
 
 // testing panels
-var settingsPanel = new Panel(20, -350, 200, 300, 16, 8)
-settingsPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Settings" ), new PanelText( 20, 50, "Settings" ), new PanelTextSwitch( 20, 80, "Settings" )]
-var Panels = [Tools.panel, settingsPanel]
+var testPanel = new Panel(20, -350, 200, 300, 16, 8)
+testPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Test" ), new PanelText( 20, 50, "testing testing please" ), new PanelTextSwitch( 20, 80, "testing" )]
+var Panels = [Tools.panel, testPanel]
 console.log(Panels)
+
 // var Panels = [Tools.panel] // actual panels
 
 
