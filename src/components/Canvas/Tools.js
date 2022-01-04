@@ -1,8 +1,8 @@
 import Toolbox from "./Panels/Toolbox";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
+import colors from "../colors.json"
 
-const colors = require("../colors.json");
 
 // function object
 class SelectionTool {
@@ -12,6 +12,8 @@ class SelectionTool {
     this.lastPos = { x: NaN, y: NaN }
     
     this.lastEventUp = false // was last event mouseup -> next click event can be ignored
+
+    this.icon = "assets/icons/tools/select.png"
   }
 
   collisionOnObjects(coords, scrD, Doc) {
@@ -113,6 +115,7 @@ class PencilTool {
     this.lastMoveEvent = new Date();
 
     // this.use = this.use.bind(this);
+    this.icon = "assets/icons/tools/select.png"
   }
 
   select(e) { }
@@ -157,6 +160,8 @@ class Eraser extends PencilTool {
   constructor(radius = "10") {
     super();
     this.radius = radius
+
+    this.icon = "assets/icons/tools/select.png"
   }
   use(e, Doc, screenDimensions) {
     let coords = Doc.localCoords(
