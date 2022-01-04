@@ -5,11 +5,12 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import Navbar from "./Navbar.js";
 import Canvas from "./components/Canvas/Canvas.jsx";
+import { HashRouter } from "react-router-dom";
 
 
 function App() {
   return (
-	<Router>
+	<HashRouter>
 		<div className="App">
 
 	<Switch>
@@ -29,7 +30,7 @@ function App() {
 
 
 		</div>
-	</Router>
+	</HashRouter>
 	);
 }
 
