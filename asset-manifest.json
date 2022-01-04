@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/q3-project/static/css/main.66013bf8.chunk.css",
-    "main.js": "/q3-project/static/js/main.7baef1d0.chunk.js",
-    "main.js.map": "/q3-project/static/js/main.7baef1d0.chunk.js.map",
-    "runtime-main.js": "/q3-project/static/js/runtime-main.f71e40f3.js",
-    "runtime-main.js.map": "/q3-project/static/js/runtime-main.f71e40f3.js.map",
-    "static/js/2.844b32d4.chunk.js": "/q3-project/static/js/2.844b32d4.chunk.js",
-    "static/js/2.844b32d4.chunk.js.map": "/q3-project/static/js/2.844b32d4.chunk.js.map",
-    "index.html": "/q3-project/index.html",
-    "precache-manifest.a3fc03d26630ead67c69d87eb98f5e38.js": "/q3-project/precache-manifest.a3fc03d26630ead67c69d87eb98f5e38.js",
-    "service-worker.js": "/q3-project/service-worker.js",
-    "static/css/main.66013bf8.chunk.css.map": "/q3-project/static/css/main.66013bf8.chunk.css.map",
-    "static/js/2.844b32d4.chunk.js.LICENSE.txt": "/q3-project/static/js/2.844b32d4.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/q3-project/static/media/iosevka-regular.cb7bfe98.ttc",
-    "static/media/logo.svg": "/q3-project/static/media/logo.06e73328.svg"
+    "main.css": "./static/css/main.c8a0d368.chunk.css",
+    "main.js": "./static/js/main.7baef1d0.chunk.js",
+    "main.js.map": "./static/js/main.7baef1d0.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.1ca1a9f0.js",
+    "runtime-main.js.map": "./static/js/runtime-main.1ca1a9f0.js.map",
+    "static/js/2.844b32d4.chunk.js": "./static/js/2.844b32d4.chunk.js",
+    "static/js/2.844b32d4.chunk.js.map": "./static/js/2.844b32d4.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.f5838b97d1b0f1e9202810eb1c28b263.js": "./precache-manifest.f5838b97d1b0f1e9202810eb1c28b263.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/main.c8a0d368.chunk.css.map": "./static/css/main.c8a0d368.chunk.css.map",
+    "static/js/2.844b32d4.chunk.js.LICENSE.txt": "./static/js/2.844b32d4.chunk.js.LICENSE.txt",
+    "static/media/App.css": "./static/media/iosevka-regular.cb7bfe98.ttc",
+    "static/media/logo.svg": "./static/media/logo.06e73328.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.f71e40f3.js",
+    "static/js/runtime-main.1ca1a9f0.js",
     "static/js/2.844b32d4.chunk.js",
-    "static/css/main.66013bf8.chunk.css",
+    "static/css/main.c8a0d368.chunk.css",
     "static/js/main.7baef1d0.chunk.js"
   ]
 }
