@@ -73,13 +73,12 @@ class Path extends BaseShape {
     var pointsRemoved = 0;
     var distCutoff = 6.7
     if (this.points.length > 1000) {
-      distCutoff = 3
+      distCutoff = 1
     }
 
 
     for (let i = 1; i < this.points.length; i++) {
       if (this.pointDistance(this.points[i - 1], this.points[i]) < distCutoff) {
-        console.log(this.pointDistance(this.points[i - 1], this.points[i]))
 
         if (i < this.points.length - pointsAmount) {
           pointsRemoved += pointsAmount
