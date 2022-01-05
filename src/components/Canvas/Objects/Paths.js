@@ -60,7 +60,36 @@ class Path extends BaseShape {
     this.boundingBox.setBounds(...this.determineNewBounds());
   }
 
+  pointDistance(p1, p2) {
+    let deltaX = p1.x - p2.x 
+    let deltaY = p1.y - p2.y
+    let dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2))
+    return dist
+  }
+  cleanUp() {
+    // remove points from path that are too close together, therefore enforce straighter, cleaner lines 
+    var pointsAmount = 5
+    var pointsLength = this.points.length
+    var pointsRemoved = 0;
+    var distCutoff = 6.7
+    if (this.points.length > 1000) {
+      distCutoff = 3
+    }
 
+
+    for (let i = 1; i < this.points.length; i++) {
+      if (this.pointDistance(this.points[i - 1], this.points[i]) < distCutoff) {
+        console.log(this.pointDistance(this.points[i - 1], this.points[i]))
+
+        if (i < this.points.length - pointsAmount) {
+          pointsRemoved += pointsAmount
+          this.points.splice(i, pointsAmount)
+        }
+      }
+    }
+
+    console.log(`[path cleanup] ${pointsRemoved} points removed of ${pointsLength}` )
+  }
 
   render(context, pixelRatio, baseCoord) {
     context.lineWidth = pixelRatio * this.strokeWidth;
@@ -75,6 +104,34 @@ class Path extends BaseShape {
     });
     context.stroke();
     context.closePath();
+
+    // context.beginPath();
+    // context.strokeStyle = "#00FF00";
+    // context.moveTo(baseCoord.w + pixelRatio * this.points[0].x, baseCoord.h + pixelRatio * this.points[0].y)
+    // for (var i = 1; i < this.points.length; i ++)
+    // {
+    //   var controlX = (baseCoord.w + pixelRatio * this.points[i - 1].x + baseCoord.w + pixelRatio * this.points[i].x) / 2;
+    //   var controlY = (baseCoord.h + pixelRatio * this.points[i - 1].y + baseCoord.h + pixelRatio * this.points[i].y) / 2;
+    //   context.quadraticCurveTo(
+    //     baseCoord.w + pixelRatio * this.points[i].x,
+    //     baseCoord.h + pixelRatio * this.points[i].y,
+    //     controlX,
+    //     controlY
+    //   );
+    // }
+    
+    // context.stroke();
+    // context.closePath();
+
+    // show points
+    // this.points.forEach((p) => {
+    //   context.fillRect(
+    //     baseCoord.w + pixelRatio * p.x,
+    //     baseCoord.h + pixelRatio * p.y,
+    //     7,
+    //     7
+    //   )
+    // });
   }
 }
 

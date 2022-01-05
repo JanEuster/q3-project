@@ -141,9 +141,11 @@ class PencilTool {
 
     } else if (this.inUse && e.type === "mousemove") {
       this.currentPath.addPoint(coords.x, coords.y);
+      // this.currentPath.cleanUp()
 
     } else if (this.inUse && e.type === "mouseup") {
       this.currentPath.addPoints(coords.x, coords.y);
+      this.currentPath.cleanUp()
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
 
       this.inUse = false;
