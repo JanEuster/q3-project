@@ -50,7 +50,7 @@ class Artboard {
   }
 
   getArtboardMetadata(scrW, scrH) {
-    var m = this.margin * 2;
+    var m = this.margin * 6;
     if (scrW / scrH > this.width / this.height) {
       var orient = "v";
       var artH = scrH - m;
