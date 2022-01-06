@@ -2,6 +2,7 @@ import Toolbox from "./Panels/Toolbox";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import colors from "../colors.json"
+import Text from "./Objects/Text";
 
 
 // function object
@@ -31,9 +32,16 @@ class SelectionTool {
     return false
   }
 
-  select(e) { }
+  select(obj) {
+    this.selectedObject = obj
+   }
   
   use(e, Doc, screenDimensions) {
+
+    if (this.selectedObject && e.type === "keydown" && e.key === "Delete") {
+      Doc.objects.splice(Doc.objects.indexOf(this.selectedObject), 1)
+      this.selectedObject = NaN
+    }
 
     if (this.lastEventUp && e.type === "click") {
       return
@@ -77,7 +85,9 @@ class SelectionTool {
 
   }
 
-  deselect(e) { }
+  deselect() { 
+    return this.selectedObject
+  }
 
   graphic(context, artMeta) {
     // show selection box
@@ -110,15 +120,18 @@ class SelectionTool {
 class PencilTool {
   constructor() {
     this.currentPath = NaN;
+    this.lastPath = NaN
     this.eventCount = 0;
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
+
 
     // this.use = this.use.bind(this);
     this.icon = "assets/icons/tools/select.png"
   }
 
-  select(e) { }
+  select(obj) { 
+  }
   
   use(e, Doc, screenDimensions) {
     this.eventCount += 1;
@@ -149,16 +162,19 @@ class PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
 
       this.inUse = false;
+      this.lastPath = this.currentPath
       this.currentPath = NaN;
     }
   }
 
-  deselect(e) { }
+  deselect() { 
+    return this.lastPath
+  }
   
   graphic(context, artMeta) {}
 }
 
-class Eraser extends PencilTool {
+class EraserTool extends PencilTool {
   constructor(radius = "10") {
     super();
     this.radius = radius
@@ -194,17 +210,96 @@ class Eraser extends PencilTool {
   }
 }
 
+class TextTool {
+  constructor() {
+    this.activeObject = NaN;
+
+    this.icon = "assets/icons/tools/select.png"
+  }
+
+  select(obj) {
+    if (obj instanceof Text) {
+      this.activeObject = obj
+    }
+   }
+  
+  use(e, Doc, screenDimensions) {
+
+    let coords = Doc.localCoords(
+    e.pageX,
+    e.pageY,
+    screenDimensions.width,
+    screenDimensions.height
+    );
+
+    if (e.type === "click") {
+      this.activeObject = new Text(coords.x, coords.y, "lol")
+
+    } else if (e.type === "mousedown") {
+      this.activeObject = new Text(coords.x, coords.y, "lol")
+      Doc.objects.push(this.activeObject)
+    } else if (this.activeObject && e.type === "keypress") {
+      this.activeObject.addText(e.key)
+    } else if (this.activeObject && e.type === "keydown") {
+
+      if (e.key === "Escape") {
+        this.activeObject = NaN
+      } else if (e.key === "Backspace") {
+        this.activeObject.removeLastChar()
+      }
+      
+    }    
+  }
+
+  deselect() { 
+    return this.activeObject
+  }
+
+  graphic(context, artMeta) {
+    // show selection box
+    if (this.activeObject) {
+      let x = this.activeObject.boundingBox.coords[0]
+      let y = this.activeObject.boundingBox.coords[1]
+      let w = this.activeObject.boundingBox.wh[0]
+      let h = this.activeObject.boundingBox.wh[1]
+
+      let pixelRatio = artMeta.pixelRatio
+      let baseCoord = artMeta.baseCoord
+      
+      let offset = 32
+      // context.fillStyle = "#00FF00";
+      context.lineWidth = 3; //TODO: lineWidth parameter;
+      context.strokeStyle = colors.midorange;
+
+      context.strokeRect(
+        baseCoord.w + pixelRatio * (x - offset),
+        baseCoord.h + pixelRatio * (y - offset),
+        pixelRatio * (w + offset * 2) + 10,
+        pixelRatio * (h + offset * 2)
+      );
+
+      // text cursor
+      context.fillRect(
+        baseCoord.w + pixelRatio * (this.activeObject.xCoord + this.activeObject.width) +4,
+        baseCoord.h + pixelRatio * (this.activeObject.yCoord - this.activeObject.height),
+        3,
+        pixelRatio * this.activeObject.height
+      )
+    }
+  }
+}
 
 
 var selectionT = new SelectionTool()
 var pencilT = new PencilTool()
-var eraserT = new Eraser()
+var eraserT = new EraserTool()
+var textT = new TextTool()
 
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
     this.tools = [];
-    this.tools.push(selectionT, pencilT, eraserT);
+    this.tools.push(selectionT, pencilT, eraserT, textT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
     this.strokeWidth = 5;
@@ -212,20 +307,22 @@ class ToolManager {
 
     this.screenDimensions = {};
 
+    this.lastObj = NaN
+
     this.panel = new Toolbox(this);
   }
   setScreenDimensions(dimensions) {
     this.screenDimensions = dimensions;
   }
 
-  toolSelect(e) {
-    this.activeTool.select(e);
+  toolSelect() {
+    this.activeTool.select(this.lastObj);
   }
   toolUse(e) {
     this.activeTool.use(e, this.Doc, this.screenDimensions);
   }
-  toolDeselect(e) {
-    this.activeTool.deselect(e);
+  toolDeselect() {
+    this.lastObj = this.activeTool.deselect();
   }
 
   toolGraphic(context, artMeta) {

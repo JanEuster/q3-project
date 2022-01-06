@@ -3,6 +3,7 @@ import Artboard from "./Artboard";
 import ToolManager from "./Tools";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
+import Text from "./Objects/Text"
 
 import "./Canvas.css";
 import Panel from "./Panels/BasePanel";
@@ -40,6 +41,7 @@ Doc.addObjects([
     [500, 2970],
     [1000, 100],
   ]),
+  new Text(350, 1200, "lalala", "iosevka black")
 ]);
 
 const Canvas = (props) => {
@@ -129,6 +131,8 @@ const Canvas = (props) => {
     canvas.addEventListener("mousedown", handleMouseEvent);
     canvas.addEventListener("mouseup", handleMouseEvent);
     canvas.addEventListener("mousemove", handleMouseEvent);
+    document.addEventListener("keypress", handleMouseEvent)
+    document.addEventListener("keydown", handleMouseEvent)
 
     // window.addEventListener("maximize", handleResize);
     return (_) => {
@@ -140,6 +144,8 @@ const Canvas = (props) => {
       canvas.removeEventListener("mousedown", handleMouseEvent);
       canvas.removeEventListener("mouseup", handleMouseEvent);
       canvas.removeEventListener("mousemove", handleMouseEvent);
+      document.addEventListener("keypress", handleMouseEvent)
+      document.addEventListener("keydown", handleMouseEvent)
 
       //window.addEventListener("maximize", handleResize);
       // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)

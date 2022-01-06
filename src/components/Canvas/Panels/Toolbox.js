@@ -65,7 +65,9 @@ class Toolbox extends Panel {
   }
 
   handleColission(tool) {
+    this.toolManager.toolDeselect()
     this.toolManager.activeTool = tool
+    this.toolManager.toolSelect()
   }
 
 
