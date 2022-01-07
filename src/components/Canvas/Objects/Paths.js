@@ -7,7 +7,7 @@ function Point(x, y) {
 
 // TODO: smoothed paths: quadratic curves
 class Path extends BaseShape {
-  constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2") {
+  constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2", boolboundingBox = true) {
     super(0, 0, 0, 0);
 
     this.points = []; // ...splits x and y into separate parameters
@@ -22,14 +22,21 @@ class Path extends BaseShape {
 
   addPoint(x, y) {
     this.points.push(new Point(x, y));
-    this.boundingBox.setBounds(...this.determineNewBounds());
+    if (!this.boolboundingBox) {
+      this.boundingBox.setBounds(0, 0, 0, 0);
+    } else {
+      this.boundingBox.setBounds(...this.determineNewBounds());
+    }
   }
   addPoints(points) {
     points.forEach((p) => {
       this.points.push(new Point(p[0], p[1]));
     });
-    this.boundingBox.setBounds(...this.determineNewBounds());
-
+    if (!this.boolboundingBox) {
+      this.boundingBox.setBounds(0, 0, 0, 0);
+    } else {
+      this.boundingBox.setBounds(...this.determineNewBounds());
+    }
   }
 
   determineNewBounds() {
