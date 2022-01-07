@@ -37,10 +37,10 @@ class SelectionTool {
    }
   
   use(e, Doc, screenDimensions) {
-
     if (this.selectedObject && e.type === "keydown" && e.key === "Delete") {
       Doc.removeObject(this.selectedObject)
       this.selectedObject = NaN
+      this.moving = false
     }
 
     if (this.lastEventUp && e.type === "click") {
