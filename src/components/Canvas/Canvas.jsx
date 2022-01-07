@@ -115,6 +115,7 @@ const Canvas = (props) => {
           }
         }
         if (Doc.checkCollision(e.pageX, e.pageY) && Tools.activeTool === eraserT) {
+          console.log("return")
           return
         }
       } 

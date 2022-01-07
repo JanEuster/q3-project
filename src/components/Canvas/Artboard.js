@@ -94,7 +94,7 @@ class Artboard {
   }
 
   checkCollision(x, y) {
-    let metadata = this.getArtboardMetadata()
+    let metadata = this.getArtboardMetadata(window.innerWidth, window.innerHeight)
     console.log(x, y)
     console.log(metadata.baseCoord.w, metadata.baseCoord.h)
 
