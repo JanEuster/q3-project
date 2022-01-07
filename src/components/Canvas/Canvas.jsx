@@ -110,7 +110,7 @@ const Canvas = (props) => {
       if (e.type === "click" || e.type === "mousedown") {
         for (let i = 0; i < Panels.length; i++) {
           let panel = Panels[i]
-          if (panel.checkBoundsCollision(e.pageX, e.pageY)) {
+          if (panel.checkBoundsCollision(e.pageX, e.pageY) && Tools.activeTool === "eraserT") {
             return
           }
         }

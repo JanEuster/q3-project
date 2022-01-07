@@ -177,7 +177,8 @@ class PencilTool {
 class EraserTool extends PencilTool {
   constructor(radius = "10") {
     super();
-    this.radius = radius
+    this.radius = radius;
+    this.returnPath = NaN;
 
     this.icon = "assets/icons/tools/select.png"
   }
@@ -199,6 +200,9 @@ class EraserTool extends PencilTool {
       );
       Doc.addObject(this.currentPath);
     } else if(this.inUse && e.type === "mousemove") {
+      if (Doc.checkCollision(e.pageX, e.pageY)) {
+        this.returnPath = this.currentPath;
+      }
       this.currentPath.addPoint(coords.x,coords.y);
     } else if(this.inUse && e.type === "mouseup") {
       this.currentPath.addPoints(coords.x,coords.y);
@@ -207,6 +211,10 @@ class EraserTool extends PencilTool {
       this.inUse = false;
       this.currentPath = NaN;
     }
+  }
+
+  deselect() {
+    return this.returnPath
   }
 }
 

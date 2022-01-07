@@ -93,6 +93,18 @@ class Artboard {
     };
   }
 
+  checkCollision(x, y) {
+    let metadata = this.getArtboardMetadata()
+    console.log(x, y)
+    console.log(metadata.baseCoord.w, metadata.baseCoord.h)
+
+    if((x < metadata.baseCoord.w || x > metadata.baseCoord.w + metadata.width) || (y < metadata.baseCoord.h || y > metadata.baseCoord.h + metadata.height)) {
+      console.log("kek")
+      return true
+    }  
+    return false
+  }
+
   drawArtboard(context, artMeta) {
 
     context.fillStyle = this.bgColor;
