@@ -32,29 +32,32 @@ class Artboard {
     return this.bgColor;
   }
 
-  ratioedCoords(x, y, scrW, scrH) {
+  ratioedCoords(x, y) {
     // convert canvas coordinates to artboard coordinates
     //-> scaled by pixelRatio
-    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    var artMeta = this.getArtboardMetadata();
     return { x: x / artMeta.pixelRatio, y: y / artMeta.pixelRatio };
   }
-  relativeCoords(x, y, scrW, scrH) {
+  relativeCoords(x, y) {
     // converts global coordinates to ones that are relative to the artboard
     //-> i.e.if coord is left of artboard relative coord is negative
-    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    var artMeta = this.getArtboardMetadata();
     return { x: x - artMeta.baseCoord.w, y: y - artMeta.baseCoord.h };
   }
-  localCoords(x, y, scrW, scrH) {
+  localCoords(x, y) {
     // ratioedCoords + relativeCoords
-    var artMeta = this.getArtboardMetadata(scrW, scrH);
+    var artMeta = this.getArtboardMetadata();
     return {
       x: (x - artMeta.baseCoord.w) / artMeta.pixelRatio,
       y: (y - artMeta.baseCoord.h) / artMeta.pixelRatio,
     };
   }
 
-  getArtboardMetadata(scrW, scrH) {
+  getArtboardMetadata() {
+    let scrW = window.innerWidth
+    let scrH = window.innerHeight
     var m = this.margin * 6;
+
     if (scrW / scrH > this.width / this.height) {
       var orient = "v";
       var artH = scrH - m;

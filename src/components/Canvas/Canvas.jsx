@@ -45,16 +45,7 @@ Doc.addObjects([
 ]);
 
 const Canvas = (props) => {
-  const [dimensions, setDimensions] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
-  //TODO: find a way to combine react & electron so that the electron.js win events etc. can be accessed in react
-  //const [maximized, setMaximized] = useState({
-  //maximized: window.isMaximized()
-  //})
 
-  Tools.setScreenDimensions(dimensions);
 
   const canvasRef = useRef(null);
 
@@ -67,10 +58,7 @@ const Canvas = (props) => {
     
     
     function updateCanvas() {
-      var artMeta = Doc.getArtboardMetadata(
-      context.canvas.width,
-      context.canvas.height
-    );
+      var artMeta = Doc.getArtboardMetadata();
       Doc.draw(context, artMeta);
       Tools.toolGraphic(context, artMeta)
 
@@ -83,11 +71,7 @@ const Canvas = (props) => {
 
     function handleResize() {
       // TODO: limit the amount of resizes for performace purposes
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-      Tools.setScreenDimensions(dimensions);
+
       //setMaximized({
       //maximized: window.isMaximized()
       //})
@@ -157,8 +141,8 @@ const Canvas = (props) => {
   return (
     <canvas
       ref={canvasRef}
-      width={dimensions.width}
-      height={dimensions.height}
+      width={window.innerWidth}
+      height={window.innerHeight}
       id="theCanvas"
     >
       {" "}

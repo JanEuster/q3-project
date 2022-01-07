@@ -17,9 +17,9 @@ class SelectionTool {
     this.icon = "assets/icons/tools/select.png"
   }
 
-  collisionOnObjects(coords, scrD, Doc) {
+  collisionOnObjects(coords, Doc) {
     let objects = Doc.objects.slice(0).reverse() // create reveresed copy of objects list
-    let pixelRatio = Doc.getArtboardMetadata(scrD.width, scrD.height).pixelRatio
+    let pixelRatio = Doc.getArtboardMetadata().pixelRatio
 
     for (var i = 0; i < objects.length; i++) {
       let obj = objects[i]
@@ -36,7 +36,7 @@ class SelectionTool {
     this.selectedObject = obj
    }
   
-  use(e, Doc, screenDimensions) {
+  use(e, Doc) {
     if (this.selectedObject && e.type === "keydown" && e.key === "Delete") {
       Doc.removeObject(this.selectedObject)
       this.selectedObject = NaN
@@ -52,14 +52,14 @@ class SelectionTool {
     let coords = Doc.localCoords(
     e.pageX,
     e.pageY,
-    screenDimensions.width,
-    screenDimensions.height
+    window.innerWidth,
+    window.innerHeight
     );
     if (e.type === "click") {
-      this.selectedObject = this.collisionOnObjects(coords, screenDimensions, Doc)
+      this.selectedObject = this.collisionOnObjects(coords, Doc)
 
     } else if (e.type === "mousedown") {
-      this.selectedObject = this.collisionOnObjects(coords, screenDimensions, Doc)
+      this.selectedObject = this.collisionOnObjects(coords, Doc)
       if (this.selectedObject) {
         this.moving = true
       }
@@ -133,14 +133,14 @@ class PencilTool {
   select(obj) { 
   }
   
-  use(e, Doc, screenDimensions) {
+  use(e, Doc) {
     this.eventCount += 1;
     
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
-      screenDimensions.width,
-      screenDimensions.height
+      window.innerWidth,
+      window.innerHeight
     );
     if (e.type === "mousedown") {
       this.inUse = true;
@@ -181,12 +181,12 @@ class EraserTool extends PencilTool {
 
     this.icon = "assets/icons/tools/pen.png"
   }
-  use(e, Doc, screenDimensions) {
+  use(e, Doc) {
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
-      screenDimensions.width,
-      screenDimensions.height
+      window.innerWidth,
+      window.innerHeight
     );
 
     if (e.type === "mousedown") {
@@ -223,13 +223,13 @@ class TextTool {
     }
    }
   
-  use(e, Doc, screenDimensions) {
+  use(e, Doc) {
 
     let coords = Doc.localCoords(
     e.pageX,
     e.pageY,
-    screenDimensions.width,
-    screenDimensions.height
+    window.innerWidth,
+    window.innerHeight
     );
 
     if (e.type === "click") {
@@ -305,21 +305,16 @@ class ToolManager {
     this.strokeWidth = 5;
     this.strokeStyle = "#111111";
 
-    this.screenDimensions = {};
-
     this.lastObj = NaN
 
     this.panel = new Toolbox(this);
-  }
-  setScreenDimensions(dimensions) {
-    this.screenDimensions = dimensions;
   }
 
   toolSelect() {
     this.activeTool.select(this.lastObj);
   }
   toolUse(e) {
-    this.activeTool.use(e, this.Doc, this.screenDimensions);
+    this.activeTool.use(e, this.Doc);
   }
   toolDeselect() {
     this.lastObj = this.activeTool.deselect();
