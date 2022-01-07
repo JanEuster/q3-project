@@ -333,4 +333,4 @@ class ToolManager {
 }
 
 export default ToolManager;
-export { selectionT, pencilT, eraserT };
+export { selectionT, pencilT, eraserT, textT };
