@@ -39,7 +39,7 @@ class SelectionTool {
   use(e, Doc, screenDimensions) {
 
     if (this.selectedObject && e.type === "keydown" && e.key === "Delete") {
-      Doc.objects.splice(Doc.objects.indexOf(this.selectedObject), 1)
+      Doc.removeObject(this.selectedObject)
       this.selectedObject = NaN
     }
 

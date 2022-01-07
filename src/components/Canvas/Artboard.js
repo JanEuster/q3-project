@@ -24,6 +24,10 @@ class Artboard {
     });
   }
 
+  removeObject(obj) {
+    this.objects.splice(this.objects.indexOf(obj), 1)
+  }
+
   getBackgroundColour() {
     return this.bgColor;
   }
