@@ -24,7 +24,7 @@ var useTool = Tools.toolUse; //create object bound function - when passing funct
 var testPanel = new Panel(20, -350, 200, 300, 16, 8)
 testPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Test" ), new PanelText( 20, 50, "testing testing please" ), new PanelTextSwitch( 20, 80, "testing" )]
 var Panels = [Tools.panel, testPanel]
-console.log(Panels)
+//console.log(Panels)
 
 // var Panels = [Tools.panel] // actual panels
 
@@ -115,7 +115,6 @@ const Canvas = (props) => {
           }
         }
         if (Doc.checkCollision(e.pageX, e.pageY) && Tools.activeTool === eraserT) {
-          console.log("return")
           return
         }
       } 

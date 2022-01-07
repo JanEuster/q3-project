@@ -95,11 +95,8 @@ class Artboard {
 
   checkCollision(x, y) {
     let metadata = this.getArtboardMetadata(window.innerWidth, window.innerHeight)
-    console.log(x, y)
-    console.log(metadata.baseCoord.w, metadata.baseCoord.h)
 
     if((x < metadata.baseCoord.w || x > metadata.baseCoord.w + metadata.width) || (y < metadata.baseCoord.h || y > metadata.baseCoord.h + metadata.height)) {
-      console.log("kek")
       return true
     }  
     return false

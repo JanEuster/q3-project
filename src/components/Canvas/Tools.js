@@ -201,7 +201,6 @@ class EraserTool extends PencilTool {
       Doc.addObject(this.currentPath);
     } else if(this.inUse && e.type === "mousemove") {
       if (Doc.checkCollision(e.pageX, e.pageY)) {
-        console.log("eraser_alarm")
         this.returnPath = this.currentPath;
         this.inUse = false;
         this.currentPath = NaN;
