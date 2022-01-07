@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard";
-import ToolManager from "./Tools";
+import ToolManager, { eraserT } from "./Tools";
 import { Circle, Rectangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import Text from "./Objects/Text"
@@ -110,9 +110,12 @@ const Canvas = (props) => {
       if (e.type === "click" || e.type === "mousedown") {
         for (let i = 0; i < Panels.length; i++) {
           let panel = Panels[i]
-          if (panel.checkBoundsCollision(e.pageX, e.pageY) && Tools.activeTool === "eraserT") {
+          if (panel.checkBoundsCollision(e.pageX, e.pageY)) {
             return
           }
+        }
+        if (Doc.checkCollision(e.pageX, e.pageY) && Tools.activeTool === eraserT) {
+          return
         }
       } 
       Tools.toolUse(e)
