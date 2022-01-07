@@ -60,6 +60,10 @@ class SelectionTool {
 
     } else if (e.type === "mousedown") {
       this.selectedObject = this.collisionOnObjects(coords, screenDimensions, Doc)
+      if (this.selectedObject === eraserT) {
+        this.selectedObject = NaN;
+      }
+      
       if (this.selectedObject) {
         this.moving = true
       }
