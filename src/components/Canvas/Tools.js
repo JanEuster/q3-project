@@ -127,7 +127,7 @@ class PencilTool {
 
 
     // this.use = this.use.bind(this);
-    this.icon = "assets/icons/tools/select.png"
+    this.icon = "assets/icons/tools/pencil.png"
   }
 
   select(obj) { 
@@ -179,7 +179,7 @@ class EraserTool extends PencilTool {
     super();
     this.radius = radius
 
-    this.icon = "assets/icons/tools/select.png"
+    this.icon = "assets/icons/tools/pen.png"
   }
   use(e, Doc, screenDimensions) {
     let coords = Doc.localCoords(
