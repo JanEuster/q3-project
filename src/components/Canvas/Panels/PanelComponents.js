@@ -150,5 +150,5 @@ class PanelTextSwitch extends PanelText {
     }
 }
 
-
+export default BasePanelComponent
 export { PanelButton, PanelText, PanelTitle, PanelTextSwitch }

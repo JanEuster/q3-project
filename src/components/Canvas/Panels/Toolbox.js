@@ -51,7 +51,7 @@ class Toolbox extends Panel {
     let margin = 16;
     let border = 8;
     
-    super(-1.5*width, -1.5*height, width, height, margin, border)
+    super(-150, -(70 + height), width, height, margin, border)
     this.toolManager = toolManager;
     
     this.toolWidth = 36;
@@ -85,8 +85,8 @@ class Toolbox extends Panel {
   }
 
   renderComponents(context, panelXY) {
+    let panelOffset = panelXY // {x: x, y: y} panel offset to 
     this.components.map(comp => {
-      let panelOffset = panelXY // {x: x, y: y} panel offset to 
 
       let active = false
       if (comp.tool === this.toolManager.activeTool) active = true // if tool is the active tool it needs to rendered distictively

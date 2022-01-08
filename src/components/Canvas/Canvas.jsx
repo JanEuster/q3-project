@@ -7,6 +7,7 @@ import Text from "./Objects/Text"
 
 import "./Canvas.css";
 import Panel from "./Panels/BasePanel";
+import SettingsToolPanel from "./Panels/ToolSettings"
 import { PanelButton, PanelText, PanelTextSwitch, PanelTitle } from "./Panels/PanelComponents";
 
 // simport { ipcRenderer } from "electron";
@@ -23,7 +24,7 @@ var useTool = Tools.toolUse; //create object bound function - when passing funct
 // testing panels
 var testPanel = new Panel(20, -350, 200, 300, 16, 8)
 testPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Test" ), new PanelText( 20, 50, "testing testing please" ), new PanelTextSwitch( 20, 80, "testing" )]
-var Panels = [Tools.panel, testPanel]
+var Panels = [Tools.panel, Tools.settingsPanel, testPanel]
 console.log(Panels)
 
 // var Panels = [Tools.panel] // actual panels
