@@ -10,6 +10,7 @@ import Panel from "./Panels/BasePanel";
 import SettingsToolPanel from "./Panels/ToolSettings"
 import { PanelButton, PanelSlider, PanelText, PanelTextSwitch, PanelTitle } from "./Panels/PanelComponents";
 
+
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
 const appColors = require("../colors.json");

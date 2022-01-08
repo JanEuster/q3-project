@@ -225,7 +225,7 @@ class TextTool {
     this.activeObject = NaN;
 
     this.toolManager = undefined
-
+      
     this.name = "text"
     this.icon = "assets/icons/tools/text.png"
   }
