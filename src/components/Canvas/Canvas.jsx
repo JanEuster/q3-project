@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Artboard from "./Artboard";
 import ToolManager from "./Tools";
-import { Circle, Rectangle } from "./Objects/BasicShapes";
+import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import Text from "./Objects/Text"
 
@@ -41,7 +41,8 @@ Doc.addObjects([
     [500, 2970],
     [1000, 100],
   ]),
-  new Text(350, 1200, "lalala", "Iosevka bold")
+  new Text(350, 1200, "lalala", "Iosevka bold"),
+  new Triangle(0, 0, 100, 100, "#3333FF", "#000000", 0, false)
 ]);
 
 const Canvas = (props) => {
