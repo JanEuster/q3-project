@@ -98,10 +98,6 @@ class PanelColorSelectorComponent extends BasePanelComponent {
 }
 
 
-
-
-
-
 class ToolSettingsPanel extends Panel {
   constructor(toolManager) {
     let width = 120;
