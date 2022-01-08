@@ -3,6 +3,11 @@ import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import colors from "../colors.json"
 import Text from "./Objects/Text";
+import Panel from "./Panels/BasePanel";
+import ToolSettingsPanel from './Panels/ToolSettings';
+
+
+let toolSettingsPanel = new Panel()
 
 
 // function object
@@ -14,6 +19,7 @@ class SelectionTool {
     
     this.lastEventUp = false // was last event mouseup -> next click event can be ignored
 
+    this.name = "select"
     this.icon = "assets/icons/tools/select.png"
   }
 
@@ -126,6 +132,7 @@ class PencilTool {
     this.lastMoveEvent = new Date();
 
 
+    this.name = "pencil"
     // this.use = this.use.bind(this);
     this.icon = "assets/icons/tools/pencil.png"
   }
@@ -179,6 +186,7 @@ class EraserTool extends PencilTool {
     super();
     this.radius = radius
 
+    this.name = "eraser"
     this.icon = "assets/icons/tools/eraser.png"
   }
   use(e, Doc) {
@@ -214,6 +222,7 @@ class TextTool {
   constructor() {
     this.activeObject = NaN;
 
+    this.name = "text"
     this.icon = "assets/icons/tools/text.png"
   }
 
@@ -412,6 +421,7 @@ class ToolManager {
     this.lastObj = NaN
 
     this.panel = new Toolbox(this);
+    this.settingsPanel = new ToolSettingsPanel(this);
   }
 
   toolSelect() {
