@@ -157,17 +157,16 @@ class Triangle extends BaseShape {
     context.lineWidth = pixelRatio * this.borderWidth;
     context.strokeStyle = this.borderColor;
     
-    let xCoord, yCoord
+    let xCoord = baseCoord.w + pixelRatio * (this.xCoord + this.xOffset);
+    let yCoord = baseCoord.h + pixelRatio * (this.yCoord + this.yOffset);
+    let width = pixelRatio * this.width
+    let height = pixelRatio * this.height
 
-    xCoord = baseCoord.w + pixelRatio * (this.xCoord + this.xOffset);
-    yCoord = baseCoord.h + pixelRatio * (this.yCoord + this.yOffset);
-
-    console.log(this.xCoord, this.yCoord, xCoord, yCoord, this.xOffset, this.yOffset, baseCoord.w, baseCoord.h)
     context.beginPath();
-    context.moveTo(xCoord, yCoord);
-    context.lineTo(xCoord + this.width, yCoord);
-    context.lineTo(xCoord + this.width/2, yCoord - this.height);
-    context.lineTo(xCoord, yCoord);
+    context.moveTo(xCoord, yCoord + height);
+    context.lineTo(xCoord + width, yCoord + height);
+    context.lineTo(xCoord + width/2, yCoord);
+    context.lineTo(xCoord, yCoord + height);
 
     context.fill();
 
