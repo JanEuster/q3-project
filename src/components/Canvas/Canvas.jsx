@@ -42,7 +42,7 @@ Doc.addObjects([
     [500, 2970],
     [1000, 100],
   ]),
-  new Text(350, 1200, "lalala", "Iosevka bold"),
+  new Text(350, 1200, "lalala", "iosevka black"),
   new Triangle(0, 0, 100, 100, "#3333FF", "#000000", 0, false)
 ]);
 
