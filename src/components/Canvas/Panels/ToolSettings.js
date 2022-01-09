@@ -115,7 +115,7 @@ class ToolSettingsPanel extends Panel {
     this.components = [
       new PanelTitle(5, 20, "Tool Settings", 17),
       new PanelFunctionalText(6, 32, () => {
-        return "->"+this.toolManager.activeTool.constructor.name
+        return "->"+this.toolManager.activeTool.name
       }, 12)]
     this.toolSettings = {
       "select": {
