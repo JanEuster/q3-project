@@ -28,7 +28,7 @@ class PanelButton extends BasePanelComponent {
         this.sS = colors.darkgrey
         this.lW = 5
 
-        this.boundingBox = new BoundingBox(x, y, w, h)
+        this.boundingBox = new BoundingBox(x, y -this.lW, w +this.lW, h +this.lW) // NOTE: this expands boundingBox by 5px for all PanelButton derivatives as well
     }
 
     render(context, panelOffset) {
@@ -36,6 +36,10 @@ class PanelButton extends BasePanelComponent {
         context.strokeStyle = this.sS
         context.lineWidth = this.lW
 
+        // console.log(
+        //                 panelOffset.x + this.coords.x,
+        //     panelOffset.y + this.coords.y,
+        // )
         context.fillRect(
             panelOffset.x + this.coords.x,
             panelOffset.y + this.coords.y,
@@ -53,14 +57,14 @@ class PanelButton extends BasePanelComponent {
 }
 
 class PanelText extends BasePanelComponent {
-    constructor(x, y, text) {
+    constructor(x, y, text, size=15) {
         
         super(x, y)
         
         this.text = text
         // this.width = w
         // this.height = h
-        this.height = 15
+        this.height = size
         this.fixBoundY = this.height * 4/5
         
         this.width = this.height * this.text.length/2
@@ -80,11 +84,24 @@ class PanelText extends BasePanelComponent {
     }
 }
 
-class PanelTitle extends PanelText {
-    constructor(x, y, text) {
-        super(x, y, text)
+class PanelFunctionalText extends PanelText {
+    constructor(x, y, textFunc, size) {
+        super(x, y, textFunc, size)
+    }
+    render(context, panelOffset) {
+    context.font = this.font
+    context.fillStyle = this.fS
 
-        this.height = 25
+    context.fillText(this.text(), panelOffset.x + this.coords.x, panelOffset.y + this.coords.y)
+    // this.boundingBox.render(context, panelOffset)
+}
+}
+
+class PanelTitle extends PanelText {
+    constructor(x, y, text, size=25) {
+        super(x, y, text, size)
+
+        this.height = size
         this.fixBoundY = this.height * 4/5
         
         this.width = this.height * this.text.length / 2
@@ -151,4 +168,4 @@ class PanelTextSwitch extends PanelText {
 }
 
 export default BasePanelComponent
-export { PanelButton, PanelText, PanelTitle, PanelTextSwitch }
+export { PanelButton, PanelText, PanelFunctionalText, PanelTitle, PanelTextSwitch }
