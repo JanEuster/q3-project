@@ -131,7 +131,7 @@ class PencilTool {
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
 
-    this.ToolManager = undefined
+    this.toolManager = undefined
 
     this.name = "pencil"
     // this.use = this.use.bind(this);
@@ -183,9 +183,10 @@ class PencilTool {
 }
 
 class EraserTool extends PencilTool {
-  constructor(radius = "10") {
+  constructor() {
     super();
-    this.radius = radius
+
+    this.toolManager = undefined
 
     this.name = "eraser"
     this.icon = "assets/icons/tools/pen.png"
@@ -203,7 +204,7 @@ class EraserTool extends PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0)); //colour --> getBackgroundColour Artboard Class
       this.currentPath = new Path(
         [[coords.x, coords.y]],
-        ToolManager.strokeWidth,
+        this.toolManager.strokeWidth,
         Doc.getBackgroundColour()
       );
       Doc.addObject(this.currentPath);
@@ -312,12 +313,13 @@ class ToolManager {
     this.tools.push(selectionT, pencilT, eraserT, textT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
-    this.strokeWidth = 5;
+    this.strokeWidth = 10;
     this.strokeStyle = "#111111";
 
     this.lastObj = NaN
 
     pencilT.toolManager = this
+    eraserT.toolManager = this
 
     this.panel = new Toolbox(this);
     this.settingsPanel = new ToolSettingsPanel(this);
