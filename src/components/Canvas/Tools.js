@@ -131,6 +131,7 @@ class PencilTool {
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
 
+    this.ToolManager = undefined
 
     this.name = "pencil"
     // this.use = this.use.bind(this);
@@ -154,8 +155,8 @@ class PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
         [[coords.x, coords.y]],
-        ToolManager.strokeWidth,
-        ToolManager.strokeStyle
+        this.toolManager.strokeWidth,
+        this.toolManager.strokeStyle
       );
       Doc.addObject(this.currentPath);
 
@@ -315,6 +316,8 @@ class ToolManager {
     this.strokeStyle = "#111111";
 
     this.lastObj = NaN
+
+    pencilT.toolManager = this
 
     this.panel = new Toolbox(this);
     this.settingsPanel = new ToolSettingsPanel(this);
