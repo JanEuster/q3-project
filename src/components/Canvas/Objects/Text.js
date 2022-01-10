@@ -66,6 +66,9 @@ class Text extends BaseShape {
         context.font = `${this.fontSize * pixelRatio}px ${this.font}` // i.e. 30px iosevka demibold
         context.fillStyle = this.fillStyle
 
+        this.width = context.measureText(this.text).width / pixelRatio
+        this.setBounds(this.xCoord, this.yCoord)
+
         context.fillText(
             this.text,
             baseCoord.w + pixelRatio * this.xCoord,
