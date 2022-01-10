@@ -76,7 +76,7 @@ class PanelColorSelectorComponent extends BasePanelComponent {
     return this.activeColor
   }
 
-  checkSubCollision(x, y) {
+  handleColission(x, y) {
     this.subComponents.map(comp => {
       if (comp.boundingBox.checkCollision(x, y)) {
         this.activeColor = comp.fS
@@ -136,11 +136,7 @@ class ToolSettingsPanel extends Panel {
 
       components.map(comp => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y)) {
-          if (comp instanceof PanelColorSelectorComponent) {
-            comp.checkSubCollision(x - panelXY.x, y - panelXY.y)
-          } else {
-            comp.handleColission()
-          }
+          comp.handleColission(x - panelXY.x, y - panelXY.y)
         }
       })
       return true
