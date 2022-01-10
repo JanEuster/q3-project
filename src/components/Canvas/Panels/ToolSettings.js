@@ -1,6 +1,6 @@
 import Panel from './BasePanel';
 import BoundingBox from './../Objects/BoundingBox';
-import BasePanelComponent, { PanelButton, PanelFunctionalText, PanelText, PanelTitle } from "./PanelComponents"
+import BasePanelComponent, { PanelButton, PanelFunctionalText, PanelSlider, PanelText, PanelTitle } from "./PanelComponents"
 import { selectionT, pencilT, eraserT, textT } from '../Tools';
 const colors = require("../../colors.json")
 
@@ -119,10 +119,26 @@ class ToolSettingsPanel extends Panel {
       }, 12)]
     this.toolSettings = {
       "select": {
-        components: [ ], size: {height: 160}},
-      "pencil": {components: [new PanelColorSelectorComponent(4, 35, 5, 15, this.toolManager)], size: {height: 170}},
-      "eraser": {components: [], size: {height: 160}},
-      "text":   {components: [], size: {height: 160}}
+        components: [
+
+         ], size: {height: 160}},
+      "pencil": {components: [
+        new PanelColorSelectorComponent(4, 35, 5, 15, this.toolManager),
+        new PanelText(10, 176, "Line Width", 13),
+        new PanelSlider(10, 180, 100, 20, (pos) => {this.toolManager.strokeWidth = pos * 40})
+      ], size: { height: 210 }
+      },
+      "eraser": {
+        components: [
+        new PanelText(10, 56, "Line Width", 13),
+        new PanelSlider(10, 60, 100, 20, (pos) => {this.toolManager.strokeWidth = pos * 40})
+      ], size: {height: 160}},
+      "text": {
+        components: [
+        new PanelText(10, 56, "Font Size", 13),
+        new PanelSlider(10, 60, 100, 20, (pos) => { this.toolManager.fontSize = pos * 250 })
+        ], size: { height: 160 }
+      }
     }
   }
 
