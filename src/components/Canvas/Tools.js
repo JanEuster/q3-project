@@ -308,7 +308,7 @@ class ShapeTool {
       window.innerHeight
       );
 
-    let shape = this.shapes[1];
+    let shape = this.shapes[2];
 
     if(e.type === "mousedown") {
       this.inUse = true;
@@ -324,11 +324,10 @@ class ShapeTool {
       console.log(radius, this.x1, e.pageX);
       if(shape === "circle") {
         Doc.addObject(new Circle(this.x1, this.y1, radius))
-        //boundingbx anpassen 
       } else if(shape === "rectangle") {
         Doc.addObject(new Rectangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
       } else if(shape === "triangle") {
-        Doc.addObject(new Triangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
+        Doc.addObject(new Triangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1)); //switch height and width to rotate boundingbox 90° to fix that issue
         //TODO: vertical and horizontal boundingbox anpassen
       } else {console.log("ERROR SHAPE-SELECTION")}
     }

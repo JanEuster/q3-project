@@ -82,9 +82,9 @@ class Circle extends BaseShape {
     fillColor = "#000000",
     borderColor = "#393939",
     borderWidth = 25,
-    mode = "centered" // mode=center means x and y coords are at the center of the objects
+    mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord, yCoord, radius*2, radius*2);
+    super(xCoord-radius, yCoord-radius, radius*2, radius*2);
     
     //console.log("CIRCLE: " + xCoord, yCoord, radius);
     if (mode === "centered") {
@@ -132,7 +132,7 @@ class Triangle extends BaseShape {
     mode = undefined
   ) {
     console.log("COORDS:" + xCoord, yCoord, width, height)
-    super(xCoord, yCoord, height, width);
+    super(xCoord, yCoord, width, height);
 
     if (mode === "centered") {
       this.xOffset = -width/2;
