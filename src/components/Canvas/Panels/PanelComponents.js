@@ -167,5 +167,71 @@ class PanelTextSwitch extends PanelText {
     }
 }
 
+class PanelSlider extends BasePanelComponent {
+
+    constructor(x, y, w, h=25) {
+        super(x, y)
+
+        this.width = w
+        this.height = h
+        
+        this.fS = colors.darkgrey
+        this.sS = colors.darkgrey
+        this.lW = 5
+
+        this.sliderPosition = 0.5 // number 0-1 position of knob along slider
+        this.knobWidth = this.height/2
+
+        this.boundingBox = new BoundingBox(x, y -this.lW, w +this.lW, h +this.lW) // NOTE: this expands boundingBox by 5px for all PanelButton derivatives as well
+    }
+
+    handleColission(x, y) {
+        let xPercent = (x - this.coords.x) / this.width
+        console.log(xPercent)
+        this.setSliderPos(xPercent)
+    }
+
+    getSliderPos() {
+        return this.sliderPosition
+    }
+    setSliderPos(pos) {
+        if (pos < 0) {
+            this.sliderPosition = 0
+        } else if (pos > 1) {
+            this.sliderPosition = 1
+        } else {
+            this.sliderPosition = pos
+        }
+    }
+
+    render(context, panelOffset) {
+        context.fillStyle = this.fS
+        context.strokeStyle = this.sS
+        context.lineWidth = this.lW
+
+
+        // 
+        context.beginPath()
+        context.moveTo(
+            panelOffset.x + this.coords.x,
+            panelOffset.y + this.coords.y + this.height / 2
+        )
+        context.lineTo(
+            panelOffset.x + this.coords.x + this.width,
+            panelOffset.y + this.coords.y + this.height / 2
+        )
+        context.stroke()
+        context.closePath()
+        
+        context.fillRect(
+            panelOffset.x + this.coords.x + this.sliderPosition * this.width - this.knobWidth/2,
+            panelOffset.y + this.coords.y,
+            this.knobWidth,
+            this.height
+        )
+        // this.boundingBox.render(context, panelOffset)
+    }
+}
+
 export default BasePanelComponent
-export { PanelButton, PanelText, PanelFunctionalText, PanelTitle, PanelTextSwitch }
+export { PanelButton, PanelText, PanelFunctionalText, PanelTitle, PanelTextSwitch, PanelSlider }
