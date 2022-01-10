@@ -224,6 +224,8 @@ class TextTool {
   constructor() {
     this.activeObject = NaN;
 
+    this.toolManager = undefined
+
     this.name = "text"
     this.icon = "assets/icons/tools/select.png"
   }
@@ -244,15 +246,15 @@ class TextTool {
     );
 
     if (e.type === "click") {
-      this.activeObject = new Text(coords.x, coords.y, "lol")
+      this.activeObject = new Text(coords.x, coords.y, "", this.toolManager.font, this.toolManager.fontSize)
 
     } else if (e.type === "mousedown") {
-      this.activeObject = new Text(coords.x, coords.y, "lol")
+      this.activeObject = new Text(coords.x, coords.y, "", this.toolManager.font, this.toolManager.fontSize)
       Doc.objects.push(this.activeObject)
     } else if (this.activeObject && e.type === "keypress") {
       this.activeObject.addText(e.key)
     } else if (this.activeObject && e.type === "keydown") {
-
+      
       if (e.key === "Escape") {
         this.activeObject = NaN
       } else if (e.key === "Backspace") {
@@ -260,6 +262,12 @@ class TextTool {
       }
       
     }    
+
+    if (this.activeObject) {
+      this.activeObject.fontSize = this.toolManager.fontSize
+      this.activeObject.setWidthHeight()
+      this.activeObject.setBounds()
+    }
   }
 
   deselect() { 
@@ -315,11 +323,14 @@ class ToolManager {
     this.activeTool = this.tools[0];
     this.strokeWidth = 10;
     this.strokeStyle = "#111111";
+    this.font = "Iosevka bold"
+    this.fontSize = 100
 
     this.lastObj = NaN
 
     pencilT.toolManager = this
     eraserT.toolManager = this
+    textT.toolManager = this
 
     this.panel = new Toolbox(this);
     this.settingsPanel = new ToolSettingsPanel(this);

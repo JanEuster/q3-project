@@ -169,11 +169,13 @@ class PanelTextSwitch extends PanelText {
 
 class PanelSlider extends BasePanelComponent {
 
-    constructor(x, y, w, h=25) {
+    constructor(x, y, w, h=28, func=undefined) {
         super(x, y)
 
         this.width = w
         this.height = h
+
+        this.func = func
         
         this.fS = colors.darkgrey
         this.sS = colors.darkgrey
@@ -183,6 +185,8 @@ class PanelSlider extends BasePanelComponent {
         this.knobWidth = this.height/2
 
         this.boundingBox = new BoundingBox(x, y -this.lW, w +this.lW, h +this.lW) // NOTE: this expands boundingBox by 5px for all PanelButton derivatives as well
+
+        this.setSliderPos(this.sliderPosition)
     }
 
     handleColission(x, y) {
@@ -201,6 +205,9 @@ class PanelSlider extends BasePanelComponent {
             this.sliderPosition = 1
         } else {
             this.sliderPosition = pos
+        }
+        if (this.func) {
+            this.func(this.sliderPosition)
         }
     }
 
@@ -224,7 +231,14 @@ class PanelSlider extends BasePanelComponent {
         context.closePath()
         
         context.fillRect(
-            panelOffset.x + this.coords.x + this.sliderPosition * this.width - this.knobWidth/2,
+            panelOffset.x + this.coords.x + this.sliderPosition * (this.width - this.knobWidth),
+            panelOffset.y + this.coords.y,
+            this.knobWidth,
+            this.height
+        )
+        context.strokeStyle = colors.grey
+        context.strokeRect(
+            panelOffset.x + this.coords.x + this.sliderPosition * (this.width - this.knobWidth),
             panelOffset.y + this.coords.y,
             this.knobWidth,
             this.height
