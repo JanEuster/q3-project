@@ -3,7 +3,7 @@ import BoundingBox from "./BoundingBox";
 
 
 class Text extends BaseShape {
-    constructor(x, y, text = "", font = "Iosevka black", fontSize = 100, fillStyle = "#393939") {
+    constructor(x, y, text = "", font = "Iosevka Bold", fontSize = 100, fillStyle = "#393939") {
         super(x, y, 0, 0)
         this.text = text
         this.font = font
