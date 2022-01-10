@@ -189,7 +189,7 @@ class EraserTool extends PencilTool {
     this.toolManager = undefined
 
     this.name = "eraser"
-    this.icon = "assets/icons/tools/pen.png"
+    this.icon = "assets/icons/tools/eraser.png"
   }
   use(e, Doc) {
     let coords = Doc.localCoords(
@@ -227,7 +227,7 @@ class TextTool {
     this.toolManager = undefined
 
     this.name = "text"
-    this.icon = "assets/icons/tools/select.png"
+    this.icon = "assets/icons/tools/text.png"
   }
 
   select(obj) {
