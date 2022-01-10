@@ -41,7 +41,7 @@ Doc.addObjects([
     [500, 2970],
     [1000, 100],
   ]),
-  new Text(350, 1200, "lalala", "iosevka black")
+  new Text(350, 1200, "lalala", "Iosevka bold")
 ]);
 
 const Canvas = (props) => {
