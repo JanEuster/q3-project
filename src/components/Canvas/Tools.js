@@ -1,5 +1,5 @@
 import Toolbox from "./Panels/Toolbox";
-import { Circle, Rectangle } from "./Objects/BasicShapes";
+import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import colors from "../colors.json"
 import Text from "./Objects/Text";
@@ -290,16 +290,64 @@ class TextTool {
 }
 
 
+class ShapeTool {
+  constructor() {
+    this.icon = "assets/icons/tools/select.png";
+    this.shapes = []
+    this.shapes.push("circle", "rectangle", "triangle");
+  }
+  select(){}
+  graphic(){}
+  deselect(){}//deselect --> obj create 
+  use(e, Doc) {
+
+    let coords = Doc.localCoords(
+      e.pageX,
+      e.pageY,
+      window.innerWidth,
+      window.innerHeight
+      );
+
+    let shape = this.shapes[1];
+
+    if(e.type === "mousedown") {
+      this.inUse = true;
+      this.x1 = coords.x;
+      this.y1 = coords.y;
+
+      console.log(this.x1, this.y1);
+      console.log(this.x1, this.y1);
+    } else if(e.type === "mouseup") {
+      this.inUse = false;
+      console.log("MOUSEUP:" + coords.x, coords.y)
+      let radius = Math.sqrt(Math.pow((this.x1 - coords.x), 2) + Math.pow((this.y1 - coords.y), 2));
+      console.log(radius, this.x1, e.pageX);
+      if(shape === "circle") {
+        Doc.addObject(new Circle(this.x1, this.y1, radius))
+        //boundingbx anpassen 
+      } else if(shape === "rectangle") {
+        Doc.addObject(new Rectangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
+      } else if(shape === "triangle") {
+        Doc.addObject(new Triangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
+        //TODO: vertical and horizontal boundingbox anpassen
+      } else {console.log("ERROR SHAPE-SELECTION")}
+    }
+    this.inUse = false;
+  }
+}
+
+
 var selectionT = new SelectionTool()
 var pencilT = new PencilTool()
 var eraserT = new EraserTool()
 var textT = new TextTool()
+var shapeT = new ShapeTool()
 
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
     this.tools = [];
-    this.tools.push(selectionT, pencilT, eraserT, textT);
+    this.tools.push(selectionT, pencilT, eraserT, textT, shapeT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
     this.strokeWidth = 5;
