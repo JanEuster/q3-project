@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Iosevka";
+  src: local("Iosevka"), url(./fonts/iosevka-regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Iosevka bold";
+  src: local("Iosevka Bold"), url(./fonts/iosevka-bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "iosevka semibold";
+  src: local("Iosevka Semibold"), url(./fonts/iosevka-semibold.ttf) format("truetype");
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -1,8 +1,3 @@
-@font-face {
-  font-family: "iosevka";
-  src: url("iosevka-regular.ttc");
-}
-
 :root {
   --light-orange: #f3aa59;
   --mid-orange: #fa7d36;

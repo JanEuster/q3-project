@@ -65,7 +65,7 @@ class PanelText extends BasePanelComponent {
         
         this.width = this.height * this.text.length/2
 
-        this.font = `${this.height}px iosevka demibold`
+        this.font = `${this.height}px iosevka semibold`
         this.fS = colors.darkgrey
         
         this.boundingBox = new BoundingBox(x, y-this.fixBoundY, this.width, this.height)
@@ -88,7 +88,7 @@ class PanelTitle extends PanelText {
         this.fixBoundY = this.height * 4/5
         
         this.width = this.height * this.text.length / 2
-        this.font = `${this.height}px iosevka black`
+        this.font = `${this.height}px iosevka bold`
 
         
         this.boundingBox = new BoundingBox(x, y-this.fixBoundY, this.width, this.height)

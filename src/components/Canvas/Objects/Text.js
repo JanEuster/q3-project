@@ -3,7 +3,7 @@ import BoundingBox from "./BoundingBox";
 
 
 class Text extends BaseShape {
-    constructor(x, y, text = "", font = "Iosevka black", fontSize = 100, fillStyle = "#393939") {
+    constructor(x, y, text = "", font = "Iosevka Bold", fontSize = 100, fillStyle = "#393939") {
         super(x, y, 0, 0)
         this.text = text
         this.font = font
@@ -65,6 +65,9 @@ class Text extends BaseShape {
     render(context, pixelRatio, baseCoord) {
         context.font = `${this.fontSize * pixelRatio}px ${this.font}` // i.e. 30px iosevka demibold
         context.fillStyle = this.fillStyle
+
+        this.width = context.measureText(this.text).width / pixelRatio
+        this.setBounds(this.xCoord, this.yCoord)
 
         context.fillText(
             this.text,
