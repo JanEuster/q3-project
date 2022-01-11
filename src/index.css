@@ -9,8 +9,18 @@
 }
 
 @font-face {
-  font-family: "iosevka semibold";
+  font-family: "Iosevka semibold";
   src: local("Iosevka Semibold"), url(./fonts/iosevka-semibold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Iosevka heavy";
+  src: local("Iosevka Heavy"), url(./fonts/iosevka-heavy.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "iosevka extended heavy";
+  src: local("Iosevka Extended Heavy"), url(./fonts/iosevka-extendedheavy.ttf) format("truetype");
 }
 
 
