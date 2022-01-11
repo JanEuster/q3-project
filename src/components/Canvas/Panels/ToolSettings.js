@@ -68,7 +68,6 @@ class PanelColorSelectorComponent extends BasePanelComponent {
   }
 
   setActiveColor() {
-    console.log("a")
     this.subComponents[0].fS = this.activeColor
     this.toolManager.strokeStyle = this.activeColor
   }
