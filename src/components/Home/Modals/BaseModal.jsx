@@ -29,7 +29,7 @@ const Title = styled.div`
 const SubmitButtonStyle = styled.button`
 	position: absolute;
 	display: block;
-	left: 75%;
+	${({side}) => side || "right"}: 25%;
 	top: 80%;
 	background-color: ${ colors.grey };
 	color: ${ colors.darkgrey };
@@ -43,8 +43,13 @@ const SubmitButtonStyle = styled.button`
 
 function TextButton(props) {
 	return (
-		<SubmitButtonStyle>
+        <SubmitButtonStyle side={props.side}>
+            { props.redirect &&
 			<Link to={props.redirect} style={{margin: "0.2vw", fontFamily: 'inherit', color: 'inherit'}} onClick={()=>{}} dangerouslySetInnerHTML={{__html: props.text}}></Link>
+            }
+            { props.func &&
+            <div style={{margin: "0.2vw", fontFamily: 'inherit', color: 'inherit'}} onClick={() => props.func() } dangerouslySetInnerHTML={{__html: props.text}}></div>
+            }
 		</SubmitButtonStyle>
 	)
 }
@@ -55,6 +60,7 @@ const HomeModal = (props) => {
             <ModalBox>
             <Title> Create New Document </Title>
             <TextButton text="Create" redirect={props.redirect}/>
+            <TextButton text="Back" side="left" func={props.func}/>
             </ModalBox>
 )
     }

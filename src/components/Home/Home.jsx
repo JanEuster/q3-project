@@ -20,10 +20,10 @@ function Home(props) {
         }
     })
 
-    
+
     return (
         <>
-        <HomeModal isOpen={isOpenNew} redirect="new" />
+            <HomeModal isOpen={isOpenNew} redirect="new" func={ () => {setOpenNew("false")} }/>
         <Blurred blur={isOpenAny}>
             <div className="home">
                 {/* <NewFileModal />
@@ -39,7 +39,7 @@ function Home(props) {
                             <h3> {props.subtitle} </h3>
                         </div>
                     </div> */}
-                        <MainButton title="New Document" subtitle="fileformat" onClick={() => { isOpenNew === "false" ? setOpenNew("true") : setOpenNew("false"); console.log(isOpenNew)} }/>
+                        <MainButton title="New Document" subtitle="fileformat" onClick={() => { isOpenNew === "false" ? setOpenNew("true") : setOpenNew("false")} }/>
                 <MainButton title="Import" subtitle="pdf png jgp flipchart" link="doc/"/>	
                 </div>
                 <div className="small-buttons">
