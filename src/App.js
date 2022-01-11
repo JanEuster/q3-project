@@ -2,7 +2,6 @@ import logo from "./logo.svg";
 import "./App.css";
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import ReactModal from "react-modal";
 import Navbar from "./Navbar.js";
 import Canvas from "./components/Canvas/Canvas.jsx";
 import { HashRouter } from "react-router-dom";
