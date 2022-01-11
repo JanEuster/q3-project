@@ -37,6 +37,7 @@ class Rectangle extends BaseShape {
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
 
+    console.log("COORDS:" + xCoord, yCoord, width, height)
     super(xCoord, yCoord, Math.abs(width), Math.abs(height))
     //super(bCoords[0], bCoords[1], bCoords[2], bCoords[3]);
 
@@ -133,27 +134,7 @@ class Triangle extends BaseShape {
     borderWidth = 25,
     mode = undefined
   ) {
-    //console.log("COORDS:" + xCoord, yCoord, width, height)
-
-    let b_width = width;
-    let b_height = height;
-    let b_yCoord = yCoord;
-    let b_xCoord = xCoord;
-
-    if ( width < 0 && height > 0 ) { //top right corner
-      b_xCoord = xCoord + width;
-    } else if ( height < 0 && width > 0 ) { //bottom left corner
-      b_yCoord = yCoord + height;
-    } else if ( width < 0 && height < 0 ) { //bottom right corner
-      b_xCoord = xCoord + b_width;
-      b_yCoord = yCoord + b_height;
-    } else { //top left
-      b_width = width;
-      b_height =  height;
-    }
-
-    console.log("COORDS:" + xCoord, yCoord, b_width, b_height)
-    super(b_xCoord, b_yCoord, Math.abs(width), Math.abs(height)); //width and height cant take on negative values
+    super(xCoord, yCoord, Math.abs(width), Math.abs(height)); //width and height cant take on negative values
 
     if (mode === "centered") {
       this.xOffset = -width/2;
