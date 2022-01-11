@@ -134,6 +134,10 @@ class ToolSettingsPanel extends Panel {
         new PanelText(10, 56, "Font Size", 13),
         new PanelSlider(10, 60, 100, 20, (pos) => { this.toolManager.fontSize = pos * 250 })
         ], size: { height: 160 }
+      },
+      "shapes": {
+        components: [
+        ], size: { height: 100 }
       }
     }
   }

@@ -315,6 +315,8 @@ class ShapeTool {
 	  this.icon = "assets/icons/tools/shapes.png";
 	  this.shapes = ["circle", "rectangle", "triangle"]
 	  
+    this.name = "shapes"
+
 	  this.currentShape = undefined
     this.lastShape = this.currentShape
   }
