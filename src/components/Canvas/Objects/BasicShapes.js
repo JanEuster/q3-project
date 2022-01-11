@@ -37,7 +37,6 @@ class Rectangle extends BaseShape {
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
 
-    console.log("COORDS:" + xCoord, yCoord, width, height)
     super(xCoord, yCoord, Math.abs(width), Math.abs(height))
     //super(bCoords[0], bCoords[1], bCoords[2], bCoords[3]);
 
