@@ -297,8 +297,12 @@ class ShapeTool {
     this.shapes.push("circle", "rectangle", "triangle");
   }
   select(){}
-  graphic(){}
-  deselect(){}//deselect --> obj create 
+  graphic(context, artMeta){}
+  deselect(){ 
+    this.x1 = NaN;
+    this.y1 = NaN;
+  }
+
   use(e, Doc) {
 
     let coords = Doc.localCoords(
@@ -308,7 +312,7 @@ class ShapeTool {
       window.innerHeight
       );
 
-    let shape = this.shapes[2];
+    let shape = this.shapes[0];
 
     if(e.type === "mousedown") {
       this.inUse = true;
@@ -327,11 +331,10 @@ class ShapeTool {
       } else if(shape === "rectangle") {
         Doc.addObject(new Rectangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
       } else if(shape === "triangle") {
-        Doc.addObject(new Triangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1)); //switch height and width to rotate boundingbox 90° to fix that issue
-        //TODO: vertical and horizontal boundingbox anpassen
+        Doc.addObject(new Triangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
       } else {console.log("ERROR SHAPE-SELECTION")}
     }
-    this.inUse = false;
+    this.inUse = false;    
   }
 }
 
@@ -375,4 +378,4 @@ class ToolManager {
 }
 
 export default ToolManager;
-export { selectionT, pencilT, eraserT, textT };
+export { selectionT, pencilT, eraserT, textT, shapeT};
