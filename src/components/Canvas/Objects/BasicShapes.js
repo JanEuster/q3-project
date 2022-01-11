@@ -1,23 +1,5 @@
 import BoundingBox from "./BoundingBox";
 
-function convertBoundingboxCoords(x, y, width, height) {
-  width = Math.abs(width);
-  height = Math.abs(height);
-  if ( width < 0 && height > 0 ) { //top right corner
-    x = x + width;
-  } else if ( height < 0 && width > 0 ) { //bottom left corner
-    y = y + height;
-  } else if ( width < 0 && height < 0 ) { //bottom right corner
-    x = x + width;
-    y = y + height;
-  } else { //top left
-    width = width;
-    height = height;
-  }
-  console.log("BCOORDS:" + x, y, Math.abs(width), Math.abs(height));
-  return [x, y, width, height]
-};
-
 class BaseShape {
   constructor(xCoord, yCoord, width, height) {
     // every object inherits a boundingbox
@@ -54,25 +36,7 @@ class Rectangle extends BaseShape {
     borderWidth = 25,
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-    //console.log("COORDS:" + xCoord, yCoord, width, height)
-    let bCoords = []
-    if ( width < 0 && height > 0 ) { //top right corner
-      xCoord = xCoord + width;
-    } else if ( height < 0 && width > 0 ) { //bottom left corner
-      yCoord = yCoord + height;
-    } else if ( width < 0 && height < 0 ) { //bottom right corner
-      xCoord = xCoord + width;
-      yCoord = yCoord + height;
-    } else { //top left
-      width = width;
-      height =  height;
-    }
-    for (let i = 0; i < convertBoundingboxCoords(xCoord, yCoord, width, height).length; i++) {
-      bCoords.push(convertBoundingboxCoords(xCoord, yCoord, width, height)[i]);
-    }
-    //bCoords.push(convertBoundingboxCoords(xCoord, yCoord, width, height));
-    console.log(bCoords[0], bCoords[1], bCoords[2], bCoords[3])
-    console.log("COORDS:" + xCoord, yCoord, width, height)
+
     super(xCoord, yCoord, Math.abs(width), Math.abs(height))
     //super(bCoords[0], bCoords[1], bCoords[2], bCoords[3]);
 

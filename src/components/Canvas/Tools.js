@@ -292,50 +292,77 @@ class TextTool {
 
 class ShapeTool {
   constructor() {
-    this.icon = "assets/icons/tools/select.png";
-    this.shapes = []
-    this.shapes.push("circle", "rectangle", "triangle");
+	  this.icon = "assets/icons/tools/select.png";
+	  this.shapes = ["circle", "rectangle", "triangle"]
+	  
+	  this.currentShape = undefined
+    this.lastShape = this.currentShape
   }
   select(){}
-  graphic(context, artMeta){}
-  deselect(){ 
-    this.x1 = NaN;
-    this.y1 = NaN;
-  }
-
+  
   use(e, Doc) {
-
+    
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
       window.innerWidth,
       window.innerHeight
       );
-
-    let shape = this.shapes[0];
-
-    if(e.type === "mousedown") {
-      this.inUse = true;
-      this.x1 = coords.x;
-      this.y1 = coords.y;
-
-      console.log(this.x1, this.y1);
-      console.log(this.x1, this.y1);
-    } else if(e.type === "mouseup") {
-      this.inUse = false;
-      console.log("MOUSEUP:" + coords.x, coords.y)
-      let radius = Math.sqrt(Math.pow((this.x1 - coords.x), 2) + Math.pow((this.y1 - coords.y), 2));
-      console.log(radius, this.x1, e.pageX);
-      if(shape === "circle") {
-        Doc.addObject(new Circle(this.x1, this.y1, radius))
-      } else if(shape === "rectangle") {
-        Doc.addObject(new Rectangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
-      } else if(shape === "triangle") {
-        Doc.addObject(new Triangle(this.x1, this.y1, coords.x - this.x1, coords.y - this.y1));
-      } else {console.log("ERROR SHAPE-SELECTION")}
+      
+      let shape = this.shapes[2];
+      console.log(this.inUse, e.type)
+      if (e.type === "mousedown") {
+        console.log(coords.x, coords.y)
+        this.inUse = true;
+        this.x1 = coords.x;
+        this.y1 = coords.y;
+        
+        if (shape === "circle") {
+          this.currentShape = new Circle(this.x1, this.y1, 0);
+        } else if (shape === "rectangle") {
+          this.currentShape = new Rectangle(this.x1, this.y1, 0, 0);
+        } else if (shape === "triangle") {
+          this.currentShape = new Triangle(this.x1, this.y1, 0, 0);
+        } else { console.log("ERROR SHAPE-SELECTION") }
+        Doc.addObject(this.currentShape)
+        
+        console.log(this.currentShape)
+      } else if (this.inUse && e.type === "mousemove") {
+        
+        console.log(this.currentShape)
+        
+        if (this.currentShape instanceof Rectangle || this.currentShape instanceof Triangle) {
+          this.currentShape.width = coords.x - this.x1
+          this.currentShape.height = coords.y - this.y1
+        } else if (this.currentShape instanceof Circle) {
+          this.currentShape.radius = Math.sqrt(Math.pow((this.x1 - coords.x), 2) + Math.pow((this.y1 - coords.y), 2));
+        }
+      }
+      
+      else if (this.inUse && e.type === "mouseup") {
+        if (this.currentShape instanceof Circle) {
+          var x = this.currentShape.xCoord - this.currentShape.radius;
+          var y = this.currentShape.yCoord - this.currentShape.radius;
+          var width = this.currentShape.radius * 2;
+          var height = this.currentShape.radius * 2;
+          
+        } else {
+          var x = this.currentShape.xCoord;
+          var y = this.currentShape.yCoord;
+          var width = this.currentShape.width;
+          var height = this.currentShape.height;
+        }
+        
+        this.currentShape.boundingBox.setBounds(x, y, x + width, y + height)
+        this.inUse = false;
+        this.lastShape = this.currentShape
+        this.currentShape = undefined
+      }
     }
-    this.inUse = false;    
-  }
+    deselect(){ 
+      return this.lastShape
+    }
+    graphic(context, artMeta){}
 }
 
 
