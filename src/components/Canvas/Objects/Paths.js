@@ -71,7 +71,7 @@ class Path extends BaseShape {
     var pointsAmount = 5
     var pointsLength = this.points.length
     var pointsRemoved = 0;
-    var distCutoff = 3
+    var distCutoff = 2.45
 
 
     for (let i = 1; i < this.points.length; i++) {
