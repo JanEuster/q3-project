@@ -292,7 +292,7 @@ class TextTool {
 
 class ShapeTool {
   constructor() {
-	  this.icon = "assets/icons/tools/select.png";
+	  this.icon = "assets/icons/tools/shapes.png";
 	  this.shapes = ["circle", "rectangle", "triangle"]
 	  
 	  this.currentShape = undefined
