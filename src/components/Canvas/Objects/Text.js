@@ -15,7 +15,7 @@ class Text extends BaseShape {
         this.setBounds(x, y)
     }
 
-    setBounds(x, y) {
+    setBounds(x=this.xCoord, y=this.yCoord) {
         this.boundingBox.setBounds(x, y - this.height, x + this.width, y)
     }
 

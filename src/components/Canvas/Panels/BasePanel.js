@@ -27,7 +27,7 @@ class Panel {
         this.boundingBox = new BoundingBox(panelXY.x - this.bhalf, panelXY.y - this.bhalf, this.width + this.border, this.height + this.border)
         if (this.boundingBox.checkCollision(x, y)) {
             this.components.map(comp => {
-                if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y)) comp.handleColission()
+                if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y)) comp.handleColission(x - panelXY.x, y - panelXY.y)
             })
             return true
         }

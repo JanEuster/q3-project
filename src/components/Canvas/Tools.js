@@ -3,6 +3,11 @@ import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import colors from "../colors.json"
 import Text from "./Objects/Text";
+import Panel from "./Panels/BasePanel";
+import ToolSettingsPanel from './Panels/ToolSettings';
+
+
+let toolSettingsPanel = new Panel()
 
 
 // function object
@@ -14,6 +19,7 @@ class SelectionTool {
     
     this.lastEventUp = false // was last event mouseup -> next click event can be ignored
 
+    this.name = "select"
     this.icon = "assets/icons/tools/select.png"
   }
 
@@ -125,7 +131,9 @@ class PencilTool {
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
 
+    this.toolManager = undefined
 
+    this.name = "pencil"
     // this.use = this.use.bind(this);
     this.icon = "assets/icons/tools/pencil.png"
   }
@@ -147,8 +155,8 @@ class PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
         [[coords.x, coords.y]],
-        ToolManager.strokeWidth,
-        ToolManager.strokeStyle
+        this.toolManager.strokeWidth,
+        this.toolManager.strokeStyle
       );
       Doc.addObject(this.currentPath);
 
@@ -175,10 +183,12 @@ class PencilTool {
 }
 
 class EraserTool extends PencilTool {
-  constructor(radius = "10") {
+  constructor() {
     super();
-    this.radius = radius
 
+    this.toolManager = undefined
+
+    this.name = "eraser"
     this.icon = "assets/icons/tools/eraser.png"
   }
   use(e, Doc) {
@@ -194,7 +204,7 @@ class EraserTool extends PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0)); //colour --> getBackgroundColour Artboard Class
       this.currentPath = new Path(
         [[coords.x, coords.y]],
-        ToolManager.strokeWidth,
+        this.toolManager.strokeWidth,
         Doc.getBackgroundColour()
       );
       Doc.addObject(this.currentPath);
@@ -214,6 +224,10 @@ class TextTool {
   constructor() {
     this.activeObject = NaN;
 
+    this.toolManager = undefined
+    
+    this.name = "text"
+      
     this.icon = "assets/icons/tools/text.png"
   }
 
@@ -233,15 +247,15 @@ class TextTool {
     );
 
     if (e.type === "click") {
-      this.activeObject = new Text(coords.x, coords.y, "lol")
+      this.activeObject = new Text(coords.x, coords.y, "", this.toolManager.font, this.toolManager.fontSize)
 
     } else if (e.type === "mousedown") {
-      this.activeObject = new Text(coords.x, coords.y, "lol")
+      this.activeObject = new Text(coords.x, coords.y, "", this.toolManager.font, this.toolManager.fontSize)
       Doc.objects.push(this.activeObject)
     } else if (this.activeObject && e.type === "keypress") {
       this.activeObject.addText(e.key)
     } else if (this.activeObject && e.type === "keydown") {
-
+      
       if (e.key === "Escape") {
         this.activeObject = NaN
       } else if (e.key === "Backspace") {
@@ -249,6 +263,12 @@ class TextTool {
       }
       
     }    
+
+    if (this.activeObject) {
+      this.activeObject.fontSize = this.toolManager.fontSize
+      this.activeObject.setWidthHeight()
+      this.activeObject.setBounds()
+    }
   }
 
   deselect() { 
@@ -406,12 +426,19 @@ class ToolManager {
     this.tools.push(selectionT, pencilT, eraserT, textT, shapeT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
-    this.strokeWidth = 5;
+    this.strokeWidth = 10;
     this.strokeStyle = "#111111";
+    this.font = "Iosevka bold"
+    this.fontSize = 100
 
     this.lastObj = NaN
 
+    pencilT.toolManager = this
+    eraserT.toolManager = this
+    textT.toolManager = this
+
     this.panel = new Toolbox(this);
+    this.settingsPanel = new ToolSettingsPanel(this);
   }
 
   toolSelect() {

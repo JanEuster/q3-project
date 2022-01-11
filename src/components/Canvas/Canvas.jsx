@@ -7,7 +7,9 @@ import Text from "./Objects/Text"
 
 import "./Canvas.css";
 import Panel from "./Panels/BasePanel";
-import { PanelButton, PanelText, PanelTextSwitch, PanelTitle } from "./Panels/PanelComponents";
+import SettingsToolPanel from "./Panels/ToolSettings"
+import { PanelButton, PanelSlider, PanelText, PanelTextSwitch, PanelTitle } from "./Panels/PanelComponents";
+
 
 // simport { ipcRenderer } from "electron";
 // const app = require("electron").remote.app;
@@ -22,8 +24,8 @@ var useTool = Tools.toolUse; //create object bound function - when passing funct
 
 // testing panels
 var testPanel = new Panel(20, -350, 200, 300, 16, 8)
-testPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Test" ), new PanelText( 20, 50, "testing testing please" ), new PanelTextSwitch( 20, 80, "testing" )]
-var Panels = [Tools.panel, testPanel]
+testPanel.components = [new PanelButton( 20, 100, 20, 20 ), new PanelTitle( 20, 30, "Test" ), new PanelText( 20, 50, "testing testing please" ), new PanelTextSwitch( 20, 80, "testing" ), new PanelSlider(15, 130, 170)]
+var Panels = [Tools.panel, Tools.settingsPanel, testPanel]
 console.log(Panels)
 
 // var Panels = [Tools.panel] // actual panels
@@ -82,7 +84,8 @@ const Canvas = (props) => {
       updateCanvas()
     }
 
-    let lastEventType = NaN
+    let lastEventType = undefined
+    let beforeMouseMove = undefined
     function handleMouseEvent(e) {
 
       if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
@@ -91,8 +94,12 @@ const Canvas = (props) => {
       }
       lastEventType = e.type
 
+      // if (e.type !== "mousemove") { beforeMouseMove = e.type }
+      // || (beforeMouseMove === "mousedown" && e.type === "mousemove")
+      // TODO: enable smooth dragging of slider panel component  with code above, without interrupting tool use/ changing panel settings
+
       // check click / mousedown collision with panels
-      if (e.type === "click" || e.type === "mousedown") {
+      if (e.type === "click" || e.type === "mousedown") { 
         for (let i = 0; i < Panels.length; i++) {
           let panel = Panels[i]
           if (panel.checkBoundsCollision(e.pageX, e.pageY)) {
