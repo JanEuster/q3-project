@@ -36,7 +36,10 @@ class Rectangle extends BaseShape {
     borderWidth = 25,
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord, yCoord, width, height);
+
+    console.log("COORDS:" + xCoord, yCoord, width, height)
+    super(xCoord, yCoord, Math.abs(width), Math.abs(height))
+    //super(bCoords[0], bCoords[1], bCoords[2], bCoords[3]);
 
     if (mode === "centered") {
       this.xOffset = -width / 2;
@@ -62,14 +65,14 @@ class Rectangle extends BaseShape {
     context.fillRect(
       baseCoord.w + pixelRatio * (this.xCoord + this.xOffset),
       baseCoord.h + pixelRatio * (this.yCoord + this.yOffset),
-      pixelRatio * this.width,
-      pixelRatio * this.height
+      pixelRatio * Math.abs(this.width), //width and height cant take on negative values
+      pixelRatio * Math.abs(this.height)
     );
     context.strokeRect(
       baseCoord.w + pixelRatio * (this.xCoord + this.xOffset),
       baseCoord.h + pixelRatio * (this.yCoord + this.yOffset),
-      pixelRatio * this.width,
-      pixelRatio * this.height
+      pixelRatio * Math.abs(this.width),
+      pixelRatio * Math.abs(this.height)
     );
   }
 }
@@ -82,10 +85,11 @@ class Circle extends BaseShape {
     fillColor = "#000000",
     borderColor = "#393939",
     borderWidth = 25,
-    mode = "centered" // mode=center means x and y coords are at the center of the objects
+    mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord, yCoord, radius*2, radius*2);
-
+    super(xCoord-radius, yCoord-radius, radius*2, radius*2);
+    
+    //console.log("CIRCLE: " + xCoord, yCoord, radius);
     if (mode === "centered") {
       this.Offset = 0;
     } else {
@@ -119,7 +123,61 @@ class Circle extends BaseShape {
   }
 }
 
-class Triangle extends BaseShape {}
+class Triangle extends BaseShape {
+  constructor(
+    xCoord,
+    yCoord,
+    width,
+    height,
+    fillColor = "#000000",
+    borderColor = "#393939",
+    borderWidth = 25,
+    mode = undefined
+  ) {
+    super(xCoord, yCoord, Math.abs(width), Math.abs(height)); //width and height cant take on negative values
+
+    if (mode === "centered") {
+      this.xOffset = -width/2;
+      this.yOffset = -height/2;
+    } else {
+      this.xOffset = 0;
+      this.yOffset = 0;
+    }
+
+
+    this.xCoord = xCoord;
+    this.yCoord = yCoord;
+    this.width = width;
+    this.height = height;
+    this.fillColor = fillColor;
+    this.borderColor = borderColor;
+    this.borderWidth = borderWidth;
+
+  }
+
+  render(context, pixelRatio, baseCoord) {
+    context.fillStyle = this.fillColor;
+    context.lineWidth = pixelRatio * this.borderWidth;
+    context.strokeStyle = this.borderColor;
+    
+    let xCoord = baseCoord.w + pixelRatio * (this.xCoord + this.xOffset);
+    let yCoord = baseCoord.h + pixelRatio * (this.yCoord + this.yOffset);
+    let width = pixelRatio * this.width
+    let height = pixelRatio * this.height
+
+    context.beginPath();
+    context.moveTo(xCoord, yCoord);
+    context.lineTo(xCoord + width, yCoord);
+    context.lineTo(xCoord + width/2, yCoord + height);
+    context.lineTo(xCoord, yCoord);
+
+    context.fill();
+
+    if (this.borderWidth > 0) {context.stroke();}
+
+    context.closePath();
+  }
+}
 
 export default BaseShape;
 export { Rectangle, Circle, Triangle };
