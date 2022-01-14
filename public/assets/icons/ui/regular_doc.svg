@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-2560,-3840)">
+        <g id="Regular-doc" serif:id="Regular doc" transform="matrix(1,0,0,1,2560,3840)">
+            <rect x="0" y="0" width="1024" height="1024" style="fill:none;"/>
+            <g transform="matrix(2.58586,0,0,2.6189,-2025.75,-4418.51)">
+                <g id="Infinite">
+                    <rect x="857.344" y="1736.04" width="248.1" height="293.253" style="fill:rgb(248,248,248);"/>
+                    <path d="M1105.44,1736.04L857.344,1736.04L857.344,2029.29L1105.44,2029.29L1105.44,1736.04ZM1100.1,1741.31L1100.1,2024.01C1100.1,2024.01 898.327,2024.01 862.689,2024.01C862.689,2024.01 862.689,1741.31 862.689,1741.31C862.689,1741.31 1100.1,1741.31 1100.1,1741.31L1100.1,1741.31Z" style="fill:rgb(57,57,57);"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
