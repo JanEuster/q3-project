@@ -83,15 +83,11 @@ const Canvas = (props) => {
       updateCanvas()
     }
 
-    let lastEventType = undefined
-    let beforeMouseMove = undefined
-    function handleMouseEvent(e) {
+    function handleCanvasEvent(e) {
 
       if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
-        lastEventType = e.type
         return
       }
-      lastEventType = e.type
 
       // if (e.type !== "mousemove") { beforeMouseMove = e.type }
       // || (beforeMouseMove === "mousedown" && e.type === "mousemove")
@@ -118,12 +114,13 @@ const Canvas = (props) => {
 
 
     window.addEventListener("resize", handleResize);
-    canvas.addEventListener("click", handleMouseEvent);
-    canvas.addEventListener("mousedown", handleMouseEvent);
-    canvas.addEventListener("mouseup", handleMouseEvent);
-    canvas.addEventListener("mousemove", handleMouseEvent);
-    document.addEventListener("keypress", handleMouseEvent)
-    document.addEventListener("keydown", handleMouseEvent)
+    canvas.addEventListener("click", handleCanvasEvent);
+    canvas.addEventListener("mousedown", handleCanvasEvent);
+    canvas.addEventListener("mouseup", handleCanvasEvent);
+    canvas.addEventListener("mousemove", handleCanvasEvent);
+    canvas.addEventListener("touchmove", handleCanvasEvent);
+    document.addEventListener("keypress", handleCanvasEvent);
+    document.addEventListener("keydown", handleCanvasEvent);
 
     // window.addEventListener("maximize", handleResize);
     return (_) => {
@@ -131,12 +128,13 @@ const Canvas = (props) => {
 
 
       window.removeEventListener("resize", handleResize);
-      canvas.removeEventListener("click", handleMouseEvent);
-      canvas.removeEventListener("mousedown", handleMouseEvent);
-      canvas.removeEventListener("mouseup", handleMouseEvent);
-      canvas.removeEventListener("mousemove", handleMouseEvent);
-      document.addEventListener("keypress", handleMouseEvent)
-      document.addEventListener("keydown", handleMouseEvent)
+      canvas.removeEventListener("click", handleCanvasEvent);
+      canvas.removeEventListener("mousedown", handleCanvasEvent);
+      canvas.removeEventListener("mouseup", handleCanvasEvent);
+      canvas.removeEventListener("mousemove", handleCanvasEvent);
+      canvas.addEventListener("touchmove", handleCanvasEvent);
+      document.addEventListener("keypress", handleCanvasEvent);
+      document.addEventListener("keydown", handleCanvasEvent);
 
       //window.addEventListener("maximize", handleResize);
       // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)

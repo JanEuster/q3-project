@@ -74,7 +74,7 @@ class SelectionTool {
       this.lastPos.y = coords.y
       
 
-    } else if (this.moving && e.type === "mousemove") {
+    } else if (this.moving && (e.type === "mousemove" || e.type === "touchmove")) {
       let xDelta = coords.x - this.lastPos.x
       let yDelta = coords.y - this.lastPos.y
 
@@ -160,7 +160,7 @@ class PencilTool {
       );
       Doc.addObject(this.currentPath);
 
-    } else if (this.inUse && e.type === "mousemove") {
+    } else if (this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
       this.currentPath.addPoint(coords.x, coords.y);
       // this.currentPath.cleanUp()
 
@@ -208,7 +208,7 @@ class EraserTool extends PencilTool {
         Doc.getBackgroundColour()
       );
       Doc.addObject(this.currentPath);
-    } else if(this.inUse && e.type === "mousemove") {
+    } else if(this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
       this.currentPath.addPoint(coords.x,coords.y);
     } else if(this.inUse && e.type === "mouseup") {
       this.currentPath.addPoints(coords.x,coords.y);
@@ -256,7 +256,9 @@ class TextTool {
     } else if (this.activeObject && e.type === "keydown") {
       
       if (e.key === "Escape") {
-        this.activeObject = NaN
+        // console.log(this.activeObject.text.length);
+        if (this.activeObject.text.length == 0) { Doc.removeObject(this.activeObject); } //check if textlength 0
+        this.activeObject = NaN;
       } else if (e.key === "Backspace") {
         this.activeObject.removeLastChar()
       }
@@ -270,8 +272,12 @@ class TextTool {
     }
   }
 
-  deselect() { 
-    return this.activeObject
+  deselect() {
+    if (this.activeObject.text.length == 0) {
+      this.toolManager.Doc.removeObject(this.activeObject);
+      this.activeObject = NaN;
+    }
+    return this.activeObject;
   }
 
   graphic(context, artMeta) {
@@ -348,7 +354,7 @@ class ShapeTool {
         Doc.addObject(this.currentShape)
         
         //console.log(this.currentShape)
-      } else if (this.inUse && e.type === "mousemove") {
+      } else if (this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
         
         //console.log(this.currentShape)
         
@@ -375,12 +381,19 @@ class ShapeTool {
       }
       
       else if (this.inUse && e.type === "mouseup") {
+        if (this.currentShape.width == 0 || this.currentShape.height == 0) {
+            Doc.removeObject(this.currentShape);
+            this.currentShape = NaN;
+            return;
+          }
+
         if (this.currentShape instanceof Circle) {
           var x = this.currentShape.xCoord - this.currentShape.radius;
           var y = this.currentShape.yCoord - this.currentShape.radius;
           var width = this.currentShape.radius * 2;
           var height = this.currentShape.radius * 2;
           
+
         } else {
           var x = this.currentShape.xCoord;
           var y = this.currentShape.yCoord;
