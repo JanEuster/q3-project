@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import HomeModal from './Modals/BaseModal';
 import styled from "styled-components";
 import { useEffect } from 'react';
+import NewFileModal from './Modals/NewFileModal';
+import ImportFileModal from './Modals/ImportFileModal';
+import OpenFileModal from './Modals/OpenFileModal';
 
 const Blurred = styled.div`
     filter: blur(${props => props.blur === "true" ? "30" : "0"}px)
@@ -10,12 +13,14 @@ const Blurred = styled.div`
 
 function Home(props) {
     const [isOpenNew, setOpenNew] = useState("false")
+    const [isOpenImport, setOpenImport] = useState("false")
+    const [isOpenOpen, setOpenOpen] = useState("false")
     const [isOpenAny, setOpenAny] = useState("false") // is any modal opened?
 
     useEffect(() => {
-        if (isOpenNew === "true") {
+        if (isOpenNew === "true" || isOpenImport === "true" || isOpenOpen === "true") {
             setOpenAny("true")
-        } else if (isOpenNew === "false") {
+        } else if (isOpenNew === "false" && isOpenImport === "false" && isOpenOpen === "false") {
             setOpenAny("false")
         }
     })
@@ -23,7 +28,9 @@ function Home(props) {
 
     return (
         <>
-            <HomeModal isOpen={isOpenNew} redirect="new" func={ () => {setOpenNew("false")} }/>
+        <NewFileModal isOpen={isOpenNew} redirect="new" func={ () => {setOpenNew("false")} }/>
+        <OpenFileModal isOpen={isOpenOpen} redirect="" func={ () => {setOpenOpen("false")} }/>
+        <ImportFileModal isOpen={isOpenImport} redirect="" func={ () => {setOpenImport("false")} }/>
         <Blurred blur={isOpenAny}>
             <div className="home">
                 {/* <NewFileModal />
@@ -39,8 +46,9 @@ function Home(props) {
                             <h3> {props.subtitle} </h3>
                         </div>
                     </div> */}
-                        <MainButton title="New Document" subtitle="fileformat" onClick={() => { isOpenNew === "false" ? setOpenNew("true") : setOpenNew("false")} }/>
-                <MainButton title="Import" subtitle="pdf png jgp flipchart" link="doc/"/>	
+                <MainButton title="New Document" subtitle="fileformat" onClick={() => { isOpenNew === "false" ? setOpenNew("true") : setOpenNew("false")} }/>
+                <MainButton title="Open" subtitle="fileformat" onClick={() => { isOpenOpen === "false" ? setOpenOpen("true") : setOpenOpen("false")} }/>	
+                <MainButton title="Import" subtitle="pdf png jgp flipchart" onClick={() => { isOpenImport === "false" ? setOpenImport("true") : setOpenImport("false")} }/>	
                 </div>
                 <div className="small-buttons">
                     <SmallButton title="fiel1.???" link="/" />
