@@ -76,7 +76,7 @@ const Option = (props) => {
 const SelectedOption = (props) => {
 
   return (
-    <SelectedOptionButton onClick={props.toggle} onBlur={props.setOff} size={props.size}>
+    <SelectedOptionButton  onClick={props.toggle} onBlur={props.setOFF} size={props.size}>
         {props.currentOption}
     </SelectedOptionButton>
   );
@@ -138,10 +138,10 @@ class Dropdown extends Component {
     return (
       <DropDownStyle width={this.props.width} height={this.props.height}>
         <SelectedOption
-          size={ this.props.width }
+          size={this.props.width}
           currentOption={this.state.currentOption}
           toggle={() => this.toggleOpen()}
-          setOFF={() => this.setState({ isOpen: false })}
+          setOFF={() => this.setState({isOpen: false})}
         />
         <OptionsDiv
           isOpen={this.state.isOpen}
