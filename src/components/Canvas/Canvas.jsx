@@ -5,7 +5,6 @@ import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import Text from "./Objects/Text"
 
-import "./Canvas.css";
 import Panel from "./Panels/BasePanel";
 import SettingsToolPanel from "./Panels/ToolSettings"
 import { PanelButton, PanelSlider, PanelText, PanelTextSwitch, PanelTitle } from "./Panels/PanelComponents";
@@ -149,6 +148,7 @@ const Canvas = (props) => {
       ref={canvasRef}
       width={window.innerWidth}
       height={window.innerHeight}
+      style={{position: "absolute", bottom: 0, left: 0}}
       id="theCanvas"
     >
       {" "}
