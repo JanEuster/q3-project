@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,-1280,-5120)">
+        <g id="Infinite-doc-selected" serif:id="Infinite doc selected" transform="matrix(1,0,0,1,1280,5120)">
+            <rect x="0" y="0" width="1024" height="1024" style="fill:none;"/>
+            <g id="Infinite" transform="matrix(2.58586,0,0,2.58586,-2003.26,-315.416)">
+                <g transform="matrix(1,0,0,1.01278,-8.696,-1586.74)">
+                    <rect x="857.344" y="1736.04" width="248.1" height="293.253" style="fill:rgb(243,170,89);"/>
+                    <path d="M1105.44,1736.04L857.344,1736.04L857.344,2029.29L1105.44,2029.29L1105.44,1736.04ZM1100.1,1741.31L1100.1,2024.01C1100.1,2024.01 862.689,2024.01 862.689,2024.01C862.689,1987.88 862.689,1777.44 862.689,1741.31C862.689,1741.31 1100.1,1741.31 1100.1,1741.31L1100.1,1741.31Z" style="fill:rgb(57,57,57);"/>
+                </g>
+                <g id="page-down-arrow" serif:id="page down arrow" transform="matrix(1.79959,0,0,1.79959,-755.499,-1458.05)">
+                    <g transform="matrix(0.336587,0,-8.29752e-33,0.336587,637.964,697.415)">
+                        <path d="M925.005,1035.88L957.844,1068.52L990.483,1035.88" style="fill:none;stroke:rgb(57,57,57);stroke-width:15.97px;"/>
+                    </g>
+                    <g transform="matrix(1,0,-3.76567e-32,1.52754,1.13687e-13,-539.892)">
+                        <path d="M960.329,1045.45L960.329,1033.93" style="fill:none;stroke:rgb(57,57,57);stroke-width:4.16px;"/>
+                    </g>
+                </g>
+                <g id="page-down-arrow1" serif:id="page down arrow" transform="matrix(-1.79959,2.20386e-16,-2.20386e-16,-1.79959,2700.89,2098)">
+                    <g transform="matrix(0.336587,0,-8.29752e-33,0.336587,637.964,697.415)">
+                        <path d="M925.005,1035.88L957.844,1068.52L990.483,1035.88" style="fill:none;stroke:rgb(57,57,57);stroke-width:15.97px;"/>
+                    </g>
+                    <g transform="matrix(1,0,-3.76567e-32,1.52754,1.13687e-13,-539.892)">
+                        <path d="M960.329,1045.45L960.329,1033.93" style="fill:none;stroke:rgb(57,57,57);stroke-width:4.16px;"/>
+                    </g>
+                </g>
+                <g id="page-down-arrow2" serif:id="page down arrow" transform="matrix(1.10193e-16,1.79959,-1.79959,1.10193e-16,2781.45,-1408.05)">
+                    <g transform="matrix(0.336587,0,-8.29752e-33,0.336587,637.964,697.415)">
+                        <path d="M925.005,1035.88L957.844,1068.52L990.483,1035.88" style="fill:none;stroke:rgb(57,57,57);stroke-width:15.97px;"/>
+                    </g>
+                    <g transform="matrix(1,0,-3.76567e-32,1.52754,1.13687e-13,-539.892)">
+                        <path d="M960.329,1045.45L960.329,1033.93" style="fill:none;stroke:rgb(57,57,57);stroke-width:4.16px;"/>
+                    </g>
+                </g>
+                <g id="page-down-arrow3" serif:id="page down arrow" transform="matrix(1.10193e-16,-1.79959,1.79959,1.10193e-16,-836.05,2048.11)">
+                    <g transform="matrix(0.336587,0,-8.29752e-33,0.336587,637.964,697.415)">
+                        <path d="M925.005,1035.88L957.844,1068.52L990.483,1035.88" style="fill:none;stroke:rgb(57,57,57);stroke-width:15.97px;"/>
+                    </g>
+                    <g transform="matrix(1,0,-3.76567e-32,1.52754,1.13687e-13,-539.892)">
+                        <path d="M960.329,1045.45L960.329,1033.93" style="fill:none;stroke:rgb(57,57,57);stroke-width:4.16px;"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
