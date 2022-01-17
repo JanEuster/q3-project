@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-2560,-6400)">
+        <g id="Open-file" serif:id="Open file" transform="matrix(1,0,0,1,2560,6400)">
+            <rect x="0" y="0" width="1024" height="1024" style="fill:none;"/>
+            <g transform="matrix(0.984615,0,0,0.984615,7.87692,-6293.66)">
+                <path d="M320,6622L122,6622L122,7202L902,7202L902,6682L360,6682L320,6622ZM544.804,6879.94L544.804,6784L480.683,6784L480.683,6879.94L384.744,6879.94L384.744,6944.06L480.683,6944.06L480.683,7040L544.804,7040L544.804,6944.06L640.744,6944.06L640.744,6879.94L544.804,6879.94Z" style="fill:rgb(248,248,248);"/>
+                <clipPath id="_clip1">
+                    <path d="M320,6622L122,6622L122,7202L902,7202L902,6682L360,6682L320,6622ZM544.804,6879.94L544.804,6784L480.683,6784L480.683,6879.94L384.744,6879.94L384.744,6944.06L480.683,6944.06L480.683,7040L544.804,7040L544.804,6944.06L640.744,6944.06L640.744,6879.94L544.804,6879.94Z"/>
+                </clipPath>
+                <g clip-path="url(#_clip1)">
+                    <g transform="matrix(1,0,0,0.896552,-18,693.034)">
+                        <rect x="140" y="6680" width="780" height="580" style="fill:rgb(248,248,248);"/>
+                    </g>
+                    <g transform="matrix(0.99,0,0,1.03448,1.22,-228.345)">
+                        <rect x="122" y="6622" width="200" height="58" style="fill:rgb(248,248,248);"/>
+                    </g>
+                    <g transform="matrix(1,0,0,1,-5,42)">
+                        <path d="M325,6580L365,6640L325,6640L325,6580Z" style="fill:rgb(248,248,248);"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
