@@ -38,7 +38,7 @@
 
 nav {
   z-index: 1000;
-  -webkit-app-region:drag; /* drag frameless window */
+  -webkit-app-region: drag; /* drag frameless window */
 }
 
 .nav-top {
@@ -64,9 +64,7 @@ nav ul {
 nav ul li {
   float: left;
   display: block;
-  vertical-align: center;
   padding: 0.5vh 1vw;
-  vertical-align: center;
 }
 
 nav ul li a {
@@ -93,10 +91,11 @@ nav ul li a {
 }
 
 .main-file-button {
+  position: relative;
   background-color: var(--mid-orange);
   color: var(--light-light-grey);
   width: 22vw;
-  height: 13vw;
+  height: 14vw;
   min-width: 300px;
   min-height: 160px;
   margin: 2vw 2vw;
@@ -112,14 +111,25 @@ nav ul li a {
 }
 
 .main-file-button-top {
+  position: inherit;
+  width: 100%;
+  height: 85%;
+  text-align: center;
 }
 
 .main-file-button-top h1 {
-  margin: auto 0;
+  display: block;
+  position: absolute;
+  width: 100%;
+  /* left: 50%; */
+  bottom: -2.5%;
+  font-family: "Iosevka bold";
+  font-size: calc(30px);
+  margin: auto;
 }
 
 .main-file-button-bottom {
-  height: 2.4vw;
+  height: 12%;
   min-height: 30px;
   width: 100%;
   background-color: var(--dark-grey);
@@ -178,7 +188,6 @@ div a {
     font-size: 18px;
   }
 }
-
 
 @media screen and (max-width: 500px) {
   nav ul li {
