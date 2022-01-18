@@ -110,7 +110,7 @@ const NewFileModal = (props) => {
                 style={{ float: "right", transform: "translate(-2vw)" }}
                 text="Create"
                 side="right"
-                redirect={props.redirect}
+                func={props.appCallback}
               />
             </ButtonContainerDiv>
           </div>

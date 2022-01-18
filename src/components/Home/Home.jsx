@@ -28,7 +28,7 @@ function Home(props) {
   if (prevOpenFiles && prevOpenFiles.length > 0) {
     let smallButtons = [] 
     prevOpenFiles.map((f, i) => {
-      smallButtons.push(<SmallButton title={f} link="/" />)
+      smallButtons.push(<SmallButton key={i} title={f} link="/" />)
     })
     belowContent = (
       <div className="small-buttons">
@@ -65,6 +65,7 @@ function Home(props) {
       <NewFileModal
         isOpen={isOpenNew}
         redirect="new"
+        appCallback={props.createCallback}
         func={() => {
           setOpenNew("false");
         }}
@@ -72,6 +73,7 @@ function Home(props) {
       <OpenFileModal
         isOpen={isOpenOpen}
         redirect=""
+        appCallback={props.openCallback}
         func={() => {
           setOpenOpen("false");
         }}
@@ -79,6 +81,7 @@ function Home(props) {
       <ImportFileModal
         isOpen={isOpenImport}
         redirect=""
+        appCallback={props.importCallback}
         func={() => {
           setOpenImport("false");
         }}
@@ -121,13 +124,10 @@ function Home(props) {
               }}
             />
           </div>
-          { belowContent }
-
+          {belowContent}
         </div>
 
-        <footer>
-          
-        </footer>
+        <footer></footer>
       </Blurred>
     </>
   );
