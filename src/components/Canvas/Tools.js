@@ -274,7 +274,7 @@ class TextTool {
   }
 
   deselect() {
-    if (this.activeObject.text.length == 0) {
+    if (this.activeObject && this.activeObject.text.length == 0) {
       this.toolManager.Doc.removeObject(this.activeObject);
       this.activeObject = NaN;
     }
