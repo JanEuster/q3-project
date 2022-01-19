@@ -172,9 +172,11 @@ class Triangle extends BaseShape {
 
     context.fill();
 
+    context.closePath();
+    
     if (this.borderWidth > 0) {context.stroke();}
 
-    context.closePath();
+    
   }
 }
 
