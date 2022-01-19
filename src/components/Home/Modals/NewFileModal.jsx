@@ -1,27 +1,22 @@
-import React, {useState} from 'react'
-import styled from 'styled-components';
-import { ModalBox, ModalTextButton, ModalTitle } from './BaseModal'
-import Dropdown from './components/DropDown';
-import { useEffect } from 'react';
-import HVSelector from './components/HVSelector';
-import DocTypeSelector from './components/DocTypes';
-import { useRef } from 'react';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { ModalBox, ModalTextButton, ModalTitle } from "./BaseModal";
+import Dropdown from "./components/DropDown";
+import { useEffect } from "react";
+import HVSelector from "./components/HVSelector";
+import DocTypeSelector from "./components/DocTypes";
+import { useRef } from "react";
 
-const colors = require('../../colors.json')
-
+import GLOBALS from "../../../Globals";
 
 const FilesTypesSelection = (props) => {
-  const docType = props.docType;
-  const formats = props.formats;
-  const orientation = props.orientation;
   const svgWidth = "18vw";
 
-  
   return (
     <div>
       <div style={{ display: "grid", width: "100%", justifyItems: "center" }}>
         <DocTypeSelector
-          docTypes={props.docTypes}
+          docTypes={GLOBALS.DOC_TYPES}
           setDocType={props.setDocType}
           width={svgWidth}
         />
@@ -33,7 +28,7 @@ const FilesTypesSelection = (props) => {
               marginRight: "0.2vw",
               fontFamily: "Iosevka heavy",
               fontSize: "2vw",
-              color: colors.darkgrey,
+              color: GLOBALS.COLORS.darkgrey,
               userSelect: "none",
               userDrag: "none",
             }}
@@ -43,19 +38,19 @@ const FilesTypesSelection = (props) => {
           <Dropdown
             onChange={props.setFormat}
             width="4vw"
-            default={formats[0]}
-            options={formats}
+            default={GLOBALS.DOC_FORMATS[0]}
+            options={GLOBALS.DOC_FORMATS}
             style={{
               float: "right",
             }}
           />
 
-          <HVSelector onChange={ props.setOrientation }/>
+          <HVSelector onChange={props.setOrientation} />
         </div>
       </div>
     </div>
   );
-}
+};
 
 const ButtonContainerDiv = styled.div`
   display: inline-block;
@@ -68,59 +63,50 @@ const ButtonContainerDiv = styled.div`
 `;
 
 const NewFileModal = (props) => {
-  const docTypes = ["regular", "infinite-scroll", "infinite"]
-  const formats = ["A4", "A3", "A2", "A1"]
-  const orientations = ["vertical", "horizontal"]
-  const [docType, setDocType] = useState(docTypes[0])
-  const [format, setFormat] = useState(formats[0])
-  const [orientation, setOrientation] = useState(orientations[0]);
+  const [docType, setDocType] = useState(GLOBALS.DOC_TYPES[0]);
+  const [format, setFormat] = useState(GLOBALS.DOC_FORMATS[0]);
+  const [orientation, setOrientation] = useState(GLOBALS.DOC_ORIENTATIONS[0]);
 
-  
   if (props.isOpen === "true") {
-      return (
-        <ModalBox style={{ overflowY: "scroll" }}>
-          <ModalTitle> Create New Document </ModalTitle>
+    return (
+      <ModalBox style={{ overflowY: "scroll" }}>
+        <ModalTitle> Create New Document </ModalTitle>
 
-          <div
-            style={{
-              height: "83%",
-              display: "flex",
-              flexDirection: "column",
-              textAlign: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <FilesTypesSelection
-              docTypes={docTypes}
-              formats={formats}
-              orientations={orientations}
-              setDocType={setDocType}
-              setFormat={setFormat}
-              setOrientation={setOrientation}
-              modalRef
+        <div
+          style={{
+            height: "83%",
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <FilesTypesSelection
+            setDocType={setDocType}
+            setFormat={setFormat}
+            setOrientation={setOrientation}
+            modalRef
+          />
+          <ButtonContainerDiv>
+            <ModalTextButton
+              style={{ float: "left", transform: "translate(1.5vw)" }}
+              text="Back"
+              side="left"
+              func={props.func}
             />
-            <ButtonContainerDiv>
-              <ModalTextButton
-                style={{ float: "left", transform: "translate(1.5vw)" }}
-                text="Back"
-                side="left"
-                func={props.func}
-              />
-              <ModalTextButton
-                style={{ float: "right", transform: "translate(-2vw)" }}
-                text="Create"
-                side="right"
-                func={props.appCallback}
-              />
-            </ButtonContainerDiv>
-          </div>
-        </ModalBox>
-      );
+            <ModalTextButton
+              style={{ float: "right", transform: "translate(-2vw)" }}
+              text="Create"
+              side="right"
+              func={props.appCallback}
+            />
+          </ButtonContainerDiv>
+        </div>
+      </ModalBox>
+    );
+  } else {
+    return <></>;
   }
-  else {
-      return ( <></> )
-  }
-}
-
+};
 
 export default NewFileModal;

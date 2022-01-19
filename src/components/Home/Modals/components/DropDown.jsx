@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import styled from 'styled-components';
-import { useEffect, useRef } from 'react';
-const colors = require('../../../colors.json')
+import React, { Component } from "react";
+import styled from "styled-components";
+import { useEffect, useRef } from "react";
+import GLOBALS from "../../../../Globals";
 
 const DropDownStyle = styled.div`
   display: inline-block;
   float: left;
   position: relative;
-  width: ${props => props.width};
+  width: ${(props) => props.width};
   text-align: center;
 `;
 
@@ -18,7 +18,7 @@ const OptionsDiv = styled.div`
   transform-origin: top;
   transform: scaleY(${(props) => (props.isOpen ? 1 : 0)});
   z-index: 2000;
-  border: calc(${(props) => props.size} / 16) solid ${colors.darkgrey};
+  border: calc(${(props) => props.size} / 16) solid ${GLOBALS.COLORS.darkgrey};
 `;
 
 const OptionButton = styled.button`
@@ -26,13 +26,15 @@ const OptionButton = styled.button`
   padding: 0vh 0.6vw;
   // margin: -0.5vw 0;
   width: 100%;
-  border: 0px solid ${colors.darkgrey};
+  border: 0px solid ${GLOBALS.COLORS.darkgrey};
   &:hover {
-    outline: calc(${(props) => props.size} / 14) solid ${colors.lightorange};
+    outline: calc(${(props) => props.size} / 14) solid
+      ${GLOBALS.COLORS.lightorange};
     cursor: pointer;
   }
   &:focus {
-    outline: calc(${(props) => props.size} / 14) solid ${colors.midorange};
+    outline: calc(${(props) => props.size} / 14) solid
+      ${GLOBALS.COLORS.midorange};
   }
 `;
 const OptionButtonText = styled.div`
@@ -48,16 +50,18 @@ const SelectedOptionButton = styled.button`
   padding: 0.2vh 0.6vw;
   font-family: Iosevka bold;
   font-size: calc(${(props) => props.size} / 2.5);
-  border: calc(${(props) => props.size} / 10) solid ${colors.darkgrey};
+  border: calc(${(props) => props.size} / 10) solid ${GLOBALS.COLORS.darkgrey};
   user-select: none;
 
   &:hover {
-    border: calc(${(props) => props.size} / 10) solid ${colors.lightorange};
+    border: calc(${(props) => props.size} / 10) solid
+      ${GLOBALS.COLORS.lightorange};
     cursor: pointer;
   }
   &:focus {
     outline: none;
-    border: calc(${(props) => props.size} / 10) solid ${colors.midorange};
+    border: calc(${(props) => props.size} / 10) solid
+      ${GLOBALS.COLORS.midorange};
     border-radius: 0;
   }
 `;
@@ -72,25 +76,28 @@ const Option = (props) => {
       <OptionButtonText size={props.size}>{props.text}</OptionButtonText>
     </OptionButton>
   );
-}
+};
 const SelectedOption = (props) => {
-
   return (
-    <SelectedOptionButton  onClick={props.toggle} onBlur={props.setOFF} size={props.size}>
-        {props.currentOption}
+    <SelectedOptionButton
+      onClick={props.toggle}
+      onBlur={props.setOFF}
+      size={props.size}
+    >
+      {props.currentOption}
     </SelectedOptionButton>
   );
-}
+};
 
 class Dropdown extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       isOpen: false,
       defaultOption: props.default,
       currentOption: props.default,
-    }
+    };
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.currentOption !== prevState.currentOption) {
@@ -98,11 +105,10 @@ class Dropdown extends Component {
     }
   }
 
-
   setCurrent(option) {
-    this.setState({currentOption: option})
+    this.setState({ currentOption: option });
     this.props.onChange(this.state.currentOption);
-    this.toggleOpen()
+    this.toggleOpen();
   }
   toggleOpen() {
     this.setState({ isOpen: !this.state.isOpen });
@@ -111,42 +117,34 @@ class Dropdown extends Component {
     }
   }
 
-  
   render() {
-    const options = []
+    const options = [];
     this.props.options.map((opt, i) => {
-      if (this.state.showAllOptions && opt === this.state.currentOption) {  
+      if (this.state.showAllOptions && opt.name === this.state.currentOption) {
       } else {
-      options.push(
-        <Option
-          text={opt}
-          size={this.props.width}
-          key={i}
-          onClick={() => {
-            this.setCurrent(opt);
-            document.activeElement.blur();
-          }}
-        >
-          {" "}
-          {opt}{" "}
-        </Option>
-      );
+        options.push(
+          <Option
+            text={opt.name}
+            size={this.props.width}
+            key={i}
+            onClick={() => {
+              this.setCurrent(opt);
+              document.activeElement.blur();
+            }}
+          ></Option>
+        );
       }
-    })
-
+    });
 
     return (
       <DropDownStyle width={this.props.width} height={this.props.height}>
         <SelectedOption
           size={this.props.width}
-          currentOption={this.state.currentOption}
+          currentOption={this.state.currentOption.name}
           toggle={() => this.toggleOpen()}
-          setOFF={() => this.setState({isOpen: false})}
+          setOFF={() => this.setState({ isOpen: false })}
         />
-        <OptionsDiv
-          isOpen={this.state.isOpen}
-          size={ this.props.width }
-        >
+        <OptionsDiv isOpen={this.state.isOpen} size={this.props.width}>
           {options}
         </OptionsDiv>
       </DropDownStyle>
@@ -154,5 +152,4 @@ class Dropdown extends Component {
   }
 }
 
-
-export default Dropdown
+export default Dropdown;

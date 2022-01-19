@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { render } from 'react-dom';
-import styled from "styled-components"
-import { Link } from 'react-router-dom';
-const colors = require("../../colors.json")
+import React, { Component } from "react";
+import { render } from "react-dom";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import GLOBALS from "../../../Globals";
 
 const ModalBox = styled.div`
   position: fixed;
   display: block;
   z-index: 1000;
-  background-color: ${colors.lightgrey};
+  background-color: ${GLOBALS.COLORS.lightgrey};
   outline-style: solid;
-  outline-color: ${colors.darkgrey};
+  outline-color: ${GLOBALS.COLORS.darkgrey};
   outline-width: 1.2vh;
   width: 70vw;
   heigh: 50vh;
@@ -26,20 +26,20 @@ const ModalBox = styled.div`
   }
 `;
 const ModalTitle = styled.div`
-	font-family: Iosevka Extended Heavy;
-	font-size: calc(12px + ${({ size }) => size || 4}vh);
-	color: ${ colors.darkgrey };
-	margin-top: 3vh;
+  font-family: Iosevka Extended Heavy;
+  font-size: calc(12px + ${({ size }) => size || 4}vh);
+  color: ${GLOBALS.COLORS.darkgrey};
+  margin-top: 3vh;
   user-select: none;
-`
+`;
 
 const ModalTextButtonStyle = styled.button`
   // ${({ side }) => (side == "right" ? `left: 40%;` : `left: 5%;`)};
   // top: 100px;
-  background-color: ${colors.grey};
-  color: ${colors.darkgrey};
+  background-color: ${GLOBALS.COLORS.grey};
+  color: ${GLOBALS.COLORS.darkgrey};
   font-size: 1vh;
-  border: 4px solid ${colors.darkgrey};
+  border: 4px solid ${GLOBALS.COLORS.darkgrey};
   aspect-ratio: 2;
   font-family: Iosevka bold;
   font-size: calc(12px + 1.5vw);
@@ -48,16 +48,15 @@ const ModalTextButtonStyle = styled.button`
 
   &:hover {
     cursor: pointer;
-    border: 4px solid ${colors.lightorange};
+    border: 4px solid ${GLOBALS.COLORS.lightorange};
   }
   &:focus {
-    border: 4px solid ${colors.lightorange};
+    border: 4px solid ${GLOBALS.COLORS.lightorange};
   }
-`; 
-
+`;
 
 const ModalTextButton = (props) => {
-	if (props.redirect && !props.func) {
+  if (props.redirect && !props.func) {
     return (
       <div style={props.style}>
         <ModalTextButtonStyle side={props.side}>
@@ -71,12 +70,12 @@ const ModalTextButton = (props) => {
         </ModalTextButtonStyle>
       </div>
     );
-	} else if (!props.redirect && props.func) {
-		return (
+  } else if (!props.redirect && props.func) {
+    return (
       <div style={props.style}>
         <ModalTextButtonStyle side={props.side}>
           <div
-            style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit", }}
+            style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
             onClick={() => props.func()}
           >
             {props.text}
@@ -84,8 +83,8 @@ const ModalTextButton = (props) => {
         </ModalTextButtonStyle>
       </div>
     );
-	} else {
-		return (
+  } else {
+    return (
       <div>
         <ModalTextButtonStyle side={props.side}>
           <div
@@ -96,26 +95,21 @@ const ModalTextButton = (props) => {
           </div>
         </ModalTextButtonStyle>
       </div>
-    );	
-	}
-}
-
-
-
+    );
+  }
+};
 
 const BaseModal = (props) => {
-
-    if (props.isOpen === "true") {
-        return (
-            <ModalBox>
-            <ModalTextButton text="Back" side="left" func={props.func}/>
-            </ModalBox>
-)
-    }
-    else {
-        return ( <></> )
-    }
-}
+  if (props.isOpen === "true") {
+    return (
+      <ModalBox>
+        <ModalTextButton text="Back" side="left" func={props.func} />
+      </ModalBox>
+    );
+  } else {
+    return <></>;
+  }
+};
 
 export default BaseModal;
 export { ModalBox, ModalTextButton, ModalTitle, ModalTextButtonStyle };

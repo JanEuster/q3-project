@@ -1,34 +1,31 @@
-import React, { Component } from 'react'
-import styled from "styled-components"
-
+import React, { Component } from "react";
+import styled from "styled-components";
 
 const SVGImage = styled.img`
   user-select: none;
   user-drag: none;
 
   &:hover {
-  cursor: pointer;
+    cursor: pointer;
   }
 `;
 
-
 class DocTypeSelector extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      docType: props.docTypes[0]
-    }
+      docType: props.docTypes[0],
+    };
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.docType !== prevState.docType) {
-      this.props.setDocType(this.state.docType)
+      this.props.setDocType(this.state.docType);
     }
   }
 
   render() {
-
     return (
       <>
         <SVGImage

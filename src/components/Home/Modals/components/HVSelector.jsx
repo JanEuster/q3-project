@@ -1,21 +1,25 @@
-import React, { Component } from 'react'
-import styled from "styled-components"
-const colors = require('../../../colors.json')
+import React, { Component } from "react";
+import styled from "styled-components";
+import GLOBALS from "../../../../Globals";
 
 const HVButtons = styled.button`
   width: ${(props) => (props.horizontal ? "3vw" : "2vw")};
   height: ${(props) => (props.horizontal ? "2vw" : "3vw")};
   margin: 0 0.2vw;
   background-color: ${(props) =>
-    props.active === true ? colors.midorange : colors.lightgrey};
-  border: 0.4vw solid ${colors.darkgrey};
+    props.active === true
+      ? GLOBALS.COLORS.midorange
+      : GLOBALS.COLORS.lightgrey};
+  border: 0.4vw solid ${GLOBALS.COLORS.darkgrey};
 
   &:hover {
     border: 0.4vw solid
       ${(props) =>
-        props.active === false ? colors.lightorange : colors.darkgrey};
+        props.active === false
+          ? GLOBALS.COLORS.lightorange
+          : GLOBALS.COLORS.darkgrey};
   }
-    cursor: pointer;
+  cursor: pointer;
   &:focus {
     outline: none;
   }
@@ -23,20 +27,19 @@ const HVButtons = styled.button`
 
 class HVSelector extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      hv: "horizontal"
-    }
+      hv: "horizontal",
+    };
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.hv !== prevState.hv) {
-      this.props.onChange(this.state.hv)
+      this.props.onChange(this.state.hv);
     }
   }
 
   render() {
-
     return (
       <div
         style={{
