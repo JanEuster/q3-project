@@ -32,6 +32,7 @@ class HVSelector extends Component {
     this.state = {
       hv: "horizontal",
     };
+    this.props.onChange(this.state.hv);
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.hv !== prevState.hv) {

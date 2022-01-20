@@ -74,9 +74,11 @@ class Toolbox extends Panel {
   }
 
   handleColission(tool) {
-    this.toolManager.toolDeselect();
-    this.toolManager.activeTool = tool;
-    this.toolManager.toolSelect();
+    if (tool !== this.toolManager.activeTool) {
+      this.toolManager.toolDeselect();
+      this.toolManager.activeTool = tool;
+      this.toolManager.toolSelect();
+    }
   }
 
   checkBoundsCollision(x, y) {

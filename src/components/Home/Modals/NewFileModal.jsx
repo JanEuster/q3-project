@@ -98,7 +98,7 @@ const NewFileModal = (props) => {
               style={{ float: "right", transform: "translate(-2vw)" }}
               text="Create"
               side="right"
-              func={props.appCallback}
+              func={() => props.appCallback(docType, format, orientation)}
             />
           </ButtonContainerDiv>
         </div>

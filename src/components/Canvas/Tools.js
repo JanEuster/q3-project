@@ -481,7 +481,8 @@ class ToolManager {
     this.lastObj = this.activeTool.deselect();
   }
 
-  toolGraphic(context, artMeta) {
+  toolGraphic(context) {
+    const artMeta = this.Doc.getArtboardMetadata();
     // function to display tool related graphics on redraw; i.e. selection box if selection tool is this.activeTool
     this.activeTool.graphic(context, artMeta);
   }

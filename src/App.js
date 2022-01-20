@@ -1,73 +1,94 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React, { Component, useState } from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  HashRouter,
+  withRouter,
+  Route,
+  Link,
+  Switch,
+} from "react-router-dom";
 import Navbar from "./Navbar.js";
 import Canvas from "./components/Canvas/Canvas.jsx";
-import { HashRouter } from "react-router-dom";
-import Home from './components/Home/Home';
+import Home from "./components/Home/Home";
 import Artboard from "./components/Canvas/Artboard";
-
-
+import GLOBALS from "./Globals";
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       currentDoc: undefined,
       documents: [],
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.currentDoc !== prevState.currentDoc) {
     }
   }
 
   createDocument(docType, format, orientation) {
     if (docType === "regular") {
       var width, height;
-      if (format === "A4") {
-        if (orientation === "vertical") {
-          // 300dpi - weird value because its dots per *inch*
-          width = 2480.3;
-          height = 3507.9;
+
+      GLOBALS.DOC_FORMATS.map((FORMAT, i) => {
+        if (format === FORMAT) {
+          width = FORMAT.width;
+          height = FORMAT.height;
+          if (orientation === "horizontal") {
+            width = FORMAT.height;
+            height = FORMAT.width;
+          }
         }
-      }
+      });
     }
-    this.setState({currentDoc: new Artboard(width, height, [], "#dddddd")})
-    this.setState({documents: [...this.state.documents, this.state.currentDoc]})
-    console.log(this.state)
+
+    this.setState({ currentDoc: new Artboard(width, height, "#dddddd") });
+    this.setState({
+      documents: [...this.state.documents, this.state.currentDoc],
+    });
+
+    this.props.history.push("/new", { state: this.state.currentDoc });
   }
-  openDocument(path) {
-  
-  }
-  importDocument(path) {
-  
-  }
+  openDocument(path) {}
+  importDocument(path) {}
 
   render() {
     return (
-      <HashRouter>
-        <div className="App">
+      <div className="App">
+        <Switch>
+          <Route path="/new">
+            <Navbar side="nav-bottom" />
+            <Canvas Doc={this.state.currentDoc} />
+          </Route>
 
-      <Switch>
-        <Route path="/new">
-          <Navbar side="nav-bottom"/>
-          <Canvas />
-        </Route>
-        
-        <Route exact path="/"> // "/" path Route always last
-          <Navbar side="nav-top"/>
-              <Home createCallback={(docType, format, orientation) => this.createDocument(docType, format, orientation)} openCallback={ (path) => this.openDocument(path) } importCallback={ (path) => this.importDocument(path) } />	
-        </Route>
-        
-        <Route render={() => <h1> 404 Error: Page not Found <br/> Go <Link to="/"> Home </Link></h1>} />
+          <Route exact path="/">
+            {" "}
+            // "/" path Route always last
+            <Navbar side="nav-top" />
+            <Home
+              createCallback={(docType, format, orientation) =>
+                this.createDocument(docType, format, orientation)
+              }
+              openCallback={(path) => this.openDocument(path)}
+              importCallback={(path) => this.importDocument(path)}
+            />
+          </Route>
 
-      </Switch>
-
-
-        </div>
-      </HashRouter>
+          <Route
+            render={() => (
+              <h1>
+                {" "}
+                404 Error: Page not Found <br /> Go <Link to="/"> Home </Link>
+              </h1>
+            )}
+          />
+        </Switch>
+      </div>
     );
   }
 }
 
-
-
-export default App;
+export default withRouter(App);
