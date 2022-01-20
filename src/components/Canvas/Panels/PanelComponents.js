@@ -217,7 +217,6 @@ class PanelSlider extends BasePanelComponent {
 
   handleColission(x, y) {
     let xPercent = (x - this.coords.x) / this.width;
-    console.log(xPercent);
     this.setSliderPos(xPercent);
   }
 

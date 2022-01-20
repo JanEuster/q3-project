@@ -125,7 +125,6 @@ class PanelColorSelectorComponent extends BasePanelComponent {
 class PanelShapeButton extends PanelButton {
   constructor(x, y, d, shape) {
     super(x, y, d, d);
-    console.log(x, y, d, shape);
 
     this.diameter = d;
     this.shape = shape;
@@ -228,10 +227,8 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
   handleColission(x, y) {
     this.subComponents.map((comp) => {
       if (comp.boundingBox.checkCollision(x, y)) {
-        console.log(comp, this.activeShape);
         this.icon = comp.shape; //comp.icon
         this.activeShape = this.icon.substring(19, this.icon.length - 4); //cut string to shapename
-        console.log(this.activeShape);
 
         this.setActiveShape();
         return comp;
