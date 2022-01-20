@@ -112,3 +112,4 @@ class Toolbox extends Panel {
 }
 
 export default Toolbox;
+export { PanelToolButton }
