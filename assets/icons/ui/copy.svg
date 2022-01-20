@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,0,-1280)">
+        <g id="Copy" transform="matrix(1,0,0,1,0,1280)">
+            <rect x="0" y="0" width="1024" height="1024" style="fill:none;"/>
+            <g id="Copy1" serif:id="Copy" transform="matrix(0.787163,0,0,0.787163,59.8585,65.0269)">
+                <g id="Sheet">
+                    <g transform="matrix(0.246303,0,0,0.246303,206.545,80)">
+                        <rect x="0" y="0" width="2480.32" height="3507.87" style="fill:rgb(220,220,220);stroke:rgb(57,57,57);stroke-width:257.89px;"/>
+                    </g>
+                    <g transform="matrix(1.17737,0,0,1,-61.936,-1577.91)">
+                        <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:40.71px;stroke-miterlimit:4;"/>
+                    </g>
+                    <g transform="matrix(1.17737,0,0,1,-61.936,-1469.99)">
+                        <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:40.71px;stroke-miterlimit:4;"/>
+                    </g>
+                    <g transform="matrix(0.588685,0,0,1,110.488,-1254.15)">
+                        <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:54.19px;stroke-miterlimit:4;"/>
+                    </g>
+                    <g transform="matrix(0.878408,0,0,1,25.6291,-1362.07)">
+                        <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:47.24px;stroke-miterlimit:4;"/>
+                    </g>
+                    <g transform="matrix(0.878408,0,0,1,25.6291,-1146.23)">
+                        <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:47.24px;stroke-miterlimit:4;"/>
+                    </g>
+                </g>
+                <g id="Sheet1" serif:id="Sheet" transform="matrix(1,0,0,1,122.898,107.877)">
+                    <g>
+                        <g transform="matrix(0.246303,0,0,0.246303,206.545,80)">
+                            <rect x="0" y="0" width="2480.32" height="3507.87" style="fill:rgb(235,235,235);stroke:rgb(57,57,57);stroke-width:257.89px;"/>
+                        </g>
+                        <g transform="matrix(1.17737,0,0,1,-61.936,-1577.91)">
+                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:40.71px;stroke-miterlimit:4;"/>
+                        </g>
+                        <g transform="matrix(1.17737,0,0,1,-61.936,-1469.99)">
+                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:40.71px;stroke-miterlimit:4;"/>
+                        </g>
+                        <g transform="matrix(0.588685,0,0,1,110.488,-1254.15)">
+                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:54.19px;stroke-miterlimit:4;"/>
+                        </g>
+                        <g transform="matrix(0.878408,0,0,1,25.6291,-1362.07)">
+                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:47.24px;stroke-miterlimit:4;"/>
+                        </g>
+                        <g transform="matrix(0.878408,0,0,1,25.6291,-1146.23)">
+                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:47.24px;stroke-miterlimit:4;"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
