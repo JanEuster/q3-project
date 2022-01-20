@@ -155,7 +155,7 @@ class PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
         [[coords.x, coords.y]],
-        this.toolManager.strokeWidth,
+        this.toolManager.strokeWidthPencil,
         this.toolManager.strokeStyle
       );
       Doc.addObject(this.currentPath);
@@ -204,7 +204,7 @@ class EraserTool extends PencilTool {
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0)); //colour --> getBackgroundColour Artboard Class
       this.currentPath = new Path(
         [[coords.x, coords.y]],
-        this.toolManager.strokeWidth,
+        this.toolManager.strokeWidthEraser,
         Doc.getBackgroundColour()
       );
       Doc.addObject(this.currentPath);
@@ -323,6 +323,8 @@ class ShapeTool {
 	  
     this.name = "shapes"
 
+    this.toolManager = undefined;
+
 	  this.currentShape = undefined
     this.lastShape = this.currentShape
   }
@@ -337,8 +339,8 @@ class ShapeTool {
       window.innerHeight
       );
       
-      let shape = this.shapes[2];
-      //console.log(this.inUse, e.type)
+      let shape = this.toolManager.shape //this.shapes[2];
+
       if (e.type === "mousedown") {
         //console.log(coords.x, coords.y)
         this.inUse = true;
@@ -346,12 +348,14 @@ class ShapeTool {
         this.y1 = coords.y;
         
         if (shape === "circle") {
-          this.currentShape = new Circle(this.x1, this.y1, 0);
+          this.currentShape = new Circle(this.x1, this.y1, 0); //x, y, r, fC, bC, bW
         } else if (shape === "rectangle") {
           this.currentShape = new Rectangle(this.x1, this.y1, 0, 0);
         } else if (shape === "triangle") {
           this.currentShape = new Triangle(this.x1, this.y1, 0, 0);
         } else { console.log("ERROR SHAPE-SELECTION") }
+
+        this.currentShape.borderWidth = this.toolManager.borderWidth;
         Doc.addObject(this.currentShape)
         
         //console.log(this.currentShape)
@@ -441,16 +445,21 @@ class ToolManager {
     this.tools.push(selectionT, pencilT, eraserT, textT, shapeT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
-    this.strokeWidth = 10;
+    this.strokeWidthPencil = 10;
+    this.strokeWidthEraser = 10;
     this.strokeStyle = "#111111";
     this.font = "Iosevka bold"
     this.fontSize = 100
+
+    this.shape = "triangle";
+    this.borderWidth = 25;
 
     this.lastObj = NaN
 
     pencilT.toolManager = this
     eraserT.toolManager = this
     textT.toolManager = this
+    shapeT.toolManager = this;
 
     this.panel = new Toolbox(this);
     this.settingsPanel = new ToolSettingsPanel(this);
