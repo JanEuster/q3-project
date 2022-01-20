@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, Component } from "react";
-import Artboard from "./Artboard";
+import Artboard, { noArtboard } from "./Artboard";
 import ToolManager from "./Tools";
 import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
@@ -17,6 +17,7 @@ import {
 import GLOBALS from "../../Globals";
 
 var FPS = 120;
+var CANVAS_BG = "#F3F3F3";
 
 class Canvas extends Component {
   constructor(props) {
@@ -24,10 +25,11 @@ class Canvas extends Component {
     this.state = {
       Doc: this.props.Doc
         ? this.props.Doc
-        : new Artboard(1000, 1000, "#000000"),
+        : new noArtboard(CANVAS_BG),
       Tools: undefined,
       Panels: undefined,
     };
+
 
     this.canvasRef = React.createRef();
 
@@ -123,6 +125,11 @@ class Canvas extends Component {
   }
 
   updateCanvas(context) {
+    // reset canvas
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    context.fillStyle = CANVAS_BG;
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+
     this.state.Doc.draw(context);
     this.state.Tools.toolGraphic(context);
 
@@ -160,7 +167,7 @@ class Canvas extends Component {
       }
     }
 
-    this.state.Tools.toolUse(e);
+    if (this.state.Doc.editable) this.state.Tools.toolUse(e);
   }
 
   render() {

@@ -45,7 +45,7 @@ class App extends Component {
       });
     }
 
-    this.setState({ currentDoc: new Artboard(width, height, "#dddddd") });
+    this.setState({ currentDoc: new Artboard(width, height, "#FFFFFF") });
     this.setState({
       documents: [...this.state.documents, this.state.currentDoc],
     });

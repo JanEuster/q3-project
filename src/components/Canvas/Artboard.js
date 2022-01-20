@@ -1,3 +1,5 @@
+import Text from "./Objects/Text";
+
 class Artboard {
   //
   constructor(width, height, bgColor) {
@@ -11,6 +13,8 @@ class Artboard {
     // objects at the end of the list are on top of the other ones --> layer system
     this.objects = [];
     this.draw = this.draw.bind(this);
+
+    this.editable = true
   }
 
   addObject(obj) {
@@ -113,12 +117,29 @@ class Artboard {
 
   draw(context) {
     const artMeta = this.getArtboardMetadata();
-    // reset canvas
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
     this.drawArtboard(context, artMeta);
     this.drawObjects(context, artMeta);
   }
 }
 
+class noArtboard extends Artboard {
+  constructor(bgColor) {
+    super(1000, 1000, bgColor);
+    this.objects = [
+      new Text(
+        0,
+        window.innerHeight / 3*2,
+        "No Document created",
+        "Iosevka black",
+        100,
+        "#393939"
+      ),
+    ];
+
+    this.editable = false
+  }
+}
+
 export default Artboard;
+export {noArtboard}
