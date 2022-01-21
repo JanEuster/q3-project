@@ -282,21 +282,11 @@ class ToolSettingsPanel extends Panel {
         ],
         size: { height: 210 },
       },
-      pencil: {
-        components: [
-          new PanelColorSelectorComponent(4, 35, 5, 15, this.toolManager),
-          new PanelText(10, 176, "Line Width", 13),
-          new PanelSlider(10, 180, 100, 20, (pos) => {
-            this.toolManager.strokeWidth = pos * 40;
-          }),
-        ],
-        size: { height: 210 },
-      },
       eraser: {
         components: [
           new PanelText(10, 56, "Line Width", 13),
           new PanelSlider(10, 60, 100, 20, (pos) => {
-            this.toolManager.strokeWidth = pos * 40;
+            this.toolManager.strokeWidthEraser = pos * 40;
           }),
         ],
         size: { height: 160 },
