@@ -132,9 +132,9 @@ const Canvas = (props) => {
       canvas.removeEventListener("mousedown", handleCanvasEvent);
       canvas.removeEventListener("mouseup", handleCanvasEvent);
       canvas.removeEventListener("mousemove", handleCanvasEvent);
-      canvas.addEventListener("touchmove", handleCanvasEvent);
-      document.addEventListener("keypress", handleCanvasEvent);
-      document.addEventListener("keydown", handleCanvasEvent);
+      canvas.removeEventListener("touchmove", handleCanvasEvent);
+      document.removeEventListener("keypress", handleCanvasEvent);
+      document.removeEventListener("keydown", handleCanvasEvent);
 
       //window.addEventListener("maximize", handleResize);
       // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
