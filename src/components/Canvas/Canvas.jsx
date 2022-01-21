@@ -118,7 +118,9 @@ const Canvas = (props) => {
     canvas.addEventListener("mousedown", handleCanvasEvent);
     canvas.addEventListener("mouseup", handleCanvasEvent);
     canvas.addEventListener("mousemove", handleCanvasEvent);
+    canvas.addEventListener("touchstart", handleCanvasEvent);
     canvas.addEventListener("touchmove", handleCanvasEvent);
+    canvas.addEventListener("touchend", handleCanvasEvent);
     document.addEventListener("keypress", handleCanvasEvent);
     document.addEventListener("keydown", handleCanvasEvent);
 
@@ -132,7 +134,9 @@ const Canvas = (props) => {
       canvas.removeEventListener("mousedown", handleCanvasEvent);
       canvas.removeEventListener("mouseup", handleCanvasEvent);
       canvas.removeEventListener("mousemove", handleCanvasEvent);
-      canvas.removeEventListener("touchmove", handleCanvasEvent);
+      canvas.removeEventListener("touchstart", handleCanvasEvent);
+      canvas.addEventListener("touchmove", handleCanvasEvent);
+      canvas.removeEventListener("touchend", handleCanvasEvent);
       document.removeEventListener("keypress", handleCanvasEvent);
       document.removeEventListener("keydown", handleCanvasEvent);
 

@@ -64,7 +64,7 @@ class SelectionTool {
     if (e.type === "click") {
       this.selectedObject = this.collisionOnObjects(coords, Doc)
 
-    } else if (e.type === "mousedown") {
+    } else if (e.type === "mousedown" || e.type === "touchstart") {
       this.selectedObject = this.collisionOnObjects(coords, Doc)
       if (this.selectedObject) {
         this.moving = true
@@ -84,7 +84,7 @@ class SelectionTool {
       this.lastPos.y = coords.y
 
 
-    } else if (this.selectedObject && e.type === "mouseup") {
+    } else if (this.selectedObject && (e.type === "mouseup" || e.type === "touchend")) {
       this.moving = false
       this.lastEventUp = true
    }
@@ -150,7 +150,7 @@ class PencilTool {
       window.innerWidth,
       window.innerHeight
     );
-    if (e.type === "mousedown") {
+    if (e.type === "mousedown" || e.type === "touchstart") {
       this.inUse = true;
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
       this.currentPath = new Path(
@@ -164,7 +164,7 @@ class PencilTool {
       this.currentPath.addPoint(coords.x, coords.y);
       // this.currentPath.cleanUp()
 
-    } else if (this.inUse && e.type === "mouseup") {
+    } else if (this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
       this.currentPath.addPoints(coords.x, coords.y);
       this.currentPath.cleanUp()
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
@@ -199,7 +199,7 @@ class EraserTool extends PencilTool {
       window.innerHeight
     );
 
-    if (e.type === "mousedown") {
+    if (e.type === "mousedown" || e.type === "touchstart") {
       this.inUse = true;
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0)); //colour --> getBackgroundColour Artboard Class
       this.currentPath = new Path(
@@ -210,7 +210,7 @@ class EraserTool extends PencilTool {
       Doc.addObject(this.currentPath);
     } else if(this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
       this.currentPath.addPoint(coords.x,coords.y);
-    } else if(this.inUse && e.type === "mouseup") {
+    } else if(this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
       this.currentPath.addPoints(coords.x,coords.y);
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0));
 
@@ -341,7 +341,7 @@ class ShapeTool {
       
       let shape = this.toolManager.shape //this.shapes[2];
 
-      if (e.type === "mousedown") {
+      if (e.type === "mousedown" || e.type === "touchstart") {
         //console.log(coords.x, coords.y)
         this.inUse = true;
         this.x1 = coords.x;
@@ -385,7 +385,7 @@ class ShapeTool {
         }
       }
       
-      else if (this.inUse && e.type === "mouseup") {
+      else if (this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
         if (this.currentShape.width == 0 || this.currentShape.height == 0) {
             Doc.removeObject(this.currentShape);
             this.currentShape = NaN;
