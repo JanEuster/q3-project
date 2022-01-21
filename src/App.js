@@ -29,7 +29,7 @@ class App extends Component {
     }
   }
 
-  createDocument(docType, format, orientation) {
+  createDocument(docType, format, orientation, bgColor) {
     if (docType === "regular") {
       var width, height;
 
@@ -45,7 +45,7 @@ class App extends Component {
       });
     }
 
-    this.setState({ currentDoc: new Artboard(width, height, "#FFFFFF") });
+    this.setState({ currentDoc: new Artboard(width, height, bgColor) });
     this.setState({
       documents: [...this.state.documents, this.state.currentDoc],
     });
@@ -69,8 +69,8 @@ class App extends Component {
             // "/" path Route always last
             <Navbar side="nav-top" />
             <Home
-              createCallback={(docType, format, orientation) =>
-                this.createDocument(docType, format, orientation)
+              createCallback={(docType, format, orientation, bgColor) =>
+                this.createDocument(docType, format, orientation, bgColor)
               }
               openCallback={(path) => this.openDocument(path)}
               importCallback={(path) => this.importDocument(path)}

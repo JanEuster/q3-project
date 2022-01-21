@@ -8,6 +8,18 @@ import DocTypeSelector from "./components/DocTypes";
 import { useRef } from "react";
 
 import GLOBALS from "../../../Globals";
+import RGBSelector from "./components/RGBSelector";
+
+const TextDiv = styled.div`
+  float: left;
+  transform: translateY(0.3vw);
+  margin-right: 0.2vw;
+  font-family: Iosevka heavy;
+  font-size: 2vw;
+  color: GLOBALS.COLORS.darkgrey;
+  user-select: none;
+  user-drag: none;
+`;
 
 const FilesTypesSelection = (props) => {
   const svgWidth = "18vw";
@@ -21,20 +33,7 @@ const FilesTypesSelection = (props) => {
           width={svgWidth}
         />
         <div style={{ position: "relative", width: "60%", gridColumn: 1 }}>
-          <div
-            style={{
-              float: "left",
-              transform: "translateY(.3vw)",
-              marginRight: "0.2vw",
-              fontFamily: "Iosevka heavy",
-              fontSize: "2vw",
-              color: GLOBALS.COLORS.darkgrey,
-              userSelect: "none",
-              userDrag: "none",
-            }}
-          >
-            Din
-          </div>
+          <TextDiv>Din</TextDiv>
           <Dropdown
             onChange={props.setFormat}
             width="4vw"
@@ -46,6 +45,40 @@ const FilesTypesSelection = (props) => {
           />
 
           <HVSelector onChange={props.setOrientation} />
+        </div>
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            gridColumn: 2,
+            gridRow: 3,
+          }}
+        >
+          <TextDiv>Background</TextDiv>
+          <div
+            style={{
+              // width: "100%",
+              // height: "100%",
+              backgroundColor: GLOBALS.COLORS.lightgrey,
+              // border: ".6vw solid " + GLOBALS.COLORS.darkgrey,
+            }}
+          >
+            <input
+              type="color"
+              value={props.bgColor}
+              style={{
+                width: "6vw",
+                height: "4vw",
+                boxSizing: "border-box",
+                backgroundColor: GLOBALS.COLORS.darkgrey,
+                // border: ".6vw solid " + GLOBALS.COLORS.darkgrey,
+              }}
+              onChange={(e) => props.setBG(e.target.value)}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -66,6 +99,7 @@ const NewFileModal = (props) => {
   const [docType, setDocType] = useState(GLOBALS.DOC_TYPES[0]);
   const [format, setFormat] = useState(GLOBALS.DOC_FORMATS[0]);
   const [orientation, setOrientation] = useState(GLOBALS.DOC_ORIENTATIONS[0]);
+  const [bgColor, setBG] = useState("#FFFFFF");
 
   if (props.isOpen === "true") {
     return (
@@ -85,6 +119,8 @@ const NewFileModal = (props) => {
             setDocType={setDocType}
             setFormat={setFormat}
             setOrientation={setOrientation}
+            bgColor={bgColor}
+            setBG={setBG}
             modalRef
           />
           <ButtonContainerDiv>
@@ -98,7 +134,9 @@ const NewFileModal = (props) => {
               style={{ float: "right", transform: "translate(-2vw)" }}
               text="Create"
               side="right"
-              func={() => props.appCallback(docType, format, orientation)}
+              func={() =>
+                props.appCallback(docType, format, orientation, bgColor)
+              }
             />
           </ButtonContainerDiv>
         </div>
