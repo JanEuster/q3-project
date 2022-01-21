@@ -1,13 +1,11 @@
 import Toolbox from "./Panels/Toolbox";
 import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
-import colors from "../colors.json"
+import GLOBALS from "../../Globals";
 import Text from "./Objects/Text";
 import Panel from "./Panels/BasePanel";
 import ToolSettingsPanel from './Panels/ToolSettings';
 
-
-let toolSettingsPanel = new Panel()
 
 function getCoords(e) {
   console.log(e)
@@ -16,68 +14,63 @@ function getCoords(e) {
   } else {
     return e.pageX, e.pageY
   }
-  
-  
 }
 
 // function object
 class SelectionTool {
   constructor() {
     this.selectedObject = NaN;
-    this.moving = false
-    this.lastPos = { x: NaN, y: NaN }
-    
-    this.lastEventUp = false // was last event mouseup -> next click event can be ignored
+    this.moving = false;
+    this.lastPos = { x: NaN, y: NaN };
 
-    this.name = "select"
-    this.icon = "assets/icons/tools/select.png"
+    this.lastEventUp = false; // was last event mouseup -> next click event can be ignored
+
+    this.name = "select";
+    this.icon = "assets/icons/tools/select.png";
   }
 
   collisionOnObjects(coords, Doc) {
-    let objects = Doc.objects.slice(0).reverse() // create reveresed copy of objects list
-    let pixelRatio = Doc.getArtboardMetadata().pixelRatio
+    let objects = Doc.objects.slice(0).reverse(); // create reveresed copy of objects list
+    let pixelRatio = Doc.getArtboardMetadata().pixelRatio;
 
     for (var i = 0; i < objects.length; i++) {
-      let obj = objects[i]
+      let obj = objects[i];
 
       if (obj.boundingBox.checkCollision(coords.x, coords.y, pixelRatio)) {
-        return obj
+        return obj;
       }
-      
     }
-    return false
+    return false;
   }
 
   select(obj) {
-    this.selectedObject = obj
-   }
-  
+    this.selectedObject = obj;
+  }
+
   use(e, Doc) {
     if (this.selectedObject && e.type === "keydown" && e.key === "Delete") {
-      Doc.removeObject(this.selectedObject)
-      this.selectedObject = NaN
-      this.moving = false
+      Doc.removeObject(this.selectedObject);
+      this.selectedObject = NaN;
+      this.moving = false;
     }
 
     if (this.lastEventUp && e.type === "click") {
-      return
+      return;
     } // if last event was mouseup mouse move has just finished and therefore a click at the position of mouseup is not needed
-    this.lastEventUp = false
-
+    this.lastEventUp = false;
 
     let coords = Doc.localCoords(
-    e.pageX,
-    e.pageY,
-    window.innerWidth,
-    window.innerHeight
+      e.pageX,
+      e.pageY,
+      window.innerWidth,
+      window.innerHeight
     );
     if (e.type === "click") {
-      this.selectedObject = this.collisionOnObjects(coords, Doc)
-
+      this.selectedObject = this.collisionOnObjects(coords, Doc);
     } else if (e.type === "mousedown" || e.type === "touchstart") {
-      this.selectedObject = this.collisionOnObjects(coords, Doc)
+      this.selectedObject = this.collisionOnObjects(coords, Doc);
       if (this.selectedObject) {
-        this.moving = true
+        this.moving = true;
       }
       
       this.lastPos.x = coords.x
@@ -99,58 +92,58 @@ class SelectionTool {
       this.lastEventUp = true
    }
 
-  }
+      this.lastPos.x = coords.x;
+      this.lastPos.y = coords.y;
+  } 
+  
 
-  deselect() { 
-    return this.selectedObject
+  deselect() {
+    return this.selectedObject;
   }
 
   graphic(context, artMeta) {
     // show selection box
     if (this.selectedObject) {
-      let x = this.selectedObject.boundingBox.coords[0]
-      let y = this.selectedObject.boundingBox.coords[1]
-      let w = this.selectedObject.boundingBox.wh[0]
-      let h = this.selectedObject.boundingBox.wh[1]
+      let x = this.selectedObject.boundingBox.coords[0];
+      let y = this.selectedObject.boundingBox.coords[1];
+      let w = this.selectedObject.boundingBox.wh[0];
+      let h = this.selectedObject.boundingBox.wh[1];
 
-      let pixelRatio = artMeta.pixelRatio
-      let baseCoord = artMeta.baseCoord
-      
-      let offset = 32
+      let pixelRatio = artMeta.pixelRatio;
+      let baseCoord = artMeta.baseCoord;
+
+      let offset = 32;
       // context.fillStyle = "#00FF00";
       context.lineWidth = 3; //TODO: lineWidth parameter;
-      context.strokeStyle = colors.midorange;
+      context.strokeStyle = GLOBALS.COLORS.midorange;
 
       context.strokeRect(
         baseCoord.w + pixelRatio * (x - offset),
         baseCoord.h + pixelRatio * (y - offset),
-        pixelRatio * (w + offset*2),
-        pixelRatio * (h + offset*2)
+        pixelRatio * (w + offset * 2),
+        pixelRatio * (h + offset * 2)
       );
     }
   }
-
 }
-
 
 class PencilTool {
   constructor() {
     this.currentPath = NaN;
-    this.lastPath = NaN
+    this.lastPath = NaN;
     this.eventCount = 0;
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
 
-    this.toolManager = undefined
+    this.toolManager = undefined;
 
-    this.name = "pencil"
+    this.name = "pencil";
     // this.use = this.use.bind(this);
-    this.icon = "assets/icons/tools/pencil.png"
+    this.icon = "assets/icons/tools/pencil.png";
   }
 
-  select(obj) { 
-  }
-  
+  select(obj) {}
+
   use(e, Doc) {
     this.eventCount += 1;
     
@@ -187,26 +180,27 @@ class PencilTool {
         this.toolManager.strokeStyle
       );
       Doc.addObject(this.currentPath);
-
-    } else if (this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
+    } else if (
+      this.inUse &&
+      (e.type === "mousemove" || e.type === "touchmove")
+    ) {
       this.currentPath.addPoint(coords.x, coords.y);
       // this.currentPath.cleanUp()
-
     } else if (this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
       this.currentPath.addPoints(coords.x, coords.y);
-      this.currentPath.cleanUp()
+      this.currentPath.cleanUp();
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
 
       this.inUse = false;
-      this.lastPath = this.currentPath
+      this.lastPath = this.currentPath;
       this.currentPath = NaN;
     }
   }
 
-  deselect() { 
-    return this.lastPath
+  deselect() {
+    return this.lastPath;
   }
-  
+
   graphic(context, artMeta) {}
 }
 
@@ -214,10 +208,10 @@ class EraserTool extends PencilTool {
   constructor() {
     super();
 
-    this.toolManager = undefined
+    this.toolManager = undefined;
 
-    this.name = "eraser"
-    this.icon = "assets/icons/tools/eraser.png"
+    this.name = "eraser";
+    this.icon = "assets/icons/tools/eraser.png";
   }
   use(e, Doc) {
     let coords = Doc.localCoords(
@@ -252,52 +246,62 @@ class TextTool {
   constructor() {
     this.activeObject = NaN;
 
-    this.toolManager = undefined
-    
-    this.name = "text"
-      
-    this.icon = "assets/icons/tools/text.png"
+    this.toolManager = undefined;
+
+    this.name = "text";
+
+    this.icon = "assets/icons/tools/text.png";
   }
 
   select(obj) {
     if (obj instanceof Text) {
-      this.activeObject = obj
+      this.activeObject = obj;
     }
-   }
-  
-  use(e, Doc) {
+  }
 
+  use(e, Doc) {
     let coords = Doc.localCoords(
-    e.pageX,
-    e.pageY,
-    window.innerWidth,
-    window.innerHeight
+      e.pageX,
+      e.pageY,
+      window.innerWidth,
+      window.innerHeight
     );
 
     if (e.type === "click") {
-      this.activeObject = new Text(coords.x, coords.y, "", this.toolManager.font, this.toolManager.fontSize)
-
+      this.activeObject = new Text(
+        coords.x,
+        coords.y,
+        "",
+        this.toolManager.font,
+        this.toolManager.fontSize
+      );
     } else if (e.type === "mousedown") {
-      this.activeObject = new Text(coords.x, coords.y, "", this.toolManager.font, this.toolManager.fontSize)
-      Doc.objects.push(this.activeObject)
+      this.activeObject = new Text(
+        coords.x,
+        coords.y,
+        "",
+        this.toolManager.font,
+        this.toolManager.fontSize
+      );
+      Doc.objects.push(this.activeObject);
     } else if (this.activeObject && e.type === "keypress") {
-      this.activeObject.addText(e.key)
+      this.activeObject.addText(e.key);
     } else if (this.activeObject && e.type === "keydown") {
-      
       if (e.key === "Escape") {
         // console.log(this.activeObject.text.length);
-        if (this.activeObject.text.length == 0) { Doc.removeObject(this.activeObject); } //check if textlength 0
+        if (this.activeObject.text.length == 0) {
+          Doc.removeObject(this.activeObject);
+        } //check if textlength 0
         this.activeObject = NaN;
       } else if (e.key === "Backspace") {
-        this.activeObject.removeLastChar()
+        this.activeObject.removeLastChar();
       }
-      
-    }    
+    }
 
     if (this.activeObject) {
-      this.activeObject.fontSize = this.toolManager.fontSize
-      this.activeObject.setWidthHeight()
-      this.activeObject.setBounds()
+      this.activeObject.fontSize = this.toolManager.fontSize;
+      this.activeObject.setWidthHeight();
+      this.activeObject.setBounds();
     }
   }
 
@@ -312,18 +316,18 @@ class TextTool {
   graphic(context, artMeta) {
     // show selection box
     if (this.activeObject) {
-      let x = this.activeObject.boundingBox.coords[0]
-      let y = this.activeObject.boundingBox.coords[1]
-      let w = this.activeObject.boundingBox.wh[0]
-      let h = this.activeObject.boundingBox.wh[1]
+      let x = this.activeObject.boundingBox.coords[0];
+      let y = this.activeObject.boundingBox.coords[1];
+      let w = this.activeObject.boundingBox.wh[0];
+      let h = this.activeObject.boundingBox.wh[1];
 
-      let pixelRatio = artMeta.pixelRatio
-      let baseCoord = artMeta.baseCoord
-      
-      let offset = 32
+      let pixelRatio = artMeta.pixelRatio;
+      let baseCoord = artMeta.baseCoord;
+
+      let offset = 32;
       // context.fillStyle = "#00FF00";
       context.lineWidth = 3; //TODO: lineWidth parameter;
-      context.strokeStyle = colors.midorange;
+      context.strokeStyle = GLOBALS.COLORS.midorange;
 
       context.strokeRect(
         baseCoord.w + pixelRatio * (x - offset),
@@ -334,32 +338,32 @@ class TextTool {
 
       // text cursor
       context.fillRect(
-        baseCoord.w + pixelRatio * (this.activeObject.xCoord + this.activeObject.width) +4,
-        baseCoord.h + pixelRatio * (this.activeObject.yCoord - this.activeObject.height),
+        baseCoord.w +
+          pixelRatio * (this.activeObject.xCoord + this.activeObject.width) +
+          4,
+        baseCoord.h +
+          pixelRatio * (this.activeObject.yCoord - this.activeObject.height),
         3,
         pixelRatio * this.activeObject.height
-      )
+      );
     }
   }
 }
 
-
 class ShapeTool {
   constructor() {
-	  this.icon = "assets/icons/tools/shapes.png";
-	  this.shapes = ["circle", "rectangle", "triangle"]
-	  
-    this.name = "shapes"
+    this.icon = "assets/icons/tools/shapes.png";
+    this.shapes = ["circle", "rectangle", "triangle"];
 
+    this.name = "shapes";
+
+    this.currentShape = undefined;
+    this.lastShape = this.currentShape;
     this.toolManager = undefined;
-
-	  this.currentShape = undefined
-    this.lastShape = this.currentShape
   }
-  select(){}
-  
+  select() {}
+
   use(e, Doc) {
-    
     let coords = Doc.localCoords(
       e.pageX,
       e.pageY,
@@ -420,51 +424,52 @@ class ShapeTool {
             return;
           }
 
-        if (this.currentShape instanceof Circle) {
-          var x = this.currentShape.xCoord - this.currentShape.radius;
-          var y = this.currentShape.yCoord - this.currentShape.radius;
-          var width = this.currentShape.radius * 2;
-          var height = this.currentShape.radius * 2;
-          
+      if (this.currentShape instanceof Circle) {
+        var x = this.currentShape.xCoord - this.currentShape.radius;
+        var y = this.currentShape.yCoord - this.currentShape.radius;
+        var width = this.currentShape.radius * 2;
+        var height = this.currentShape.radius * 2;
+      } else {
+        var x = this.currentShape.xCoord;
+        var y = this.currentShape.yCoord;
+        var width = this.currentShape.width;
+        var height = this.currentShape.height;
 
-        } else {
-          var x = this.currentShape.xCoord;
-          var y = this.currentShape.yCoord;
-          var width = this.currentShape.width;
-          var height = this.currentShape.height;
-
-          if (this.currentShape instanceof Triangle) {
-            if (width < 0 && height > 0) {
-              x += width;
-            } else if (width > 0 && height < 0) {
-              y += height;
-            } else if (width < 0 && height < 0) {
-              x += width;
-              y += height;
-            } else {}
+        if (this.currentShape instanceof Triangle) {
+          if (width < 0 && height > 0) {
+            x += width;
+          } else if (width > 0 && height < 0) {
+            y += height;
+          } else if (width < 0 && height < 0) {
+            x += width;
+            y += height;
+          } else {
           }
-          
-          
         }
-        //console.log("TOOLSCOORD: " + x, y, width, height)
-        this.currentShape.boundingBox.setBounds(x, y, x + Math.abs(width), y + Math.abs(height))
-        this.inUse = false;
-        this.lastShape = this.currentShape
-        this.currentShape = undefined
       }
+      //console.log("TOOLSCOORD: " + x, y, width, height)
+      this.currentShape.boundingBox.setBounds(
+        x,
+        y,
+        x + Math.abs(width),
+        y + Math.abs(height)
+      );
+      this.inUse = false;
+      this.lastShape = this.currentShape;
+      this.currentShape = undefined;
     }
-    deselect(){ 
-      return this.lastShape
-    }
-    graphic(context, artMeta){}
+  }
+  deselect() {
+    return this.lastShape;
+  }
+  graphic(context, artMeta) {}
 }
 
-
-var selectionT = new SelectionTool()
-var pencilT = new PencilTool()
-var eraserT = new EraserTool()
-var textT = new TextTool()
-var shapeT = new ShapeTool()
+var selectionT = new SelectionTool();
+var pencilT = new PencilTool();
+var eraserT = new EraserTool();
+var textT = new TextTool();
+var shapeT = new ShapeTool();
 
 class ToolManager {
   constructor(Doc) {
@@ -476,17 +481,23 @@ class ToolManager {
     this.strokeWidthPencil = 10;
     this.strokeWidthEraser = 10;
     this.strokeStyle = "#111111";
-    this.font = "Iosevka bold"
-    this.fontSize = 100
+    this.font = "Iosevka bold";
+    this.fontSize = 100;
+
+    this.lastObj = NaN;
+
+    pencilT.toolManager = this;
+    eraserT.toolManager = this;
+    textT.toolManager = this;
 
     this.shape = "triangle";
     this.borderWidth = 25;
 
-    this.lastObj = NaN
+    this.lastObj = NaN;
 
-    pencilT.toolManager = this
-    eraserT.toolManager = this
-    textT.toolManager = this
+    pencilT.toolManager = this;
+    eraserT.toolManager = this;
+    textT.toolManager = this;
     shapeT.toolManager = this;
 
     this.panel = new Toolbox(this);
@@ -503,12 +514,12 @@ class ToolManager {
     this.lastObj = this.activeTool.deselect();
   }
 
-  toolGraphic(context, artMeta) {
+  toolGraphic(context) {
+    const artMeta = this.Doc.getArtboardMetadata();
     // function to display tool related graphics on redraw; i.e. selection box if selection tool is this.activeTool
-    this.activeTool.graphic(context, artMeta)
+    this.activeTool.graphic(context, artMeta);
   }
-
 }
 
 export default ToolManager;
-export { selectionT, pencilT, eraserT, textT, shapeT};
+export { selectionT, pencilT, eraserT, textT, shapeT };

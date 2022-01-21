@@ -1,9 +1,10 @@
+import Text from "./Objects/Text";
+
 class Artboard {
   //
-  constructor(width, height, content, bgColor) {
+  constructor(width, height, bgColor) {
     this.width = width;
     this.height = height;
-    this.content = content;
     this.bgColor = bgColor;
 
     this.margin = 10; // margin to be set around the artboard
@@ -12,6 +13,8 @@ class Artboard {
     // objects at the end of the list are on top of the other ones --> layer system
     this.objects = [];
     this.draw = this.draw.bind(this);
+
+    this.editable = true;
   }
 
   addObject(obj) {
@@ -25,7 +28,7 @@ class Artboard {
   }
 
   removeObject(obj) {
-    this.objects.splice(this.objects.indexOf(obj), 1)
+    this.objects.splice(this.objects.indexOf(obj), 1);
   }
 
   getBackgroundColour() {
@@ -54,8 +57,8 @@ class Artboard {
   }
 
   getArtboardMetadata() {
-    let scrW = window.innerWidth
-    let scrH = window.innerHeight
+    let scrW = window.innerWidth;
+    let scrH = window.innerHeight;
     var m = this.margin * 6;
 
     if (scrW / scrH > this.width / this.height) {
@@ -97,7 +100,6 @@ class Artboard {
   }
 
   drawArtboard(context, artMeta) {
-
     context.fillStyle = this.bgColor;
     context.fillRect(
       artMeta.baseCoord.w,
@@ -108,22 +110,63 @@ class Artboard {
   }
 
   drawObjects(context, artMeta) {
-
     this.objects.forEach((obj) => {
       obj.render(context, artMeta.pixelRatio, artMeta.baseCoord);
     });
   }
 
-  draw(context, artMeta) {
-    // console.log(this.objects);
-    // reset canvas
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
+  draw(context) {
+    const artMeta = this.getArtboardMetadata();
 
     this.drawArtboard(context, artMeta);
     this.drawObjects(context, artMeta);
+  }
+}
 
+class infiniteScrollArtboard extends Artboard {
+  constructor(width, bgColor) {
+    super(width, 2 * width, bgColor);
+  }
+
+  drawArtboard(context, artMeta) {
+    context.fillStyle = this.bgColor;
+    context.fillRect(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight
+    );
+  }
+}
+
+class infiniteArtboard extends Artboard {
+  constructor(width, bgColor) {
+    super(width, 2 * width, bgColor);
+  }
+
+  drawArtboard(context, artMeta) {
+    context.fillStyle = this.bgColor;
+    context.fillRect(artMeta.baseCoord.w, 0, artMeta.width, window.innerHeight);
+  }
+}
+
+class noArtboard extends Artboard {
+  constructor(bgColor) {
+    super(1000, 1000, bgColor);
+    this.objects = [
+      new Text(
+        0,
+        (window.innerHeight / 3) * 2,
+        "No Document created",
+        "Iosevka heavy",
+        100,
+        "#393939"
+      ),
+    ];
+
+    this.editable = false;
   }
 }
 
 export default Artboard;
+export { noArtboard, infiniteScrollArtboard, infiniteArtboard };
