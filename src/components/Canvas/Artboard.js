@@ -123,6 +123,33 @@ class Artboard {
   }
 }
 
+class infiniteScrollArtboard extends Artboard {
+  constructor(width, bgColor) {
+    super(width, 2 * width, bgColor);
+  }
+
+  drawArtboard(context, artMeta) {
+    context.fillStyle = this.bgColor;
+    context.fillRect(
+      0,
+      0,
+      window.innerWidth,
+      window.innerHeight
+    );
+  }
+}
+
+class infiniteArtboard extends Artboard {
+  constructor(width, bgColor) {
+    super(width, 2 * width, bgColor);
+  }
+
+  drawArtboard(context, artMeta) {
+    context.fillStyle = this.bgColor;
+    context.fillRect(artMeta.baseCoord.w, 0, artMeta.width, window.innerHeight);
+  }
+}
+
 class noArtboard extends Artboard {
   constructor(bgColor) {
     super(1000, 1000, bgColor);
@@ -142,4 +169,4 @@ class noArtboard extends Artboard {
 }
 
 export default Artboard;
-export { noArtboard };
+export { noArtboard, infiniteScrollArtboard, infiniteArtboard };

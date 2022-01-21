@@ -12,7 +12,7 @@ import {
 import Navbar from "./Navbar.js";
 import Canvas from "./components/Canvas/Canvas.jsx";
 import Home from "./components/Home/Home";
-import Artboard from "./components/Canvas/Artboard";
+import Artboard, { infiniteScrollArtboard } from "./components/Canvas/Artboard";
 import GLOBALS from "./Globals";
 class App extends Component {
   constructor(props) {
@@ -43,9 +43,15 @@ class App extends Component {
           }
         }
       });
+
+      this.setState({ currentDoc: new Artboard(width, height, bgColor) });
+
+    } else if (docType === "infinite-scroll") {
+      this.setState({ currentDoc: new infiniteScrollArtboard(2000, bgColor) });
+    } else if (docType === "infinite") {
+      this.setState({ currentDoc: new infiniteScrollArtboard(2000, bgColor) });
     }
 
-    this.setState({ currentDoc: new Artboard(width, height, bgColor) });
     this.setState({
       documents: [...this.state.documents, this.state.currentDoc],
     });
