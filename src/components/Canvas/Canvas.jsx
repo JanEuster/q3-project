@@ -23,13 +23,10 @@ class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Doc: this.props.Doc
-        ? this.props.Doc
-        : new noArtboard(CANVAS_BG),
+      Doc: this.props.Doc ? this.props.Doc : new noArtboard(CANVAS_BG),
       Tools: undefined,
       Panels: undefined,
     };
-
 
     this.canvasRef = React.createRef();
 
@@ -148,6 +145,7 @@ class Canvas extends Component {
   }
 
   handleCanvasEvent(e) {
+    if (e.type === "touchmove") console.log(e);
     if (e.type === "click") {
       // ignore click event after mouseup as click is always raised after holding mouse down
       return;
