@@ -14,7 +14,7 @@ class Artboard {
     this.objects = [];
     this.draw = this.draw.bind(this);
 
-    this.editable = true
+    this.editable = true;
   }
 
   addObject(obj) {
@@ -129,17 +129,17 @@ class noArtboard extends Artboard {
     this.objects = [
       new Text(
         0,
-        window.innerHeight / 3*2,
+        (window.innerHeight / 3) * 2,
         "No Document created",
-        "Iosevka black",
+        "Iosevka heavy",
         100,
         "#393939"
       ),
     ];
 
-    this.editable = false
+    this.editable = false;
   }
 }
 
 export default Artboard;
-export {noArtboard}
+export { noArtboard };
