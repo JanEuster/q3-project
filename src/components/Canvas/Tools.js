@@ -9,6 +9,16 @@ import ToolSettingsPanel from './Panels/ToolSettings';
 
 let toolSettingsPanel = new Panel()
 
+function getCoords(e) {
+  console.log(e)
+  if (e.type === "touchstart") {
+    return e.changedTouches[0].pageX, e.changedTouches[0].pageY
+  } else {
+    return e.pageX, e.pageY
+  }
+  
+  
+}
 
 // function object
 class SelectionTool {
@@ -144,12 +154,30 @@ class PencilTool {
   use(e, Doc) {
     this.eventCount += 1;
     
-    let coords = Doc.localCoords(
+    if (e.type === "touchstart") { 
+      var coords = Doc.localCoords(
+        getCoords(e)[0],
+        getCoords(e)[1],
+        window.innerWidth,
+        window.innerHeight
+      ); 
+    } else {
+      var coords = Doc.localCoords(
       e.pageX,
       e.pageY,
       window.innerWidth,
       window.innerHeight
     );
+    }
+
+    // let coords = Doc.localCoords(
+    //   getCoords(e)[0],
+    //   getCoords(e)[1],
+    //   window.innerWidth,
+    //   window.innerHeight
+    // );
+    // console.log(getCoords(e)[0])
+
     if (e.type === "mousedown" || e.type === "touchstart") {
       this.inUse = true;
       // Doc.addObject(new Circle(coords.x, coords.y, 8, "red", undefined, 0));
