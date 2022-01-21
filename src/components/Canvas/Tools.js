@@ -4,14 +4,15 @@ import Path from "./Objects/Paths";
 import GLOBALS from "../../Globals";
 import Text from "./Objects/Text";
 import Panel from "./Panels/BasePanel";
-import ToolSettingsPanel from "./Panels/ToolSettings";
+import ToolSettingsPanel from './Panels/ToolSettings';
+
 
 function getCoords(e) {
-  console.log(e);
+  console.log(e)
   if (e.type === "touchstart") {
-    return e.changedTouches[0].pageX, e.changedTouches[0].pageY;
+    return e.changedTouches[0].pageX, e.changedTouches[0].pageY
   } else {
-    return e.pageX, e.pageY;
+    return e.pageX, e.pageY
   }
 }
 
@@ -71,25 +72,30 @@ class SelectionTool {
       if (this.selectedObject) {
         this.moving = true;
       }
+      
+      this.lastPos.x = coords.x
+      this.lastPos.y = coords.y
+      
+
+    } else if (this.moving && (e.type === "mousemove" || e.type === "touchmove")) {
+      let xDelta = coords.x - this.lastPos.x
+      let yDelta = coords.y - this.lastPos.y
+
+      this.selectedObject.move(xDelta, yDelta)
+
+      this.lastPos.x = coords.x
+      this.lastPos.y = coords.y
+
+
+    } else if (this.selectedObject && (e.type === "mouseup" || e.type === "touchend")) {
+      this.moving = false
+      this.lastEventUp = true
+   }
 
       this.lastPos.x = coords.x;
       this.lastPos.y = coords.y;
-    } else if (
-      this.moving &&
-      (e.type === "mousemove" || e.type === "touchmove")
-    ) {
-      let xDelta = coords.x - this.lastPos.x;
-      let yDelta = coords.y - this.lastPos.y;
-
-      this.selectedObject.move(xDelta, yDelta);
-    } else if (
-      this.selectedObject &&
-      (e.type === "mouseup" || e.type === "touchend")
-    ) {
-      this.moving = false;
-      this.lastEventUp = true;
-    }
-  }
+  } 
+  
 
   deselect() {
     return this.selectedObject;
@@ -140,21 +146,21 @@ class PencilTool {
 
   use(e, Doc) {
     this.eventCount += 1;
-
-    if (e.type === "touchstart") {
+    
+    if (e.type === "touchstart") { 
       var coords = Doc.localCoords(
         getCoords(e)[0],
         getCoords(e)[1],
         window.innerWidth,
         window.innerHeight
-      );
+      ); 
     } else {
       var coords = Doc.localCoords(
-        e.pageX,
-        e.pageY,
-        window.innerWidth,
-        window.innerHeight
-      );
+      e.pageX,
+      e.pageY,
+      window.innerWidth,
+      window.innerHeight
+    );
     }
 
     // let coords = Doc.localCoords(
@@ -224,13 +230,10 @@ class EraserTool extends PencilTool {
         Doc.getBackgroundColour()
       );
       Doc.addObject(this.currentPath);
-    } else if (
-      this.inUse &&
-      (e.type === "mousemove" || e.type === "touchmove")
-    ) {
-      this.currentPath.addPoint(coords.x, coords.y);
-    } else if (this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
-      this.currentPath.addPoints(coords.x, coords.y);
+    } else if(this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
+      this.currentPath.addPoint(coords.x,coords.y);
+    } else if(this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
+      this.currentPath.addPoints(coords.x,coords.y);
       // Doc.addObject(new Circle(coords.x, coords.y, this.radius, "red", undefined, 0));
 
       this.inUse = false;
@@ -366,69 +369,60 @@ class ShapeTool {
       e.pageY,
       window.innerWidth,
       window.innerHeight
-    );
+      );
+      
+      let shape = this.toolManager.shape //this.shapes[2];
 
-    let shape = this.toolManager.shape; //this.shapes[2];
+      if (e.type === "mousedown" || e.type === "touchstart") {
+        //console.log(coords.x, coords.y)
+        this.inUse = true;
+        this.x1 = coords.x;
+        this.y1 = coords.y;
+        
+        if (shape === "circle") {
+          this.currentShape = new Circle(this.x1, this.y1, 0); //x, y, r, fC, bC, bW
+        } else if (shape === "rectangle") {
+          this.currentShape = new Rectangle(this.x1, this.y1, 0, 0);
+        } else if (shape === "triangle") {
+          this.currentShape = new Triangle(this.x1, this.y1, 0, 0);
+        } else { console.log("ERROR SHAPE-SELECTION") }
 
-    if (e.type === "mousedown" || e.type === "touchstart") {
-      //console.log(coords.x, coords.y)
-      this.inUse = true;
-      this.x1 = coords.x;
-      this.y1 = coords.y;
+        this.currentShape.borderWidth = this.toolManager.borderWidth;
+        Doc.addObject(this.currentShape)
+        
+        //console.log(this.currentShape)
+      } else if (this.inUse && (e.type === "mousemove" || e.type === "touchmove")) {
+        
+        //console.log(this.currentShape)
+        
+        if (this.currentShape instanceof Triangle) {
+          this.currentShape.width = coords.x - this.x1
+          this.currentShape.height = coords.y - this.y1
 
-      if (shape === "circle") {
-        this.currentShape = new Circle(this.x1, this.y1, 0); //x, y, r, fC, bC, bW
-      } else if (shape === "rectangle") {
-        this.currentShape = new Rectangle(this.x1, this.y1, 0, 0);
-      } else if (shape === "triangle") {
-        this.currentShape = new Triangle(this.x1, this.y1, 0, 0);
-      } else {
-        console.log("ERROR SHAPE-SELECTION");
-      }
+        } else if (this.currentShape instanceof Circle) {
+          this.currentShape.radius = Math.sqrt(Math.pow((this.x1 - coords.x), 2) + Math.pow((this.y1 - coords.y), 2));
+        
+        } else if (this.currentShape instanceof Rectangle) {
+          this.currentShape.width = coords.x - this.x1
+          this.currentShape.height = coords.y - this.y1
 
-      this.currentShape.borderWidth = this.toolManager.borderWidth;
-      Doc.addObject(this.currentShape);
-
-      //console.log(this.currentShape)
-    } else if (
-      this.inUse &&
-      (e.type === "mousemove" || e.type === "touchmove")
-    ) {
-      //console.log(this.currentShape)
-
-      if (this.currentShape instanceof Triangle) {
-        this.currentShape.width = coords.x - this.x1;
-        this.currentShape.height = coords.y - this.y1;
-      } else if (this.currentShape instanceof Circle) {
-        this.currentShape.radius = Math.sqrt(
-          Math.pow(this.x1 - coords.x, 2) + Math.pow(this.y1 - coords.y, 2)
-        );
-      } else if (this.currentShape instanceof Rectangle) {
-        this.currentShape.width = coords.x - this.x1;
-        this.currentShape.height = coords.y - this.y1;
-
-        if (this.currentShape.width < 0 && this.currentShape.height > 0) {
-          this.currentShape.xCoord = coords.x;
-        } else if (
-          this.currentShape.width > 0 &&
-          this.currentShape.height < 0
-        ) {
-          this.currentShape.yCoord = coords.y;
-        } else if (
-          this.currentShape.width < 0 &&
-          this.currentShape.height < 0
-        ) {
-          this.currentShape.xCoord = coords.x;
-          this.currentShape.yCoord = coords.y;
-        } else {
+          if (this.currentShape.width < 0 && this.currentShape.height > 0) {
+            this.currentShape.xCoord = coords.x;
+          } else if (this.currentShape.width > 0 && this.currentShape.height < 0) {
+            this.currentShape.yCoord = coords.y;
+          } else if (this.currentShape.width < 0 && this.currentShape.height < 0) {
+            this.currentShape.xCoord = coords.x;
+            this.currentShape.yCoord = coords.y;
+          } else {}
         }
       }
-    } else if (this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
-      if (this.currentShape.width == 0 || this.currentShape.height == 0) {
-        Doc.removeObject(this.currentShape);
-        this.currentShape = NaN;
-        return;
-      }
+      
+      else if (this.inUse && (e.type === "mouseup" || e.type === "touchend")) {
+        if (this.currentShape.width == 0 || this.currentShape.height == 0) {
+            Doc.removeObject(this.currentShape);
+            this.currentShape = NaN;
+            return;
+          }
 
       if (this.currentShape instanceof Circle) {
         var x = this.currentShape.xCoord - this.currentShape.radius;

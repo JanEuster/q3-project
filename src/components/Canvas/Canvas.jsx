@@ -63,7 +63,9 @@ class Canvas extends Component {
     canvas.addEventListener("mousedown", this.mouseKeyCallback);
     canvas.addEventListener("mouseup", this.mouseKeyCallback);
     canvas.addEventListener("mousemove", this.mouseKeyCallback);
+    canvas.addEventListener("touchstart", this.mouseKeyCallback);
     canvas.addEventListener("touchmove", this.mouseKeyCallback);
+    canvas.addEventListener("touchend", this.mouseKeyCallback);
     document.addEventListener("keypress", this.mouseKeyCallback);
     document.addEventListener("keydown", this.mouseKeyCallback);
 
@@ -90,20 +92,10 @@ class Canvas extends Component {
       });
     }
 
-    // get canvas Context
-    const canvas = this.canvasRef.current;
-    const context = canvas.getContext("2d");
-
+    const context = this.canvasRef.current.getContext("2d");
     this.updateCanvas(context);
-    // window.addEventListener("maximize", handleResize);
-    return (_) => {
-      // clearInterval(updateInterval);
-      //window.addEventListener("maximize", handleResize);
-      // clean up: remove listener to avoid memory leak by making sure there is always only one listener (every time the useEffect is called because of a resize event, a nev listener would be created)
-      // useEffect executes function on update of the canvas
-      // second arguement([]): all items to be watched for changes, which result in recurring execution of the useEffect callback
+
     };
-  }
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -145,10 +137,9 @@ class Canvas extends Component {
   }
 
   handleCanvasEvent(e) {
-    if (e.type === "touchmove") console.log(e);
-    if (e.type === "click") {
-      // ignore click event after mouseup as click is always raised after holding mouse down
-      return;
+
+    if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
+      return
     }
 
     // if (e.type !== "mousemove") { beforeMouseMove = e.type }
@@ -156,17 +147,17 @@ class Canvas extends Component {
     // TODO: enable smooth dragging of slider panel component  with code above, without interrupting tool use/ changing panel settings
 
     // check click / mousedown collision with panels
-    if (e.type === "click" || e.type === "mousedown") {
+    if (e.type === "click" || e.type === "mousedown") { 
       for (let i = 0; i < this.state.Panels.length; i++) {
-        let panel = this.state.Panels[i];
+        let panel = this.state.Panels[i]
         if (panel.checkBoundsCollision(e.pageX, e.pageY)) {
-          return;
+          return
         }
       }
-    }
-
+    } 
     if (this.state.Doc.editable) this.state.Tools.toolUse(e);
   }
+
 
   render() {
     return (
