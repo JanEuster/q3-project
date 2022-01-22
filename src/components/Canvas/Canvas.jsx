@@ -137,7 +137,11 @@ class Canvas extends Component {
   }
 
   handleCanvasEvent(e) {
-
+    if (e.type === "touchstart" || e.type === "touchmove" || e.type === "touchend") {
+      e = this.handleTouchEvent(e)
+    }
+    console.log(e)
+    
     if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
       return
     }
@@ -150,7 +154,7 @@ class Canvas extends Component {
     if (e.type === "click" || e.type === "mousedown") { 
       for (let i = 0; i < this.state.Panels.length; i++) {
         let panel = this.state.Panels[i]
-        if (panel.checkBoundsCollision(e.pageX, e.pageY)) {
+        if (panel.checkBoundsCollision(e.clientX, e.clientY)) {
           return
         }
       }
@@ -158,6 +162,32 @@ class Canvas extends Component {
     if (this.state.Doc.editable) this.state.Tools.toolUse(e);
   }
 
+  
+  handleTouchEvent(e) {
+    var touch = e.changedTouches[0]
+    console.log(e.type)
+    var eType = ""
+    switch (e.type) {
+      case "touchstart":
+        eType = "mousedown";
+        break;
+      case "touchmove":
+        eType = "mousemove";
+        break;
+      case "touchend":
+        eType = "mouseup";
+        break;
+    }
+    console.log(eType)
+
+    var simulatedMouseEvent = new MouseEvent(
+      eType,
+      { clientX: touch.clientX, clientY: touch.clientY, ctrlKey: touch.ctrlKey, shiftKey: touch.shiftKey, altKey: touch.altKey, metaKey: touch.metaKey, button: touch.button }
+    );
+    return simulatedMouseEvent
+    // this.canvasRef.current.dispatchEvent(simulatedMouseEvent)
+
+  }
 
   render() {
     return (
