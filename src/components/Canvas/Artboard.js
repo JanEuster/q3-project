@@ -130,12 +130,7 @@ class infiniteScrollArtboard extends Artboard {
 
   drawArtboard(context, artMeta) {
     context.fillStyle = this.bgColor;
-    context.fillRect(
-      0,
-      0,
-      window.innerWidth,
-      window.innerHeight
-    );
+    context.fillRect(artMeta.baseCoord.w, 0, artMeta.width, window.innerHeight);
   }
 }
 
@@ -146,7 +141,7 @@ class infiniteArtboard extends Artboard {
 
   drawArtboard(context, artMeta) {
     context.fillStyle = this.bgColor;
-    context.fillRect(artMeta.baseCoord.w, 0, artMeta.width, window.innerHeight);
+    context.fillRect(0, 0, window.innerWidth, window.innerHeight);
   }
 }
 
