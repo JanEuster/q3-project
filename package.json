@@ -17,16 +17,17 @@
     "web-vitals": "^2.1.0"
   },
   "overrides": {
-      "react-scripts": {        
-          "@svgr/webpack": "^6.1.2"          
-      }        
+    "react-scripts": {
+      "@svgr/webpack": "^6.1.2"
+    }
   },
   "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "build": "react-scripts build && cp build/* janeuster.github.io/ -r",
+    "build": "react-scripts build",
+    "build-je": "react-scripts build && cp build/* janeuster.github.io/ -r",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"npm start\" \"npm:electron\"",
