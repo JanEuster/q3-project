@@ -7,7 +7,7 @@ function Point(x, y) {
 
 // TODO: smoothed paths: quadratic curves
 class Path extends BaseShape {
-  constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2") {
+  constructor(points = [], strokeWidth = 10, strokeColor = "#0D79F2", lineJoin="round") {
     super(0, 0, 0, 0);
 
     this.points = []; // ...splits x and y into separate parameters
@@ -15,6 +15,9 @@ class Path extends BaseShape {
 
     this.strokeWidth = strokeWidth;
     this.strokeColor = strokeColor;
+    this.lineJoin = lineJoin;
+    // parameter controls how lines(p1 -> p2) are conncted together
+    // https://www.w3schools.com/Tags/canvas_linejoin.asp
 
     this.addPoint = this.addPoint.bind(this);
     this.addPoints = this.addPoint.bind(this);
@@ -71,7 +74,7 @@ class Path extends BaseShape {
     var pointsAmount = 5
     var pointsLength = this.points.length
     var pointsRemoved = 0;
-    var distCutoff = 2.45
+    var distCutoff = 3.5;
 
 
     for (let i = 1; i < this.points.length; i++) {
@@ -87,9 +90,30 @@ class Path extends BaseShape {
     console.log(`[path cleanup] ${pointsRemoved} points removed of ${pointsLength}` )
   }
 
+  renderCircle(context, x, y, d) {
+    context.fillStyle = this.strokeColor;
+    context.beginPath()
+    context.arc(
+      x,
+      y,
+      d/2,
+      0 * Math.PI, // starting point
+      2 * Math.PI // end point -> 2pi=360°
+    );
+    context.fill()
+    context.closePath()
+  }
   render(context, pixelRatio, baseCoord) {
     context.lineWidth = pixelRatio * this.strokeWidth;
     context.strokeStyle = this.strokeColor;
+    context.lineJoin = this.lineJoin;
+
+    this.renderCircle(
+      context,
+      baseCoord.w + pixelRatio * this.points[0].x,
+      baseCoord.h + pixelRatio * this.points[0].y,
+      context.lineWidth
+    );
 
     context.beginPath();
     this.points.forEach((p) => {
@@ -100,6 +124,15 @@ class Path extends BaseShape {
     });
     context.stroke();
     context.closePath();
+
+    this.renderCircle(
+      context,
+      baseCoord.w + pixelRatio * this.points[this.points.length-1].x,
+      baseCoord.h + pixelRatio * this.points[this.points.length-1].y,
+      context.lineWidth
+    );
+
+    context.lineJoin = "miter" // reset lineJoin to miter
 
     // context.beginPath();
     // context.strokeStyle = "#00FF00";
