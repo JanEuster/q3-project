@@ -140,7 +140,6 @@ class Canvas extends Component {
     if (e.type === "touchstart" || e.type === "touchmove" || e.type === "touchend") {
       e = this.handleTouchEvent(e)
     }
-    console.log(e)
     
     if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
       return
@@ -177,6 +176,8 @@ class Canvas extends Component {
       case "touchend":
         eType = "mouseup";
         break;
+      default:
+        return
     }
     console.log(eType)
 

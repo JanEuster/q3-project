@@ -12,7 +12,10 @@ class BoundingBox {
   setCoords(x, y) {
     this.coords = [x, y];
     //also define new width and height values
-    this.wh = [this.endCoords[0] - this.coords[0], this.endCoords[1] - this.coords[1]];
+    this.wh = [
+      this.endCoords[0] - this.coords[0],
+      this.endCoords[1] - this.coords[1],
+    ];
   }
 
   getEndCoords() {
@@ -21,7 +24,10 @@ class BoundingBox {
   setEndCoords(x, y) {
     this.endCoords = [x, y];
     //also define new width and height values
-    this.wh = [this.endCoords[0] - this.coords[0], this.endCoords[1] - this.coords[1]];
+    this.wh = [
+      this.endCoords[0] - this.coords[0],
+      this.endCoords[1] - this.coords[1],
+    ];
   }
 
   getWH() {
@@ -36,17 +42,18 @@ class BoundingBox {
   setBounds(x, y, xEnd, yEnd) {
     this.setCoords(x, y);
     this.setEndCoords(xEnd, yEnd);
-    this.setWH(this.endCoords[0] - this.coords[0], this.endCoords[1] - this.coords[1]);
+    this.setWH(
+      this.endCoords[0] - this.coords[0],
+      this.endCoords[1] - this.coords[1]
+    );
   }
 
   checkCollision(x, y) {
-
     if (
       x >= this.coords[0] &&
       x <= this.endCoords[0] &&
       y >= this.coords[1] &&
       y <= this.endCoords[1]
-
     ) {
       // collison
       return true;
@@ -54,18 +61,33 @@ class BoundingBox {
       return false;
     }
   }
+  checkBoxCollision(startBox, endBox) {
+    // check if this object has a collision with a rectangular box given by the function parameters
+    let boxX1 = startBox.x < endBox.x ? startBox.x : endBox.x 
+    let boxY1 = startBox.y < endBox.y ? startBox.y : endBox.y; 
+    let boxX2 = startBox.x > endBox.x ? startBox.x : endBox.x; 
+    let boxY2 = startBox.y > endBox.y ? startBox.y : endBox.y; 
 
-  render(context, offset={x:0, y:0}, pixelRatio = 1) {
+    if (
+      this.endCoords[0] > boxX1 && this.coords[0] < boxX2 &&
+      this.endCoords[1] > boxY1 && this.coords[1] < boxY2 
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  render(context, offset = { x: 0, y: 0 }, pixelRatio = 1) {
     // render bounding box for testing
-    context.strokeStyle = "#FF0000"
-    context.lineWidth = 3
+    context.strokeStyle = "#FF0000";
+    context.lineWidth = 3;
 
     context.strokeRect(
       offset.x + pixelRatio * this.coords[0],
       offset.y + pixelRatio * this.coords[1],
       pixelRatio * this.wh[0],
       pixelRatio * this.wh[1]
-    )
+    );
   }
 }
 

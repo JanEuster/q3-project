@@ -47,6 +47,8 @@ class Artboard {
     var artMeta = this.getArtboardMetadata();
     return { x: x - artMeta.baseCoord.w, y: y - artMeta.baseCoord.h };
   }
+
+  // convert application screen coords to coords relative and scaled to the artboard positon and resolution
   localCoords(x, y) {
     // ratioedCoords + relativeCoords
     var artMeta = this.getArtboardMetadata();
@@ -56,6 +58,16 @@ class Artboard {
     };
   }
 
+  // counter operation to localCoords
+  globalCoords(x, y) {
+    // ratioedCoords + relativeCoords
+    var artMeta = this.getArtboardMetadata();
+    return {
+      x: x * artMeta.pixelRatio + artMeta.baseCoord.w,
+      y: y * artMeta.pixelRatio + artMeta.baseCoord.h,
+    };
+  }
+  
   getArtboardMetadata() {
     let scrW = window.innerWidth;
     let scrH = window.innerHeight;

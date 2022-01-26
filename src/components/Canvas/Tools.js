@@ -8,12 +8,61 @@ import ToolSettingsPanel from './Panels/ToolSettings';
 
 
 
+// box that is shown when user drags selection tool across screen to select multiple objects
+class SelectionBox {
+  constructor() {
+    this.enabled = false;
+    this.startCoords = { x: 0, y: 0 };
+    this.endCoords = { x: 0, y: 0 };
+  }
+  setStart(x, y) {
+    this.startCoords.x = x;
+    this.startCoords.y = y;
+  }
+  setEnd(x, y) {
+    this.endCoords.x = x;
+    this.endCoords.y = y;
+  }
+
+  reset() {
+    this.enabled = false;
+    this.startCoords = { x: 0, y: 0 };
+    this.endCoords = { x: 0, y: 0 };
+  }
+
+  showIfEnabled(context, Doc) {
+    // convert local artboard coords to global screen coords for drawing 
+    let startCoords = Doc.globalCoords(this.startCoords.x, this.startCoords.y)
+    let endCoords = Doc.globalCoords(this.endCoords.x, this.endCoords.y);
+
+    if (this.enabled) {
+      context.fillStyle = "rgba(13, 121, 242, 0.1)";
+      context.strokeStyle = "rgba(13, 121, 242, 0.65)";
+      context.lineWidth = 3;
+
+      context.fillRect(
+        startCoords.x,
+        startCoords.y,
+        endCoords.x - startCoords.x,
+        endCoords.y - startCoords.y
+      );
+      context.strokeRect(
+        startCoords.x,
+        startCoords.y,
+        endCoords.x - startCoords.x,
+        endCoords.y - startCoords.y
+      );
+    }
+  }
+}
 // function object
 class SelectionTool {
   constructor() {
-    this.selectedObject = NaN;
+    this.selectedObjects = [];
     this.moving = false;
     this.lastPos = { x: NaN, y: NaN };
+    
+    this.selectionBox = new SelectionBox()
 
     this.lastEventUp = false; // was last event mouseup -> next click event can be ignored
 
@@ -29,93 +78,168 @@ class SelectionTool {
       let obj = objects[i];
 
       if (obj.boundingBox.checkCollision(coords.x, coords.y, pixelRatio)) {
-        return obj;
+        return [obj];
       }
     }
-    return false;
+    return [];
+  }
+    collisionOnSelected(coords, Doc) {
+    let objects = this.selectedObjects; // create reveresed copy of objects list
+    let pixelRatio = Doc.getArtboardMetadata().pixelRatio;
+
+    for (var i = 0; i < objects.length; i++) {
+      let obj = objects[i];
+
+      if (obj.boundingBox.checkCollision(coords.x, coords.y, pixelRatio)) {
+        return [obj];
+      }
+    }
+    return [];
+  }
+  collisionInBox(Doc) {
+    let collisionObjects = [];
+    let pixelRatio = Doc.getArtboardMetadata().pixelRatio;
+
+    Doc.objects.forEach(obj => {
+      if (
+        obj.boundingBox.checkBoxCollision(
+          this.selectionBox.startCoords,
+          this.selectionBox.endCoords,
+          pixelRatio
+        )
+      ) {
+        collisionObjects.push(obj);
+      }
+    });
+    return collisionObjects;
   }
 
   select(obj) {
-    this.selectedObject = obj;
+    this.selectedObjects = [obj];
   }
 
   use(e, Doc) {
-    if (this.selectedObject && e.type === "keydown" && e.key === "Delete") {
-      Doc.removeObject(this.selectedObject);
-      this.selectedObject = NaN;
+    if (this.selectedObjects && e.type === "keydown" && e.key === "Delete") {
+
+      this.selectedObjects.forEach(obj => Doc.removeObject(obj));
+      this.selectedObjects = [];
       this.moving = false;
     }
 
-    if (this.lastEventUp && e.type === "click") {
-      return;
-    } // if last event was mouseup mouse move has just finished and therefore a click at the position of mouseup is not needed
     this.lastEventUp = false;
 
     let coords = Doc.localCoords(
       e.clientX,
-      e.clientY,
-      window.innerWidth,
-      window.innerHeight
+      e.clientY
     );
-    if (e.type === "click") {
-      this.selectedObject = this.collisionOnObjects(coords, Doc);
-    } else if (e.type === "mousedown") {
-      this.selectedObject = this.collisionOnObjects(coords, Doc);
-      if (this.selectedObject) {
-        this.moving = true;
-      }
+
+
+    switch (e.type) {
       
-      this.lastPos.x = coords.x
-      this.lastPos.y = coords.y
+      // if click: select single object
+      case "click":
+        this.selectedObjects = this.collisionOnObjects(coords, Doc);
+        break;
+    
+      // if mousedown: begin moving objects, if there is a collision at cursor position
+      //               else begin drawing a selection box for the duration of the user dragging the cursor
+      case "mousedown":
+        let collisionObjs = this.collisionOnObjects(coords, Doc)
+        if (this.collisionOnSelected(coords, Doc).length) {
+          this.moving = true;
+        } else {
+          this.selectionBox.enabled = true;
+          this.selectionBox.setStart(coords.x, coords.y);
+          this.selectionBox.setEnd(coords.x, coords.y);
+          this.selectedObjects = [];
+        }
+        this.lastPos.x = coords.x
+        this.lastPos.y = coords.y
+
+        if (this.selectedObjects.indexOf(collisionObjs[0] >= 0)) this.moving = true;
+
+        break;
+
+      // if mousemove: if objects are selected and being moved set their new location according to the cursors current position
+      //               else if the selection box is enabled set the position for that
+      case "mousemove":
+        if (
+          this.selectedObjects !== [] &&
+          this.moving &&
+          this.collisionOnSelected(coords, Doc).length
+        ) {
+          let xDelta = coords.x - this.lastPos.x;
+          let yDelta = coords.y - this.lastPos.y;
+
+          this.selectedObjects.forEach((obj) => obj.move(xDelta, yDelta));
+
+          this.lastPos.x = coords.x;
+          this.lastPos.y = coords.y;
+        } else if (this.selectionBox.enabled) {
+          this.selectionBox.setEnd(coords.x, coords.y);
+        }
       
+         break;
 
-    } else if (this.moving && (e.type === "mousemove")) {
-      let xDelta = coords.x - this.lastPos.x
-      let yDelta = coords.y - this.lastPos.y
+      // if mouseup: when there are selected objects stop moving them
+      //             else if the selection box is enabled find objects within dragged box and add them to the array of selected objects
+      case "mouseup":
+        if (this.selectedObjects.length) {
+          this.moving = false;
+          this.lastEventUp = true;
+        } else if (this.selectionBox.enabled) {
+          console.log(coords.x, coords.y, e.pageX, e.pageY);
+          this.selectionBox.setEnd(coords.x, coords.y);
 
-      this.selectedObject.move(xDelta, yDelta)
+          this.selectedObjects = this.collisionInBox(Doc);
+        }
+        this.selectionBox.reset();
+        this.moving = false;
 
-      this.lastPos.x = coords.x
-      this.lastPos.y = coords.y
+        this.lastPos.x = coords.x;
+        this.lastPos.y = coords.y;
 
+        break;
+   
+      
+        default:
+          // console.warn("undefined behavior for", e.type)
+    }
 
-    } else if (this.selectedObject && (e.type === "mouseup")) {
-      this.moving = false
-      this.lastEventUp = true
-   }
-
-      this.lastPos.x = coords.x;
-      this.lastPos.y = coords.y;
-  } 
+    }
   
 
   deselect() {
-    return this.selectedObject;
+    return this.selectedObjects;
   }
 
-  graphic(context, artMeta) {
+  graphic(context, artMeta, Doc) {
     // show selection box
-    if (this.selectedObject) {
-      let x = this.selectedObject.boundingBox.coords[0];
-      let y = this.selectedObject.boundingBox.coords[1];
-      let w = this.selectedObject.boundingBox.wh[0];
-      let h = this.selectedObject.boundingBox.wh[1];
+    if (this.selectedObjects !== []) {
+      this.selectedObjects.forEach((obj) => {
+        let x = obj.boundingBox.coords[0];
+        let y = obj.boundingBox.coords[1];
+        let w = obj.boundingBox.wh[0];
+        let h = obj.boundingBox.wh[1];
 
-      let pixelRatio = artMeta.pixelRatio;
-      let baseCoord = artMeta.baseCoord;
+        let pixelRatio = artMeta.pixelRatio;
+        let baseCoord = artMeta.baseCoord;
 
-      let offset = 32;
-      // context.fillStyle = "#00FF00";
-      context.lineWidth = 3; //TODO: lineWidth parameter;
-      context.strokeStyle = GLOBALS.COLORS.midorange;
+        let offset = 32;
+        // context.fillStyle = "#00FF00";
+        context.lineWidth = 3; //TODO: lineWidth parameter;
+        context.strokeStyle = GLOBALS.COLORS.midorange;
 
-      context.strokeRect(
-        baseCoord.w + pixelRatio * (x - offset),
-        baseCoord.h + pixelRatio * (y - offset),
-        pixelRatio * (w + offset * 2),
-        pixelRatio * (h + offset * 2)
-      );
-    }
+        context.strokeRect(
+          baseCoord.w + pixelRatio * (x - offset),
+          baseCoord.h + pixelRatio * (y - offset),
+          pixelRatio * (w + offset * 2),
+          pixelRatio * (h + offset * 2)
+        );
+      });
+    }      
+
+    this.selectionBox.showIfEnabled(context, Doc)
   }
 }
 
@@ -492,7 +616,7 @@ class ToolManager {
   toolGraphic(context) {
     const artMeta = this.Doc.getArtboardMetadata();
     // function to display tool related graphics on redraw; i.e. selection box if selection tool is this.activeTool
-    this.activeTool.graphic(context, artMeta);
+    this.activeTool.graphic(context, artMeta, this.Doc);
   }
 }
 
