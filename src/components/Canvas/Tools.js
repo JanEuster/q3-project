@@ -191,7 +191,16 @@ class SelectionTool {
           console.log(coords.x, coords.y, e.pageX, e.pageY);
           this.selectionBox.setEnd(coords.x, coords.y);
 
-          this.selectedObjects = this.collisionInBox(Doc);
+          if (
+            Math.abs(this.selectionBox.endCoords.x - this.selectionBox.startCoords.x) >
+              1 ||
+            Math.abs(this.selectionBox.endCoords.x - this.selectionBox.startCoords.x) > 1
+          ) {
+            this.selectedObjects = this.collisionInBox(Doc);
+          } else {
+            this.selectedObjects = this.collisionOnObjects(this.selectionBox.startCoords, Doc)
+          }
+            
         }
         this.selectionBox.reset();
         this.moving = false;
