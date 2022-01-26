@@ -348,6 +348,9 @@ class EraserTool extends PencilTool {
       this.currentPath = NaN;
     }
   }
+  deselect() {
+    return false;
+  }
 }
 
 class TextTool {
@@ -417,7 +420,8 @@ class TextTool {
     if (this.activeObject && this.activeObject.text.length == 0) {
       this.toolManager.Doc.removeObject(this.activeObject);
       this.activeObject = NaN;
-    }
+      return false;
+    } 
     return this.activeObject;
   }
 
@@ -613,7 +617,9 @@ class ToolManager {
   }
 
   toolSelect() {
-    this.activeTool.select(this.lastObj);
+    if (this.activeTool === selectionT && this.lastObj) {
+      this.activeTool.select(this.lastObj);
+    }
   }
   toolUse(e) {
     this.activeTool.use(e, this.Doc);
