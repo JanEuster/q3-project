@@ -3,7 +3,6 @@ import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import GLOBALS from "../../Globals";
 import Text from "./Objects/Text";
-import Panel from "./Panels/BasePanel";
 import ToolSettingsPanel from './Panels/ToolSettings';
 
 
@@ -188,7 +187,6 @@ class SelectionTool {
           this.moving = false;
           this.lastEventUp = true;
         } else if (this.selectionBox.enabled) {
-          console.log(coords.x, coords.y, e.pageX, e.pageY);
           this.selectionBox.setEnd(coords.x, coords.y);
 
           if (
@@ -249,6 +247,56 @@ class SelectionTool {
     }      
 
     this.selectionBox.showIfEnabled(context, Doc)
+  }
+}
+
+class HandTool {
+  constructor() {    
+    this.lastPos = { x: 0, y: 0 };
+    this.moving = false;
+
+    this.toolManager = undefined;
+
+    this.name = "hand";
+    this.icon = "assets/icons/tools/hand.png";
+  }
+
+  select() {}
+
+  use(e) {
+    
+    switch (e.type) {
+      case "mousedown":
+        this.moving = true;
+        this.lastPos.x = e.pageX;
+        this.lastPos.y = e.pageY;
+        
+        break;
+
+      case "mousemove":
+        if (this.moving) {
+          this.toolManager.Doc.moveArtboard(e.pageX - this.lastPos.x, e.pageY - this.lastPos.y);
+          this.lastPos.x = e.pageX;
+          this.lastPos.y = e.pageY;
+        }
+
+        break;
+      
+      case "mouseup":
+        this.moving = false;
+
+        break;
+
+      default:
+        return
+    }
+    
+  }
+
+  deselect() { }
+  
+  graphic() {
+
   }
 }
 
@@ -578,6 +626,7 @@ class ShapeTool {
 }
 
 var selectionT = new SelectionTool();
+var handT = new HandTool();
 var pencilT = new PencilTool();
 var eraserT = new EraserTool();
 var textT = new TextTool();
@@ -587,7 +636,7 @@ class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
     this.tools = [];
-    this.tools.push(selectionT, pencilT, eraserT, textT, shapeT);
+    this.tools.push(selectionT, handT, pencilT, eraserT, textT, shapeT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
     this.strokeWidthPencil = 10;
@@ -598,6 +647,7 @@ class ToolManager {
 
     this.lastObj = NaN;
 
+    handT.toolManager = this;
     pencilT.toolManager = this;
     eraserT.toolManager = this;
     textT.toolManager = this;

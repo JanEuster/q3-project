@@ -15,6 +15,9 @@ class Artboard {
     this.draw = this.draw.bind(this);
 
     this.editable = true;
+
+    this.viewOffset = { x: 0, y: 0 };
+    this.zoom = 1;
   }
 
   addObject(obj) {
@@ -35,17 +38,9 @@ class Artboard {
     return this.bgColor;
   }
 
-  ratioedCoords(x, y) {
-    // convert canvas coordinates to artboard coordinates
-    //-> scaled by pixelRatio
-    var artMeta = this.getArtboardMetadata();
-    return { x: x / artMeta.pixelRatio, y: y / artMeta.pixelRatio };
-  }
-  relativeCoords(x, y) {
-    // converts global coordinates to ones that are relative to the artboard
-    //-> i.e.if coord is left of artboard relative coord is negative
-    var artMeta = this.getArtboardMetadata();
-    return { x: x - artMeta.baseCoord.w, y: y - artMeta.baseCoord.h };
+  moveArtboard(x, y) {
+    this.viewOffset.x += x;
+    this.viewOffset.y += y;
   }
 
   // convert application screen coords to coords relative and scaled to the artboard positon and resolution
@@ -67,39 +62,41 @@ class Artboard {
       y: y * artMeta.pixelRatio + artMeta.baseCoord.h,
     };
   }
-  
+
   getArtboardMetadata() {
     let scrW = window.innerWidth;
     let scrH = window.innerHeight;
     var m = this.margin * 6;
 
+    var orient, artW, artH, baseW, baseH;
     if (scrW / scrH > this.width / this.height) {
-      var orient = "v";
-      var artH = scrH - m;
-      var artW = this.width * (artH / this.height);
-      var baseW = (scrW - artW) / 2;
-      var baseH = this.margin;
+      orient = "v";
+      artH = scrH - m;
+      artW = this.width * (artH / this.height);
+      baseW = (scrW - artW) / 2;
+      baseH = this.margin;
     } else if (scrW / scrH < this.width / this.height) {
-      var orient = "h";
-      var artW = scrW - m;
-      var artH = this.height * (artW / this.width);
-      var baseW = this.margin;
-      var baseH = (scrH - artH) / 2;
+      orient = "h";
+      artW = scrW - m;
+      artH = this.height * (artW / this.width);
+      baseW = this.margin;
+      baseH = (scrH - artH) / 2;
     } else {
-      var orient = "sq";
+      orient = "sq";
       if (scrW >= scrH) {
-        var artW = scrW - m;
-        var artH = this.height * (this.width / scrW);
+        artW = scrW - m;
+        artH = this.height * (this.width / scrW);
       } else {
-        var artH = scrH - m;
-        var artW = this.width * (this.height / scrH);
+        artH = scrH - m;
+        artW = this.width * (this.height / scrH);
       }
     }
 
+    var pixelRatio;
     if (orient === "v") {
-      var pixelRatio = artW / this.width;
+      pixelRatio = artW / this.width;
     } else {
-      var pixelRatio = artH / this.height;
+      pixelRatio = artH / this.height;
     }
 
     return {
@@ -111,27 +108,48 @@ class Artboard {
     };
   }
 
-  drawArtboard(context, artMeta) {
-    context.fillStyle = this.bgColor;
-    context.fillRect(
-      artMeta.baseCoord.w,
-      artMeta.baseCoord.h,
-      artMeta.width,
-      artMeta.height
-    );
+  // applies this.zoom and this.viewOffset to coords for draw
+  applyZoomOffset(artMeta) {
+    // calculate x, y distance from center of screen and multiplies it by zoom factor => recalculate zoomed offsets from top left corner
+    // also applies viewOffset
+    let xOffset =
+      window.innerWidth / 2 -
+      this.zoom *
+        (window.innerWidth / 2 - (artMeta.baseCoord.w + this.viewOffset.x));
+    let yOffset =
+      window.innerHeight / 2 -
+      this.zoom *
+        (window.innerHeight / 2 - (artMeta.baseCoord.h + this.viewOffset.y));
+
+    // width and hight are simply multiplied by zoom factor
+    return {
+      x: xOffset,
+      y: yOffset,
+      w: this.zoom * artMeta.width,
+      h: this.zoom * artMeta.height,
+    };
   }
 
-  drawObjects(context, artMeta) {
+  drawArtboard(context, zoomOffsetMeta) {
+    context.fillStyle = this.bgColor;
+    context.fillRect(...Object.values(zoomOffsetMeta));
+  }
+
+  drawObjects(context, pixelRatio, baseCoord) {
     this.objects.forEach((obj) => {
-      obj.render(context, artMeta.pixelRatio, artMeta.baseCoord);
+      obj.render(context, pixelRatio, baseCoord);
     });
   }
 
   draw(context) {
     const artMeta = this.getArtboardMetadata();
 
-    this.drawArtboard(context, artMeta);
-    this.drawObjects(context, artMeta);
+    let zoomOffsetMeta = this.applyZoomOffset(artMeta);
+    this.drawArtboard(context, zoomOffsetMeta);
+    this.drawObjects(context, artMeta.pixelRatio, {
+      w: zoomOffsetMeta.x,
+      h: zoomOffsetMeta.y,
+    });
   }
 }
 
@@ -140,9 +158,9 @@ class infiniteScrollArtboard extends Artboard {
     super(width, 2 * width, bgColor);
   }
 
-  drawArtboard(context, artMeta) {
+  drawArtboard(context, zoomOffsetMeta) {
     context.fillStyle = this.bgColor;
-    context.fillRect(artMeta.baseCoord.w, 0, artMeta.width, window.innerHeight);
+    context.fillRect(zoomOffsetMeta.x, 0, zoomOffsetMeta.w, window.innerHeight);
   }
 }
 
@@ -151,7 +169,7 @@ class infiniteArtboard extends Artboard {
     super(width, 2 * width, bgColor);
   }
 
-  drawArtboard(context, artMeta) {
+  drawArtboard(context, zoomOffsetMeta) {
     context.fillStyle = this.bgColor;
     context.fillRect(0, 0, window.innerWidth, window.innerHeight);
   }

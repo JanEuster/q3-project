@@ -272,6 +272,10 @@ class ToolSettingsPanel extends Panel {
         components: [],
         size: { height: 160 },
       },
+      hand: {
+        components: [],
+        size: { height: 100},
+      },
       pencil: {
         components: [
           new PanelColorSelectorComponent(4, 35, 5, 15, this.toolManager),
