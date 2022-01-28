@@ -39,8 +39,13 @@ class Artboard {
   }
 
   moveArtboard(x, y) {
-    this.viewOffset.x += x;
-    this.viewOffset.y += y;
+    this.viewOffset.x += x / this.zoom;
+    this.viewOffset.y += y / this.zoom;
+  }
+
+  setZoom(z) {
+    this.zoom = this.zoom + 0.0008 * z;
+    if (this.zoom < 0) this.zoom = 0.01;
   }
 
   // convert application screen coords to coords relative and scaled to the artboard positon and resolution

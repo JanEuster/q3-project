@@ -190,19 +190,28 @@ class PanelTextSwitch extends PanelText {
 }
 
 class PanelSlider extends BasePanelComponent {
-  constructor(x, y, w, h = 28, func = undefined) {
+  constructor(
+    x,
+    y,
+    w,
+    h = 28,
+    func = undefined,
+    defaultPos = 0.5,
+    range = [0, 1]
+  ) {
     super(x, y);
 
     this.width = w;
     this.height = h;
 
     this.func = func;
+    this.range = range;
 
     this.fS = GLOBALS.COLORS.darkgrey;
     this.sS = GLOBALS.COLORS.darkgrey;
     this.lW = 5;
 
-    this.sliderPosition = 0.5; // number 0-1 position of knob along slider
+    this.sliderPosition = this.unmapRange(defaultPos); // number 0-1 position of knob along slider
     this.knobWidth = this.height / 2;
 
     this.boundingBox = new BoundingBox(
@@ -211,8 +220,6 @@ class PanelSlider extends BasePanelComponent {
       w + this.lW,
       h + this.lW
     ); // NOTE: this expands boundingBox by 5px for all PanelButton derivatives as well
-
-    this.setSliderPos(this.sliderPosition);
   }
 
   handleColission(x, y) {
@@ -220,9 +227,25 @@ class PanelSlider extends BasePanelComponent {
     this.setSliderPos(xPercent);
   }
 
-  getSliderPos() {
-    return this.sliderPosition;
+  mapRange(pos) {
+    let rangeSize = this.range[1] - this.range[0];
+    console.log(rangeSize);
+    return pos * rangeSize + this.range[0];
   }
+
+  unmapRange(pos) {
+    let rangeSize = this.range[1] - this.range[0];
+    return (pos - this.range[0]) / rangeSize;
+  }
+
+  getSliderPos() {
+    console.log(this.range);
+    console.log("getpos1", this.sliderPosition);
+    console.log("getpos2", this.mapRange(this.sliderPosition));
+    console.log("getpos3", this.mapRange(1));
+    return this.mapRange(this.sliderPosition);
+  }
+
   setSliderPos(pos) {
     if (pos < 0) {
       this.sliderPosition = 0;
@@ -232,7 +255,7 @@ class PanelSlider extends BasePanelComponent {
       this.sliderPosition = pos;
     }
     if (this.func) {
-      this.func(this.sliderPosition);
+      this.func(this.getSliderPos());
     }
   }
 

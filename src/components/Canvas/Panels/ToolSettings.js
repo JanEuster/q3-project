@@ -273,8 +273,21 @@ class ToolSettingsPanel extends Panel {
         size: { height: 160 },
       },
       hand: {
-        components: [],
-        size: { height: 100},
+        components: [
+          new PanelSlider(
+            10,
+            40,
+            100,
+            20,
+            (pos) => {
+              console.log("pos", pos);
+              this.toolManager.Doc.zoom = pos;
+            },
+            1,
+            [0.01, 3]
+          ),
+        ],
+        size: { height: 100 },
       },
       pencil: {
         components: [

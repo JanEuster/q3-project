@@ -265,6 +265,11 @@ class HandTool {
 
   use(e) {
     
+    if (e instanceof WheelEvent) {
+      this.toolManager.Doc.setZoom(e.deltaY)
+      return
+    }
+    
     switch (e.type) {
       case "mousedown":
         this.moving = true;

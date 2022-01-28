@@ -63,6 +63,7 @@ class Canvas extends Component {
     canvas.addEventListener("mousedown", this.mouseKeyCallback);
     canvas.addEventListener("mouseup", this.mouseKeyCallback);
     canvas.addEventListener("mousemove", this.mouseKeyCallback);
+    canvas.addEventListener("wheel", this.mouseKeyCallback);
     canvas.addEventListener("touchstart", this.mouseKeyCallback);
     canvas.addEventListener("touchmove", this.mouseKeyCallback);
     canvas.addEventListener("touchend", this.mouseKeyCallback);
@@ -94,8 +95,7 @@ class Canvas extends Component {
 
     const context = this.canvasRef.current.getContext("2d");
     this.updateCanvas(context);
-
-    };
+  }
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -109,6 +109,7 @@ class Canvas extends Component {
     canvas.removeEventListener("mouseup", this.mouseKeyCallback);
     canvas.removeEventListener("mousemove", this.mouseKeyCallback);
     canvas.removeEventListener("touchmove", this.mouseKeyCallback);
+    canvas.removeEventListener("wheel", this.mouseKeyCallback);
     document.removeEventListener("keypress", this.mouseKeyCallback);
     document.removeEventListener("keydown", this.mouseKeyCallback);
   }
@@ -137,12 +138,17 @@ class Canvas extends Component {
   }
 
   handleCanvasEvent(e) {
-    if (e.type === "touchstart" || e.type === "touchmove" || e.type === "touchend") {
-      e = this.handleTouchEvent(e)
+    if (
+      e.type === "touchstart" ||
+      e.type === "touchmove" ||
+      e.type === "touchend"
+    ) {
+      e = this.handleTouchEvent(e);
     }
-    
-    if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
-      return
+
+    if (e.type === "click") {
+      // ignore click event after mouseup as click is always raised after holding mouse down
+      return;
     }
 
     // if (e.type !== "mousemove") { beforeMouseMove = e.type }
@@ -150,22 +156,21 @@ class Canvas extends Component {
     // TODO: enable smooth dragging of slider panel component  with code above, without interrupting tool use/ changing panel settings
 
     // check click / mousedown collision with panels
-    if (e.type === "click" || e.type === "mousedown") { 
+    if (e.type === "click" || e.type === "mousedown") {
       for (let i = 0; i < this.state.Panels.length; i++) {
-        let panel = this.state.Panels[i]
+        let panel = this.state.Panels[i];
         if (panel.checkBoundsCollision(e.clientX, e.clientY)) {
-          return
+          return;
         }
       }
-    } 
+    }
     if (this.state.Doc.editable) this.state.Tools.toolUse(e);
   }
 
-  
   handleTouchEvent(e) {
-    var touch = e.changedTouches[0]
-    console.log(e.type)
-    var eType = ""
+    var touch = e.changedTouches[0];
+    console.log(e.type);
+    var eType = "";
     switch (e.type) {
       case "touchstart":
         eType = "mousedown";
@@ -177,17 +182,21 @@ class Canvas extends Component {
         eType = "mouseup";
         break;
       default:
-        return
+        return;
     }
-    console.log(eType)
+    console.log(eType);
 
-    var simulatedMouseEvent = new MouseEvent(
-      eType,
-      { clientX: touch.clientX, clientY: touch.clientY, ctrlKey: touch.ctrlKey, shiftKey: touch.shiftKey, altKey: touch.altKey, metaKey: touch.metaKey, button: touch.button }
-    );
-    return simulatedMouseEvent
+    var simulatedMouseEvent = new MouseEvent(eType, {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      ctrlKey: touch.ctrlKey,
+      shiftKey: touch.shiftKey,
+      altKey: touch.altKey,
+      metaKey: touch.metaKey,
+      button: touch.button,
+    });
+    return simulatedMouseEvent;
     // this.canvasRef.current.dispatchEvent(simulatedMouseEvent)
-
   }
 
   render() {
