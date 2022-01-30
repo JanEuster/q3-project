@@ -9,20 +9,24 @@ class BaseShape {
     this.yCoord = yCoord;
   }
   moveBounds(x, y) {
-    let coords = this.boundingBox.getCoords()
-    let endCoords = this.boundingBox.getEndCoords()
+    let coords = this.boundingBox.getCoords();
+    let endCoords = this.boundingBox.getEndCoords();
 
-    this.boundingBox.setBounds(coords[0] + x, coords[1] + y, endCoords[0] + x, endCoords[1] + y)
+    this.boundingBox.setBounds(
+      coords[0] + x,
+      coords[1] + y,
+      endCoords[0] + x,
+      endCoords[1] + y
+    );
   }
   move(x, y) {
-    this.moveBounds(x, y)
+    this.moveBounds(x, y);
 
-    this.xCoord += x
-    this.yCoord += y
-
+    this.xCoord += x;
+    this.yCoord += y;
   }
 
-  render() { }
+  render() {}
 }
 
 class Rectangle extends BaseShape {
@@ -36,8 +40,7 @@ class Rectangle extends BaseShape {
     borderWidth = 25,
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-
-    super(xCoord, yCoord, Math.abs(width), Math.abs(height))
+    super(xCoord, yCoord, Math.abs(width), Math.abs(height));
     //super(bCoords[0], bCoords[1], bCoords[2], bCoords[3]);
 
     if (mode === "centered") {
@@ -86,8 +89,8 @@ class Circle extends BaseShape {
     borderWidth = 25,
     mode = undefined // mode=center means x and y coords are at the center of the objects
   ) {
-    super(xCoord-radius, yCoord-radius, radius*2, radius*2);
-    
+    super(xCoord - radius, yCoord - radius, radius * 2, radius * 2);
+
     //console.log("CIRCLE: " + xCoord, yCoord, radius);
     if (mode === "centered") {
       this.Offset = 0;
@@ -136,13 +139,12 @@ class Triangle extends BaseShape {
     super(xCoord, yCoord, Math.abs(width), Math.abs(height)); //width and height cant take on negative values
 
     if (mode === "centered") {
-      this.xOffset = -width/2;
-      this.yOffset = -height/2;
+      this.xOffset = -width / 2;
+      this.yOffset = -height / 2;
     } else {
       this.xOffset = 0;
       this.yOffset = 0;
     }
-
 
     this.xCoord = xCoord;
     this.yCoord = yCoord;
@@ -151,32 +153,31 @@ class Triangle extends BaseShape {
     this.fillColor = fillColor;
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
-
   }
 
   render(context, pixelRatio, baseCoord) {
     context.fillStyle = this.fillColor;
     context.lineWidth = pixelRatio * this.borderWidth;
     context.strokeStyle = this.borderColor;
-    
+
     let xCoord = baseCoord.w + pixelRatio * (this.xCoord + this.xOffset);
     let yCoord = baseCoord.h + pixelRatio * (this.yCoord + this.yOffset);
-    let width = pixelRatio * this.width
-    let height = pixelRatio * this.height
+    let width = pixelRatio * this.width;
+    let height = pixelRatio * this.height;
 
     context.beginPath();
     context.moveTo(xCoord, yCoord);
     context.lineTo(xCoord + width, yCoord);
-    context.lineTo(xCoord + width/2, yCoord + height);
+    context.lineTo(xCoord + width / 2, yCoord + height);
     context.lineTo(xCoord, yCoord);
 
     context.fill();
 
     context.closePath();
-    
-    if (this.borderWidth > 0) {context.stroke();}
 
-    
+    if (this.borderWidth > 0) {
+      context.stroke();
+    }
   }
 }
 

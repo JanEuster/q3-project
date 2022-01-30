@@ -52,9 +52,11 @@ class Artboard {
   localCoords(x, y) {
     // ratioedCoords + relativeCoords
     var artMeta = this.getArtboardMetadata();
+    var artPos = this.applyZoomOffset(artMeta);
+
     return {
-      x: (x - artMeta.baseCoord.w) / artMeta.pixelRatio,
-      y: (y - artMeta.baseCoord.h) / artMeta.pixelRatio,
+      x: (x - artPos.x) / artMeta.pixelRatio / this.zoom,
+      y: (y - artPos.y) / artMeta.pixelRatio / this.zoom,
     };
   }
 
@@ -62,9 +64,10 @@ class Artboard {
   globalCoords(x, y) {
     // ratioedCoords + relativeCoords
     var artMeta = this.getArtboardMetadata();
+    var artPos = this.applyZoomOffset(artMeta);
     return {
-      x: x * artMeta.pixelRatio + artMeta.baseCoord.w,
-      y: y * artMeta.pixelRatio + artMeta.baseCoord.h,
+      x: x * this.zoom * artMeta.pixelRatio + artPos.x,
+      y: y * this.zoom * artMeta.pixelRatio + artPos.y,
     };
   }
 
@@ -104,6 +107,13 @@ class Artboard {
       pixelRatio = artH / this.height;
     }
 
+    // artW =
+    //   window.innerWidth / 2 -
+    //   this.zoom * (window.innerWidth / 2 - (artW + this.viewOffset.x));
+    // artH =
+    //   window.innerHeight / 2 -
+    //   this.zoom * (window.innerHeight / 2 - (artH + this.viewOffset.y));
+
     return {
       width: artW,
       height: artH,
@@ -142,7 +152,7 @@ class Artboard {
 
   drawObjects(context, pixelRatio, baseCoord) {
     this.objects.forEach((obj) => {
-      obj.render(context, pixelRatio, baseCoord);
+      obj.render(context, pixelRatio * this.zoom, baseCoord);
     });
   }
 
