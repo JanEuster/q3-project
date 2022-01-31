@@ -2,232 +2,192 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NavbarContext } from "./App";
-import GLOBALS from "./Globals";
 
-const StyledNavBar = styled.nav`
-  ${(props) => (props.side === "top" ? "top: 0" : "bottom: 0")};
+const Nav = styled.nav`
   position: fixed;
-  width: 100%;
+  width: 100vw;
+  height: fit-content;
   background-color: var(--light-orange);
-  color: var(--light-light-grey);
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 0 0.3vw;
-  height: calc(30px + 1vw);
-  max-height: 70px;
-
-  @media (max-aspect-ratio: 1 / 1) {
-    height: 10vw;
-  }
+  ${(props) => (props.side === "bottom" ? "bottom: 0;" : "")}
 `;
-
-const NavElements = styled.ul`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: inherit;
+const NavLink = styled(Link)`
+  text-decoration: none;
+  color: var(--light-light-grey);
 `;
-
-const NavElement = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  list-style: none;
-  color: ${(props) =>
-    props.current ? GLOBALS.COLORS.lightlightgrey : GLOBALS.COLORS.lightgrey};
-  padding: 0 0.5vw;
-  margin: auto;
-  height: inherit;
-  font-size: calc(25px + 0.6vw);
+const NavText = styled.div`
+  font-family: Iosevka;
+  font-size: 2rem;
+  color: var(--light-light-grey);
+  margin: 0 1vw;
+  transition: transform ease-out 200ms;
 
   position: relative;
 
+  &::before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0%;
+    left: calc(0% - 1vw);
+    transform-origin: -50%;
+    width: calc(100% + 2vw);
+    height: 100%;
+    background-color: var(--light-orange);
+    transition: transform ease-out 300ms;
+  }
+
   ${(props) =>
-    props.home
-      ? ""
-      : ` &:after {
+    props.current
+      ? `  
+
+    &::before {
+    background-color: var(--mid-orange);
+    }
+     
+    `
+      : ""}
+  &::after {
     content: "";
     position: absolute;
     top: 85%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    height: 8%;
-    ${
-      props.current ? `background-color: ${GLOBALS.COLORS.lightlightgrey};` : ""
-    };
-  }
-  
-   &: hover {
-    &::after {
-      content: "";
-      position: absolute;
-      top: 85%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 90%;
-      height: 16%;
-      ${
-        props.current
-          ? `background-color: ${GLOBALS.COLORS.lightlightgrey};`
-          : `background-color: ${GLOBALS.COLORS.midorange};`
-      };
-    }`}
+    left: 0%;
+    transform: scaleY(0);
+    transform-origin: -50%;
+    width: 100%;
+    height: 15%;
+    background-color: var(--light-light-grey);
+    transition: transform ease-out 300ms;
   }
 
-  @media (max-aspect-ratio: 1 / 1) {
-    font-size: calc(8vw);
-    margin-top: 0vw;
+  &:hover {
+    transform: translateY(-10%);
+  }
+  &:hover::after {
+    transform: scaleY(1);
   }
 `;
 
-const NavIcon = styled.img`
-  height: calc(30px + 1.4vw);
-  max-height: 72px;
+const NavLeft = styled.div`
+  display: flex;
+`;
+const NavRight = NavLeft;
+const NavDocuments = styled.div`
+  display: flex;
 
-  // transform: scale(1);
-  @media (max-aspect-ratio: 1 / 1) {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: calc(10vw);
+  @media (max-width: 600px) {
+    display: none;
   }
 `;
-
-const DocsLinkContainer = styled.div`
-  display: inherit;
-  height: inherit;
-  ${(props) => (props.hide ? "transform: scale(0);" : "")}
+const BigDivider = styled.div`
+  width: 1vw;
+  max-width: 15px;
+  background-color: var(--light-light-grey);
+`;
+const SmallDivider = styled.div`
+  width: 4px;
+  transform: scaleY(0.8);
+  background-color: var(--light-light-grey);
 `;
 
-const HomeH1 = styled.h1`
-  position: relative;
+const HomeContainer = styled.div`
+  padding: 0 1vw;
+  background-color: var(--mid-orange);
+  @media (max-width: 600px) {
+    padding: 0 2vw;
+  }
+`;
+const HomeText = styled.div`
   font-family: Iosevka black;
-  font-size: calc(35px + 0.6vw);
-  font-stretch: condensed;
-  margin-right: 3vh;
+  font-size: 2rem;
+  transform: scale(1.2);
+  color: var(--dark-grey);
 
-  &:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 110%;
-    height: 70%;
-    background-color: ${GLOBALS.COLORS.midorange};
-    z-index: -1;
-    filter: blur(5px);
-    border-radius: 15px;
-  }
-  &:after {
-    content: "";
-    position: absolute;
-    top: 6%;
-    left: 120%;
-    width: 10%;
-    height: 88%;
-    background-color: ${GLOBALS.COLORS.lightlightgrey};
+  @media (max-width: 600px) {
+    font-size: 3rem;
   }
 `;
-
-function NavLink(props) {
+const HomeButton = (props) => {
   return (
-    <NavElement current={props.current} home={false}>
-      <Link
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          textDecoration: "none",
-          fontFamily: "inherit",
-          fontSize: "inherit",
-          color: GLOBALS.COLORS.lightlightgrey,
-        }}
-        to={props.link}
-      >
-        {props.title ? props.title : props.children}
-      </Link>
-    </NavElement>
+    <NavLink to="/">
+      <HomeContainer>
+        <HomeText>HOME</HomeText>
+      </HomeContainer>
+    </NavLink>
   );
-}
+};
 
-function Home(props) {
+const NavDoc = (props) => {
   return (
-    <NavElement current={props.current} home={true}>
-      <Link
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          textDecoration: "none",
-          fontFamily: "inherit",
-          fontSize: "inherit",
-          color: GLOBALS.COLORS.lightlightgrey,
-        }}
-        to="/"
-      >
-        <HomeH1>HOME</HomeH1>
-      </Link>
-    </NavElement>
+    <>
+      {props.first ? null : <SmallDivider />}
+
+      <NavLink to={props.link}>
+        <NavText current={props.current}>{props.title}</NavText>
+      </NavLink>
+    </>
   );
-}
+};
+
+const IconContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+const Icon = styled.img`
+  height: 2rem;
+  aspect-ratio: 1;
+  transform: scale(1.5);
+  margin: 0 0.3rem;
+
+  @media (max-width: 600px) {
+    height: 3rem;
+  }
+`;
+const NavIcon = (props) => {
+  return (
+    <Link to={props.link}>
+      <IconContainer>
+        <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
+      </IconContainer>
+    </Link>
+  );
+};
 
 function Navbar(props) {
-  const navRef = useRef();
-  const [hideDocs, setHideDocs] = useState(false);
-
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth / window.innerHeight <= 1) {
-        setHideDocs(true);
-      } else if (window.innerWidth / window.innerHeight > 1) {
-        setHideDocs(false);
-      }
-    }
-
-    handleResize();
-    window.addEventListener("resize", (e) => handleResize());
-
-    return (_) => window.removeEventListener("resize", (e) => handleResize());
-  }, []);
-
   return (
-    <StyledNavBar ref={navRef} side={props.side}>
-      <NavElements side="left">
-        <Home />
-        <DocsLinkContainer hide={hideDocs}>
+    <Nav side={props.side}>
+      <NavLeft>
+        <HomeButton />
+        <BigDivider />
+        <NavDocuments>
           <NavbarContext.Consumer>
             {(value) =>
               value.documents.map((doc, i) => {
-                console.log(value);
                 let current = false;
                 if (doc === value.currentDoc) {
                   current = true;
                 }
                 return (
-                  <NavLink
+                  <NavDoc
                     key={i}
-                    link="/"
-                    title={doc.name ? doc.name : "Unsaved"}
                     current={current}
+                    link="/"
+                    title={doc.name !== undefined ? doc.name : "Unsaved"}
+                    first={i < 1}
                   />
                 );
               })
             }
           </NavbarContext.Consumer>
-        </DocsLinkContainer>
-      </NavElements>
-      <NavElements>
-        <NavLink link="/">
-          <NavIcon
-            src={process.env.PUBLIC_URL + "/assets/icons/ui/settings.svg"}
-            alt=""
-          ></NavIcon>
-        </NavLink>
-      </NavElements>
-    </StyledNavBar>
+        </NavDocuments>
+      </NavLeft>
+      <NavRight>
+        <NavIcon link="/" src={"/assets/icons/ui/settings.svg"} />
+      </NavRight>
+    </Nav>
   );
 }
 
