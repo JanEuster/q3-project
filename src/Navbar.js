@@ -80,6 +80,12 @@ const NavDocuments = styled.div`
     display: none;
   }
 `;
+const DocContainer = styled.div`
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 const BigDivider = styled.div`
   width: 1vw;
   max-width: 15px;
@@ -121,11 +127,11 @@ const HomeButton = (props) => {
 const NavDoc = (props) => {
   return (
     <>
-      {props.first ? null : <SmallDivider />}
+      {props.index > 0 ? <SmallDivider /> : null}
 
-      <NavLink to={props.link}>
+      <DocContainer onClick={() => props.switchDoc(props.doc)}>
         <NavText current={props.current}>{props.title}</NavText>
-      </NavLink>
+      </DocContainer>
     </>
   );
 };
@@ -176,7 +182,9 @@ function Navbar(props) {
                     current={current}
                     link="/"
                     title={doc.name !== undefined ? doc.name : "Unsaved"}
-                    first={i < 1}
+                    index={i}
+                    doc={doc}
+                    switchDoc={props.switchDoc}
                   />
                 );
               })

@@ -1,20 +1,14 @@
 import logo from "./logo.svg";
 import "./App.css";
-import React, { Component, useState } from "react";
-import {
-  BrowserRouter as Router,
-  HashRouter,
-  withRouter,
-  Route,
-  Link,
-  Switch,
-} from "react-router-dom";
+import React, { Component } from "react";
+import { withRouter, Route, Link, Switch } from "react-router-dom";
 import Navbar from "./Navbar.js";
 import Canvas from "./components/Canvas/Canvas.jsx";
 import Home from "./components/Home/Home";
 import Artboard, {
   infiniteArtboard,
   infiniteScrollArtboard,
+  noArtboard,
 } from "./components/Canvas/Artboard";
 import GLOBALS from "./Globals";
 
@@ -25,9 +19,11 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentDoc: undefined,
+      currentDoc: new noArtboard(GLOBALS.COLORS.CANVAS_BG),
       documents: [],
     };
+
+    this.switchDoc = this.switchDocument.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -70,18 +66,25 @@ class App extends Component {
   openDocument(path) {}
   importDocument(path) {}
 
+  switchDocument(doc) {
+    let index = this.state.documents.indexOf(doc);
+    console.log(this.state.documents);
+    this.setState({ currentDoc: this.state.documents[index] });
+    this.forceUpdate();
+  }
+
   render() {
     return (
       <div className="App">
         <Switch>
           <NavbarContext.Provider value={this.state}>
             <Route path="/new">
-              <Navbar side="bottom" />
+              <Navbar side="bottom" switchDoc={this.switchDoc} />
               <Canvas Doc={this.state.currentDoc} />
             </Route>
 
             <Route exact path="/">
-              <Navbar side="top" />
+              <Navbar side="top" switchDoc={this.switchDocument} />
               <Home
                 createCallback={(docType, format, orientation, bgColor) =>
                   this.createDocument(docType, format, orientation, bgColor)
@@ -90,16 +93,16 @@ class App extends Component {
                 importCallback={(path) => this.importDocument(path)}
               />
             </Route>
-
-            <Route
-              render={() => (
-                <h1>
-                  {" "}
-                  404 Error: Page not Found <br /> Go <Link to="/"> Home </Link>
-                </h1>
-              )}
-            />
           </NavbarContext.Provider>
+
+          <Route
+            render={() => (
+              <h1>
+                {" "}
+                404 Error: Page not Found <br /> Go <Link to="/"> Home </Link>
+              </h1>
+            )}
+          />
         </Switch>
       </div>
     );
