@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { NavbarContext } from "./App";
 import GLOBALS from "./Globals";
 
 const StyledNavBar = styled.nav`
@@ -33,11 +34,47 @@ const NavElement = styled.li`
   justify-content: center;
   align-items: center;
   list-style: none;
-  color: ${GLOBALS.COLORS.lightlightgrey};
+  color: ${(props) =>
+    props.current ? GLOBALS.COLORS.lightlightgrey : GLOBALS.COLORS.lightgrey};
   padding: 0 0.5vw;
   margin: auto;
   height: inherit;
   font-size: calc(25px + 0.6vw);
+
+  position: relative;
+
+  ${(props) =>
+    props.home
+      ? ""
+      : ` &:after {
+    content: "";
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 8%;
+    ${
+      props.current ? `background-color: ${GLOBALS.COLORS.lightlightgrey};` : ""
+    };
+  }
+  
+   &: hover {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 85%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 16%;
+      ${
+        props.current
+          ? `background-color: ${GLOBALS.COLORS.lightlightgrey};`
+          : `background-color: ${GLOBALS.COLORS.midorange};`
+      };
+    }`}
+  }
 
   @media (max-aspect-ratio: 1 / 1) {
     font-size: calc(8vw);
@@ -87,17 +124,17 @@ const HomeH1 = styled.h1`
   &:after {
     content: "";
     position: absolute;
-    top: 0;
+    top: 6%;
     left: 120%;
     width: 10%;
-    height: 100%;
+    height: 88%;
     background-color: ${GLOBALS.COLORS.lightlightgrey};
   }
 `;
 
 function NavLink(props) {
   return (
-    <NavElement>
+    <NavElement current={props.current} home={false}>
       <Link
         style={{
           display: "flex",
@@ -116,14 +153,30 @@ function NavLink(props) {
   );
 }
 
+function Home(props) {
+  return (
+    <NavElement current={props.current} home={true}>
+      <Link
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textDecoration: "none",
+          fontFamily: "inherit",
+          fontSize: "inherit",
+          color: GLOBALS.COLORS.lightlightgrey,
+        }}
+        to="/"
+      >
+        <HomeH1>HOME</HomeH1>
+      </Link>
+    </NavElement>
+  );
+}
+
 function Navbar(props) {
   const navRef = useRef();
   const [hideDocs, setHideDocs] = useState(false);
-  const [documents, setDocuments] = useState([
-    "Unsaved",
-    "Document1",
-    "Document2",
-  ]);
 
   useEffect(() => {
     function handleResize() {
@@ -140,15 +193,31 @@ function Navbar(props) {
     return (_) => window.removeEventListener("resize", (e) => handleResize());
   }, []);
 
-  const docs = documents.map((doc) => <NavLink link="/" title={doc} />);
-
   return (
     <StyledNavBar ref={navRef} side={props.side}>
       <NavElements side="left">
-        <NavLink link="/">
-          <HomeH1>HOME</HomeH1>
-        </NavLink>
-        <DocsLinkContainer hide={hideDocs}>{docs}</DocsLinkContainer>
+        <Home />
+        <DocsLinkContainer hide={hideDocs}>
+          <NavbarContext.Consumer>
+            {(value) =>
+              value.documents.map((doc, i) => {
+                console.log(value);
+                let current = false;
+                if (doc === value.currentDoc) {
+                  current = true;
+                }
+                return (
+                  <NavLink
+                    key={i}
+                    link="/"
+                    title={doc.name ? doc.name : "Unsaved"}
+                    current={current}
+                  />
+                );
+              })
+            }
+          </NavbarContext.Consumer>
+        </DocsLinkContainer>
       </NavElements>
       <NavElements>
         <NavLink link="/">
