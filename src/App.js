@@ -67,6 +67,7 @@ class App extends Component {
   importDocument(path) {}
 
   switchDocument(doc) {
+    this.props.history.push("/new", { state: doc });
     let index = this.state.documents.indexOf(doc);
     this.setState({ currentDoc: this.state.documents[index] });
     this.forceUpdate();
@@ -89,7 +90,7 @@ class App extends Component {
             </Route>
 
             <Route exact path="/">
-              <Navbar side="top" switchDoc={this.switchDocument} />
+              <Navbar side="top" switchDoc={this.switchDoc} />
               <Home
                 createCallback={(docType, format, orientation, bgColor) =>
                   this.createDocument(docType, format, orientation, bgColor)
