@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import GLOBALS from "../../../../Globals";
+import GLOBALS from "../../../Globals";
 
 const HVButtons = styled.button`
   width: ${(props) => (props.horizontal ? "3vw" : "2vw")};

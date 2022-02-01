@@ -4,7 +4,7 @@
 
 import React, { Component } from "react";
 import styled from "styled-components";
-import GLOBALS from "../../../../Globals";
+import GLOBALS from "../../../Globals";
 
 const RGBButton = styled.button`
   position: relative;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
-import GLOBALS from "../../../../Globals";
+import GLOBALS from "../../../Globals";
 
 const DropDownStyle = styled.div`
   display: inline-block;

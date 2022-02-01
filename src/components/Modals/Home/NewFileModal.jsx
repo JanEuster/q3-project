@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ModalBox, ModalTextButton, ModalTitle } from "../BaseModal";
-import Dropdown from "./components/DropDown";
-import { useEffect } from "react";
-import HVSelector from "./components/HVSelector";
-import DocTypeSelector from "./components/DocTypes";
-import { useRef } from "react";
+import Dropdown from "../components/DropDown";
+import HVSelector from "../components/HVSelector";
+import DocTypeSelector from "../components/DocTypes";
 
 import GLOBALS from "../../../Globals";
-import RGBSelector from "./components/RGBSelector";
 
 const TextDiv = styled.div`
   float: left;
