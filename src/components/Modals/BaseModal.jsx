@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import GLOBALS from "../../../Globals";
+import GLOBALS from "../../Globals";
 
 const ModalBox = styled.div`
   position: fixed;

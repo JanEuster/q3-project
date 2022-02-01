@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ModalBox, ModalTextButton, ModalTitle } from "./BaseModal";
+import { ModalBox, ModalTextButton, ModalTitle } from "../BaseModal";
 import Dropdown from "./components/DropDown";
 import { useEffect } from "react";
 import HVSelector from "./components/HVSelector";

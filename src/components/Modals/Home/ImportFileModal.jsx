@@ -1,5 +1,5 @@
 import React from 'react'
-import { ModalBox, ModalTextButton, ModalTitle } from './BaseModal'
+import { ModalBox, ModalTextButton, ModalTitle } from '../BaseModal'
 
 const ImportFileModal = (props) => {
     if (props.isOpen === "true") {

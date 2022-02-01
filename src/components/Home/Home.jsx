@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import HomeModal from "./Modals/BaseModal";
+import HomeModal from "../Modals//BaseModal";
 import styled from "styled-components";
 import { useEffect } from "react";
-import NewFileModal from "./Modals/NewFileModal";
-import ImportFileModal from "./Modals/ImportFileModal";
-import OpenFileModal from "./Modals/OpenFileModal";
+import NewFileModal from "../Modals/Home/NewFileModal";
+import ImportFileModal from "../Modals/Home/ImportFileModal";
+import OpenFileModal from "../Modals/Home/OpenFileModal";
 
 import appLogo from "../../logo.svg";
 import "./Home.css";
