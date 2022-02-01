@@ -18,6 +18,7 @@ class Artboard {
 
     this.viewOffset = { x: 0, y: 0 };
     this.zoom = 1;
+    this.name = undefined;
   }
 
   addObject(obj) {

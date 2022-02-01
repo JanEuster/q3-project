@@ -56,6 +56,10 @@ function Home(props) {
     }
   });
 
+  useEffect(() => {
+    props.unsetCurrentDoc();
+  }, []);
+
   return (
     <>
       <NewFileModal

@@ -14,6 +14,7 @@
   padding: 0;
   /* font-family: 'Roboto', sans-serif; */
   font-family: "iosevka", sans-serif;
+  box-sizing: border-box;
 }
 
 /* HIDE SCROLLBAR */
@@ -47,61 +48,6 @@ nav {
   -webkit-app-region: drag; /* drag frameless window */
 }
 
-.nav-top {
-  top: 0;
-  position: fixed;
-  width: 100%;
-  background-color: var(--light-orange);
-  color: var(--light-light-grey);
-}
-
-.nav-bottom {
-  bottom: 0;
-  position: absolute;
-  width: 100%;
-  background-color: var(--light-orange);
-  color: var(--light-light-grey);
-}
-
-nav ul {
-  vertical-align: center;
-}
-
-nav ul li {
-  float: left;
-  display: block;
-  padding: 0.5vh 1vw;
-}
-
-nav ul li a {
-  color: inherit;
-  font-family: iosevka;
-  font-size: 2.5vh;
-  user-select: none;
-}
-
-.right-nav {
-  float: right;
-}
-
 div a {
   user-select: none;
-}
-
-@media screen and (max-height: 800px) {
-  nav ul li {
-    height: 25px;
-  }
-  nav ul li a {
-    font-size: 18px;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  nav ul li {
-    height: 30px;
-  }
-  nav ul li a {
-    font-size: 16px;
-  }
 }

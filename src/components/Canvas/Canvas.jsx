@@ -1,12 +1,8 @@
-import React, { useRef, useEffect, useState, Component } from "react";
-import Artboard, { noArtboard } from "./Artboard";
-import ToolManager from "./Tools";
-import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
-import Path from "./Objects/Paths";
-import Text from "./Objects/Text";
+import React, { Component } from "react";
+import ToolManager, { selectionT } from "./Tools";
 
 import Panel from "./Panels/BasePanel";
-import SettingsToolPanel from "./Panels/ToolSettings";
+import SettingsToolPanel, { ColorSettingsPanel } from "./Panels/ToolSettings";
 import {
   PanelButton,
   PanelSlider,
@@ -14,16 +10,15 @@ import {
   PanelTextSwitch,
   PanelTitle,
 } from "./Panels/PanelComponents";
-import GLOBALS from "../../Globals";
+import ToolSettingsPanel from "./Panels/ToolSettings";
+import Globals from "../../Globals";
 
 var FPS = 120;
-var CANVAS_BG = "#F3F3F3";
 
 class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Doc: this.props.Doc ? this.props.Doc : new noArtboard(CANVAS_BG),
       Tools: undefined,
       Panels: undefined,
     };
@@ -40,7 +35,7 @@ class Canvas extends Component {
   componentDidMount() {
     this._isMounted = true;
 
-    var toolManager = new ToolManager(this.state.Doc);
+    var toolManager = new ToolManager(this.props.Doc);
     this.setState({ Tools: toolManager });
     // testing panels
     var testPanel = new Panel(20, -350, 200, 300, 16, 8);
@@ -51,8 +46,12 @@ class Canvas extends Component {
       new PanelTextSwitch(20, 80, "testing"),
       new PanelSlider(15, 130, 170),
     ];
+
+    this.cp = new ColorSettingsPanel(toolManager, this);
+    var sp = new ToolSettingsPanel(toolManager, this);
+
     this.setState({
-      Panels: [toolManager.panel, toolManager.settingsPanel, testPanel],
+      Panels: [toolManager.panel, sp, testPanel, this.cp],
     });
 
     // get canvas
@@ -76,8 +75,13 @@ class Canvas extends Component {
   // runs after every page render -> checks for events
   componentDidUpdate(prevProps, prevState) {
     // set new tool manager and panels if document changes
-    if (prevState.Doc !== this.state.Doc) {
-      var toolManager = new ToolManager(this.state.Doc);
+    if (prevProps.Doc !== this.props.Doc) {
+      // tool reset procedures
+      selectionT.selectedObjects = [];
+
+      // new states
+      this.setState({ Doc: this.pro });
+      var toolManager = new ToolManager(this.props.Doc);
       this.setState({ Tools: toolManager });
       // testing panels
       var testPanel = new Panel(20, -350, 200, 300, 16, 8);
@@ -88,8 +92,12 @@ class Canvas extends Component {
         new PanelTextSwitch(20, 80, "testing"),
         new PanelSlider(15, 130, 170),
       ];
+
+      this.cp = new ColorSettingsPanel(toolManager, this);
+      var sp = new ToolSettingsPanel(toolManager, this);
+
       this.setState({
-        Panels: [toolManager.panel, toolManager.settingsPanel, testPanel],
+        Panels: [toolManager.panel, sp, testPanel, this.cp],
       });
     }
 
@@ -117,10 +125,10 @@ class Canvas extends Component {
   updateCanvas(context) {
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    context.fillStyle = CANVAS_BG;
+    context.fillStyle = Globals.COLORS.CANVAS_BG;
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    this.state.Doc.draw(context);
+    this.props.Doc.draw(context);
     this.state.Tools.toolGraphic(context);
 
     // show panels
@@ -164,12 +172,11 @@ class Canvas extends Component {
         }
       }
     }
-    if (this.state.Doc.editable) this.state.Tools.toolUse(e);
+    if (this.props.Doc.editable) this.state.Tools.toolUse(e);
   }
 
   handleTouchEvent(e) {
     var touch = e.changedTouches[0];
-    console.log(e.type);
     var eType = "";
     switch (e.type) {
       case "touchstart":
@@ -184,7 +191,6 @@ class Canvas extends Component {
       default:
         return;
     }
-    console.log(eType);
 
     var simulatedMouseEvent = new MouseEvent(eType, {
       clientX: touch.clientX,
