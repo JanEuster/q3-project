@@ -50,9 +50,9 @@ class Canvas extends Component {
     this.cp = new ColorSettingsPanel(toolManager, this);
     var sp = new ToolSettingsPanel(toolManager, this);
 
-      this.setState({
+    this.setState({
       Panels: [toolManager.panel, sp, testPanel, this.cp],
-      });
+    });
 
     // get canvas
     const canvas = this.canvasRef.current;
@@ -80,7 +80,6 @@ class Canvas extends Component {
 
       // new states
       this.setState({ Doc: this.pro });
-      console.log("canvas: doc changed");
       var toolManager = new ToolManager(this.props.Doc);
       this.setState({ Tools: toolManager });
       // testing panels
@@ -122,7 +121,6 @@ class Canvas extends Component {
   }
 
   updateCanvas(context) {
-    console.log();
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.fillStyle = Globals.COLORS.CANVAS_BG;
@@ -177,7 +175,6 @@ class Canvas extends Component {
 
   handleTouchEvent(e) {
     var touch = e.changedTouches[0];
-    console.log(e.type);
     var eType = "";
     switch (e.type) {
       case "touchstart":
@@ -192,7 +189,6 @@ class Canvas extends Component {
       default:
         return;
     }
-    console.log(eType);
 
     var simulatedMouseEvent = new MouseEvent(eType, {
       clientX: touch.clientX,

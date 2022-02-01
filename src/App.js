@@ -19,7 +19,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentDoc: new noArtboard(GLOBALS.COLORS.CANVAS_BG),
+      currentDoc: undefined,
       documents: [],
     };
 
@@ -68,7 +68,6 @@ class App extends Component {
 
   switchDocument(doc) {
     let index = this.state.documents.indexOf(doc);
-    console.log(this.state.documents);
     this.setState({ currentDoc: this.state.documents[index] });
     this.forceUpdate();
   }
@@ -80,7 +79,13 @@ class App extends Component {
           <NavbarContext.Provider value={this.state}>
             <Route path="/new">
               <Navbar side="bottom" switchDoc={this.switchDoc} />
-              <Canvas Doc={this.state.currentDoc} />
+              <Canvas
+                Doc={
+                  this.state.currentDoc
+                    ? this.state.currentDoc
+                    : new noArtboard(GLOBALS.COLORS.CANVAS_BG)
+                }
+              />
             </Route>
 
             <Route exact path="/">
@@ -91,6 +96,7 @@ class App extends Component {
                 }
                 openCallback={(path) => this.openDocument(path)}
                 importCallback={(path) => this.importDocument(path)}
+                unsetCurrentDoc={() => this.setState({ currentDoc: undefined })}
               />
             </Route>
           </NavbarContext.Provider>
