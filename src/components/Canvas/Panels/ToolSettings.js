@@ -35,7 +35,7 @@ class PanelSettingsColorButton extends PanelButton {
   }
 
   handleColission() {
-    console.log(this.canvas.cp.visible)
+    //console.log(this.canvas.cp.visible)
     if(this.canvas.cp.visible) {
       return
     } else {
@@ -45,118 +45,6 @@ class PanelSettingsColorButton extends PanelButton {
     }
   }
 
-}
-
-class PanelColorSelectorComponent extends BasePanelComponent {
-  constructor(x, y, elementsX, diameter = 10, toolManager, canvas) {
-    let colors = [
-      "#FF0000",
-      "#00FF00",
-      "#0000FF",
-      "#FFFF00",
-      "#FF00FF",
-      "#00FFFF",
-      "#FF8000",
-      "#FF0080",
-      "#FF8080",
-      "#80FF00",
-      "#00FF80",
-      "#80FF80",
-      "#8000FF",
-      "#0080FF",
-      "#8080FF",
-      "#FFFFFF",
-      "#BFBFBF",
-      "#808080",
-      "#404040",
-      "#000000",
-    ];
-
-    let margin = Math.round((diameter / 5) * 2);
-    let elementsY = Math.ceil(colors.length / elementsX);
-    let w = margin + elementsX * (margin + diameter);
-    let h = margin + elementsY * (margin + diameter);
-    super(x, y, w, h);
-
-    this.margin = margin;
-    this.elementsX = elementsX;
-    this.elementsY = elementsY;
-    this.diameter = diameter;
-
-    this.colors = colors;
-    this.activeColor = colors[0];
-
-    this.toolManager = toolManager;
-    this.canvas = canvas;
-
-    this.boundingBox = new BoundingBox(x, y, w, h);
-
-    this.subComponents = [
-      new PanelColorButton(
-        this.coords.x + this.margin,
-        this.coords.y + this.margin + this.elementsY * (margin + diameter),
-        this.diameter * 2,
-        this.diameter * 2,
-        this.toolManager,
-        this
-      ),
-    ];
-    for (let i = 0; i < colors.length; i++) {
-      this.subComponents.push(
-        new PanelColorButton(
-          this.coords.x +
-            this.margin +
-            (i % this.elementsX) * (margin + diameter),
-          this.coords.y +
-            this.margin +
-            Math.floor(i / this.elementsX) * (margin + diameter),
-          this.diameter,
-          this.diameter,
-          this.colors[i],
-          this
-        )
-      );
-    }
-
-    this.setActiveColor();
-  }
-
-  setActiveColor() {
-    this.subComponents[0].fS = this.activeColor;
-    this.toolManager.strokeStyle = this.activeColor;
-  }
-  getActiveColor() {
-    return this.activeColor;
-  }
-
-  handleColission() {
-    // console.log(this.canvas.state.Panels.indexOf("ColorSettingsPanel"))
-    // if (this.canvas.state.Panels.indexOf("ColorSettingsPanel") <= 0) {
-    //   return;
-    // } else { 
-    //   let cp = this.canvas.cp.getPanel();
-    //   this.canvas.state.Panels.push(cp);
-    //   console.log(this.canvas.state.Panels.indexOf("ColorSettingsPanel"))
-    //  }
-    console.log(this.canvas.cp.visible)
-    if(this.canvas.cp.visible) {
-      return
-    } else {
-      let cp = this.canvas.cp.getPanel();
-      this.canvas.state.Panels.push(cp);
-      this.canvas.cp.visible = true;
-    }
-
-  }
-
-  renderComponents(context, panelOffset) {
-    this.subComponents.map((comp) => {
-      comp.render(context, panelOffset);
-    });
-  }
-  render(context, panelOffset) {
-    this.renderComponents(context, panelOffset);
-  }
 }
 
 class PanelShapeButton extends PanelButton {
@@ -363,13 +251,13 @@ class ColorSettingsPanel extends Panel {
   }
 
   setActiveColor(c) {
-    console.log(this.canvas.state.Panels)
-    console.log(this.toolManager.activeTool)
+    // console.log(this.canvas.state.Panels)
+    // console.log(this.toolManager.activeTool)
     if(this.toolManager.activeTool === pencilT) {
       this.canvas.state.Panels[1].toolSettings["pencil"].components[0].fS = c;
       this.components[1].fS = c;
       this.toolManager.strokeStyle = c;
-      console.log(this.toolManager.strokeStyle, this.components[1].fS);
+      //console.log(this.toolManager.strokeStyle, this.components[1].fS);
     } else if (this.toolManager.activeTool === shapeT) {
       this.canvas.state.Panels[1].toolSettings["shapes"].components[0].fS = c;
       this.components[1].fS = c;
