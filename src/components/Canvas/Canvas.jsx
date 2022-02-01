@@ -51,7 +51,7 @@ class Canvas extends Component {
     var sp = new ToolSettingsPanel(toolManager, this);
 
       this.setState({
-      Panels: [toolManager.panel, sp, testPanel, this.cp],
+      Panels: [toolManager.panel, sp, testPanel],
       });
 
     // get canvas
@@ -97,7 +97,7 @@ class Canvas extends Component {
       var sp = new ToolSettingsPanel(toolManager, this);
 
       this.setState({
-        Panels: [toolManager.panel, sp, testPanel, this.cp],
+        Panels: [toolManager.panel, sp, testPanel],
       });
     }
 

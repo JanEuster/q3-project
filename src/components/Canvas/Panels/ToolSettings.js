@@ -212,7 +212,7 @@ class ColorSettingsPanel extends Panel {
     this.toolManager = toolManager;
     this.components = [];
     this.canvas = canvas;
-    this.visible = true;
+    this.visible = false;
 
 
     var activeColor = this.toolManager.strokeStyle;
