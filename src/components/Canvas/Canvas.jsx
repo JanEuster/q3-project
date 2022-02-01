@@ -62,13 +62,14 @@ class Canvas extends Component {
     canvas.addEventListener("mousedown", this.mouseKeyCallback);
     canvas.addEventListener("mouseup", this.mouseKeyCallback);
     canvas.addEventListener("mousemove", this.mouseKeyCallback);
+    canvas.addEventListener("wheel", this.mouseKeyCallback);
     canvas.addEventListener("touchstart", this.mouseKeyCallback);
     canvas.addEventListener("touchmove", this.mouseKeyCallback);
     canvas.addEventListener("touchend", this.mouseKeyCallback);
     document.addEventListener("keypress", this.mouseKeyCallback);
     document.addEventListener("keydown", this.mouseKeyCallback);
 
-    setInterval(() => this.forceUpdate(), 1000 / FPS);
+    this.updateInverval = setInterval(() => this.forceUpdate(), 1000 / FPS);
   }
 
   // runs after every page render -> checks for events
@@ -80,7 +81,6 @@ class Canvas extends Component {
 
       // new states
       this.setState({ Doc: this.pro });
-      console.log("canvas: doc changed");
       var toolManager = new ToolManager(this.props.Doc);
       this.setState({ Tools: toolManager });
       // testing panels
@@ -117,12 +117,14 @@ class Canvas extends Component {
     canvas.removeEventListener("mouseup", this.mouseKeyCallback);
     canvas.removeEventListener("mousemove", this.mouseKeyCallback);
     canvas.removeEventListener("touchmove", this.mouseKeyCallback);
+    canvas.removeEventListener("wheel", this.mouseKeyCallback);
     document.removeEventListener("keypress", this.mouseKeyCallback);
     document.removeEventListener("keydown", this.mouseKeyCallback);
+
+    clearInterval(this.updateInverval);
   }
 
   updateCanvas(context) {
-    console.log();
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
     context.fillStyle = Globals.COLORS.CANVAS_BG;
@@ -177,7 +179,6 @@ class Canvas extends Component {
 
   handleTouchEvent(e) {
     var touch = e.changedTouches[0];
-    console.log(e.type);
     var eType = "";
     switch (e.type) {
       case "touchstart":
@@ -192,7 +193,6 @@ class Canvas extends Component {
       default:
         return;
     }
-    console.log(eType);
 
     var simulatedMouseEvent = new MouseEvent(eType, {
       clientX: touch.clientX,

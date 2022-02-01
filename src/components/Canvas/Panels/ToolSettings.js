@@ -331,6 +331,23 @@ class ToolSettingsPanel extends Panel {
         components: [],
         size: { height: 160 },
       },
+      hand: {
+        components: [
+          new PanelSlider(
+            10,
+            40,
+            100,
+            20,
+            (pos) => {
+              console.log("pos", pos);
+              this.toolManager.Doc.zoom = pos;
+            },
+            1,
+            [0.01, 3]
+          ),
+        ],
+        size: { height: 100 },
+      },
       pencil: {
         components: [
           new PanelSettingsColorButton(10, 45, 100, 30, this.toolManager.strokeStyle, this.canvas, "pencilTool"),//new PanelColorSelectorComponent(4, 35, 5, 15, this.toolManager, this.canvas),
