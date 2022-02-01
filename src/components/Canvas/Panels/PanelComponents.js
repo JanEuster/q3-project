@@ -229,7 +229,6 @@ class PanelSlider extends BasePanelComponent {
 
   mapRange(pos) {
     let rangeSize = this.range[1] - this.range[0];
-    console.log(rangeSize);
     return pos * rangeSize + this.range[0];
   }
 
@@ -239,10 +238,6 @@ class PanelSlider extends BasePanelComponent {
   }
 
   getSliderPos() {
-    console.log(this.range);
-    console.log("getpos1", this.sliderPosition);
-    console.log("getpos2", this.mapRange(this.sliderPosition));
-    console.log("getpos3", this.mapRange(1));
     return this.mapRange(this.sliderPosition);
   }
 
