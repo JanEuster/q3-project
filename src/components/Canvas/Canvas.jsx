@@ -1,9 +1,5 @@
-import React, { useRef, useEffect, useState, Component } from "react";
-import Artboard, { noArtboard } from "./Artboard";
-import ToolManager from "./Tools";
-import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
-import Path from "./Objects/Paths";
-import Text from "./Objects/Text";
+import React, { Component } from "react";
+import ToolManager, { selectionT } from "./Tools";
 
 import Panel from "./Panels/BasePanel";
 import SettingsToolPanel, { ColorSettingsPanel } from "./Panels/ToolSettings";
@@ -14,17 +10,15 @@ import {
   PanelTextSwitch,
   PanelTitle,
 } from "./Panels/PanelComponents";
-import GLOBALS from "../../Globals";
 import ToolSettingsPanel from "./Panels/ToolSettings";
+import Globals from "../../Globals";
 
 var FPS = 120;
-var CANVAS_BG = "#F3F3F3";
 
 class Canvas extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Doc: this.props.Doc ? this.props.Doc : new noArtboard(CANVAS_BG),
       Tools: undefined,
       Panels: undefined,
     };
@@ -41,7 +35,7 @@ class Canvas extends Component {
   componentDidMount() {
     this._isMounted = true;
 
-    var toolManager = new ToolManager(this.state.Doc);
+    var toolManager = new ToolManager(this.props.Doc);
     this.setState({ Tools: toolManager });
     // testing panels
     var testPanel = new Panel(20, -350, 200, 300, 16, 8);
@@ -80,8 +74,14 @@ class Canvas extends Component {
   // runs after every page render -> checks for events
   componentDidUpdate(prevProps, prevState) {
     // set new tool manager and panels if document changes
-    if (prevState.Doc !== this.state.Doc) {
-      var toolManager = new ToolManager(this.state.Doc);
+    if (prevProps.Doc !== this.props.Doc) {
+      // tool reset procedures
+      selectionT.selectedObjects = [];
+
+      // new states
+      this.setState({ Doc: this.pro });
+      console.log("canvas: doc changed");
+      var toolManager = new ToolManager(this.props.Doc);
       this.setState({ Tools: toolManager });
       // testing panels
       var testPanel = new Panel(20, -350, 200, 300, 16, 8);
@@ -103,8 +103,7 @@ class Canvas extends Component {
 
     const context = this.canvasRef.current.getContext("2d");
     this.updateCanvas(context);
-
-    };
+  }
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -123,12 +122,13 @@ class Canvas extends Component {
   }
 
   updateCanvas(context) {
+    console.log();
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    context.fillStyle = CANVAS_BG;
+    context.fillStyle = Globals.COLORS.CANVAS_BG;
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
-    this.state.Doc.draw(context);
+    this.props.Doc.draw(context);
     this.state.Tools.toolGraphic(context);
 
     // show panels
@@ -146,12 +146,17 @@ class Canvas extends Component {
   }
 
   handleCanvasEvent(e) {
-    if (e.type === "touchstart" || e.type === "touchmove" || e.type === "touchend") {
-      e = this.handleTouchEvent(e)
+    if (
+      e.type === "touchstart" ||
+      e.type === "touchmove" ||
+      e.type === "touchend"
+    ) {
+      e = this.handleTouchEvent(e);
     }
-    
-    if (e.type === "click") { // ignore click event after mouseup as click is always raised after holding mouse down
-      return
+
+    if (e.type === "click") {
+      // ignore click event after mouseup as click is always raised after holding mouse down
+      return;
     }
 
     // if (e.type !== "mousemove") { beforeMouseMove = e.type }
@@ -159,22 +164,21 @@ class Canvas extends Component {
     // TODO: enable smooth dragging of slider panel component  with code above, without interrupting tool use/ changing panel settings
 
     // check click / mousedown collision with panels
-    if (e.type === "click" || e.type === "mousedown") { 
+    if (e.type === "click" || e.type === "mousedown") {
       for (let i = 0; i < this.state.Panels.length; i++) {
-        let panel = this.state.Panels[i]
+        let panel = this.state.Panels[i];
         if (panel.checkBoundsCollision(e.clientX, e.clientY)) {
-          return
+          return;
         }
       }
-    } 
-    if (this.state.Doc.editable) this.state.Tools.toolUse(e);
+    }
+    if (this.props.Doc.editable) this.state.Tools.toolUse(e);
   }
 
-  
   handleTouchEvent(e) {
-    var touch = e.changedTouches[0]
-    console.log(e.type)
-    var eType = ""
+    var touch = e.changedTouches[0];
+    console.log(e.type);
+    var eType = "";
     switch (e.type) {
       case "touchstart":
         eType = "mousedown";
@@ -186,17 +190,21 @@ class Canvas extends Component {
         eType = "mouseup";
         break;
       default:
-        return
+        return;
     }
-    console.log(eType)
+    console.log(eType);
 
-    var simulatedMouseEvent = new MouseEvent(
-      eType,
-      { clientX: touch.clientX, clientY: touch.clientY, ctrlKey: touch.ctrlKey, shiftKey: touch.shiftKey, altKey: touch.altKey, metaKey: touch.metaKey, button: touch.button }
-    );
-    return simulatedMouseEvent
+    var simulatedMouseEvent = new MouseEvent(eType, {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      ctrlKey: touch.ctrlKey,
+      shiftKey: touch.shiftKey,
+      altKey: touch.altKey,
+      metaKey: touch.metaKey,
+      button: touch.button,
+    });
+    return simulatedMouseEvent;
     // this.canvasRef.current.dispatchEvent(simulatedMouseEvent)
-
   }
 
   render() {

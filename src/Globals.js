@@ -9,6 +9,7 @@ export default {
   ],
   DOC_ORIENTATIONS: ["vertical", "horizontal"],
   COLORS: {
+    CANVAS_BG: "#F3F3F3",
     lightlightgrey: "#F8F8F8",
     lightgrey: "#EBEBEB",
     grey: "#DCDCDC",

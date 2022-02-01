@@ -15,6 +15,8 @@ class Artboard {
     this.draw = this.draw.bind(this);
 
     this.editable = true;
+
+    this.name = undefined;
   }
 
   addObject(obj) {
@@ -67,7 +69,7 @@ class Artboard {
       y: y * artMeta.pixelRatio + artMeta.baseCoord.h,
     };
   }
-  
+
   getArtboardMetadata() {
     let scrW = window.innerWidth;
     let scrH = window.innerHeight;
