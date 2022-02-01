@@ -3,7 +3,6 @@ import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
 import Path from "./Objects/Paths";
 import GLOBALS from "../../Globals";
 import Text from "./Objects/Text";
-import Panel from "./Panels/BasePanel";
 import ToolSettingsPanel, { ColorSettingsPanel } from "./Panels/ToolSettings";
 
 // box that is shown when user drags selection tool across screen to select multiple objects
@@ -61,6 +60,8 @@ class SelectionTool {
     this.lastPos = { x: NaN, y: NaN };
 
     this.selectionBox = new SelectionBox();
+
+    this.toolManager = undefined;
 
     this.lastEventUp = false; // was last event mouseup -> next click event can be ignored
 
@@ -217,16 +218,17 @@ class SelectionTool {
   }
 
   graphic(context, artMeta, Doc) {
+    var artPos = Doc.applyZoomOffset(artMeta);
+    var zoom = Doc.zoom;
+    var pixelRatio = artMeta.pixelRatio;
     // show selection box
     if (this.selectedObjects !== []) {
       this.selectedObjects.forEach((obj) => {
+        // TODO: fix object selection box while zoomed
         let x = obj.boundingBox.coords[0];
         let y = obj.boundingBox.coords[1];
         let w = obj.boundingBox.wh[0];
         let h = obj.boundingBox.wh[1];
-
-        let pixelRatio = artMeta.pixelRatio;
-        let baseCoord = artMeta.baseCoord;
 
         let offset = 32;
         // context.fillStyle = "#00FF00";
@@ -234,16 +236,70 @@ class SelectionTool {
         context.strokeStyle = GLOBALS.COLORS.midorange;
 
         context.strokeRect(
-          baseCoord.w + pixelRatio * (x - offset),
-          baseCoord.h + pixelRatio * (y - offset),
-          pixelRatio * (w + offset * 2),
-          pixelRatio * (h + offset * 2)
+          artPos.x + zoom * pixelRatio * (x - offset),
+          artPos.y + zoom * pixelRatio * (y - offset),
+          zoom * pixelRatio * (w + offset * 2),
+          zoom * pixelRatio * (h + offset * 2)
         );
       });
     }
 
     this.selectionBox.showIfEnabled(context, Doc);
   }
+}
+
+class HandTool {
+  constructor() {
+    this.lastPos = { x: 0, y: 0 };
+    this.moving = false;
+
+    this.toolManager = undefined;
+
+    this.name = "hand";
+    this.icon = "assets/icons/tools/hand.png";
+  }
+
+  select() {}
+
+  use(e) {
+    if (e instanceof WheelEvent) {
+      this.toolManager.Doc.setZoom(-e.deltaY);
+      return;
+    }
+
+    switch (e.type) {
+      case "mousedown":
+        this.moving = true;
+        this.lastPos.x = e.pageX;
+        this.lastPos.y = e.pageY;
+
+        break;
+
+      case "mousemove":
+        if (this.moving) {
+          this.toolManager.Doc.moveArtboard(
+            e.pageX - this.lastPos.x,
+            e.pageY - this.lastPos.y
+          );
+          this.lastPos.x = e.pageX;
+          this.lastPos.y = e.pageY;
+        }
+
+        break;
+
+      case "mouseup":
+        this.moving = false;
+
+        break;
+
+      default:
+        return;
+    }
+  }
+
+  deselect() {}
+
+  graphic() {}
 }
 
 class PencilTool {
@@ -577,6 +633,7 @@ class ShapeTool {
 }
 
 var selectionT = new SelectionTool();
+var handT = new HandTool();
 var pencilT = new PencilTool();
 var eraserT = new EraserTool();
 var textT = new TextTool();
@@ -586,7 +643,7 @@ class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
     this.tools = [];
-    this.tools.push(selectionT, pencilT, eraserT, textT, shapeT);
+    this.tools.push(selectionT, handT, pencilT, eraserT, textT, shapeT);
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
     this.strokeWidthPencil = 10;
@@ -597,6 +654,8 @@ class ToolManager {
 
     this.lastObj = NaN;
 
+    selectionT.toolManager = this;
+    handT.toolManager = this;
     pencilT.toolManager = this;
     eraserT.toolManager = this;
     shapeT.toolManager = this;

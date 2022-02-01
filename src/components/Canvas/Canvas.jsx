@@ -62,6 +62,7 @@ class Canvas extends Component {
     canvas.addEventListener("mousedown", this.mouseKeyCallback);
     canvas.addEventListener("mouseup", this.mouseKeyCallback);
     canvas.addEventListener("mousemove", this.mouseKeyCallback);
+    canvas.addEventListener("wheel", this.mouseKeyCallback);
     canvas.addEventListener("touchstart", this.mouseKeyCallback);
     canvas.addEventListener("touchmove", this.mouseKeyCallback);
     canvas.addEventListener("touchend", this.mouseKeyCallback);
@@ -116,6 +117,7 @@ class Canvas extends Component {
     canvas.removeEventListener("mouseup", this.mouseKeyCallback);
     canvas.removeEventListener("mousemove", this.mouseKeyCallback);
     canvas.removeEventListener("touchmove", this.mouseKeyCallback);
+    canvas.removeEventListener("wheel", this.mouseKeyCallback);
     document.removeEventListener("keypress", this.mouseKeyCallback);
     document.removeEventListener("keydown", this.mouseKeyCallback);
   }
