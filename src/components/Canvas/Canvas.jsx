@@ -6,7 +6,7 @@ import Path from "./Objects/Paths";
 import Text from "./Objects/Text";
 
 import Panel from "./Panels/BasePanel";
-import SettingsToolPanel from "./Panels/ToolSettings";
+import SettingsToolPanel, { ColorSettingsPanel } from "./Panels/ToolSettings";
 import {
   PanelButton,
   PanelSlider,
@@ -15,6 +15,7 @@ import {
   PanelTitle,
 } from "./Panels/PanelComponents";
 import GLOBALS from "../../Globals";
+import ToolSettingsPanel from "./Panels/ToolSettings";
 
 var FPS = 120;
 var CANVAS_BG = "#F3F3F3";
@@ -51,9 +52,13 @@ class Canvas extends Component {
       new PanelTextSwitch(20, 80, "testing"),
       new PanelSlider(15, 130, 170),
     ];
-    this.setState({
-      Panels: [toolManager.panel, toolManager.settingsPanel, testPanel],
-    });
+
+    this.cp = new ColorSettingsPanel(toolManager, this);
+    var sp = new ToolSettingsPanel(toolManager, this);
+
+      this.setState({
+      Panels: [toolManager.panel, sp, testPanel, this.cp],
+      });
 
     // get canvas
     const canvas = this.canvasRef.current;
@@ -87,8 +92,12 @@ class Canvas extends Component {
         new PanelTextSwitch(20, 80, "testing"),
         new PanelSlider(15, 130, 170),
       ];
+
+      this.cp = new ColorSettingsPanel(toolManager, this);
+      var sp = new ToolSettingsPanel(toolManager, this);
+
       this.setState({
-        Panels: [toolManager.panel, toolManager.settingsPanel, testPanel],
+        Panels: [toolManager.panel, sp, testPanel, this.cp],
       });
     }
 

@@ -4,7 +4,7 @@ import Path from "./Objects/Paths";
 import GLOBALS from "../../Globals";
 import Text from "./Objects/Text";
 import Panel from "./Panels/BasePanel";
-import ToolSettingsPanel from './Panels/ToolSettings';
+import ToolSettingsPanel, { ColorSettingsPanel } from './Panels/ToolSettings';
 
 
 
@@ -472,6 +472,7 @@ class ShapeTool {
     this.currentShape = undefined;
     this.lastShape = this.currentShape;
     this.toolManager = undefined;
+    
   }
   select() {}
 
@@ -500,6 +501,8 @@ class ShapeTool {
         } else { console.log("ERROR SHAPE-SELECTION") }
 
         this.currentShape.borderWidth = this.toolManager.borderWidth;
+        this.currentShape.fillColor = this.toolManager.fillColorShape;
+
         Doc.addObject(this.currentShape)
         
         //console.log(this.currentShape)
@@ -600,10 +603,12 @@ class ToolManager {
 
     pencilT.toolManager = this;
     eraserT.toolManager = this;
+    shapeT.toolManager = this;
     textT.toolManager = this;
 
     this.shape = "triangle";
     this.borderWidth = 25;
+    this.fillColorShape = "#000000";
 
     this.lastObj = NaN;
 
@@ -614,6 +619,8 @@ class ToolManager {
 
     this.panel = new Toolbox(this);
     this.settingsPanel = new ToolSettingsPanel(this);
+    this.colorpanel = new ColorSettingsPanel(this);
+
   }
 
   toolSelect() {
