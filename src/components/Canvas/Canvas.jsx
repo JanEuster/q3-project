@@ -69,7 +69,7 @@ class Canvas extends Component {
     document.addEventListener("keypress", this.mouseKeyCallback);
     document.addEventListener("keydown", this.mouseKeyCallback);
 
-    setInterval(() => this.forceUpdate(), 1000 / FPS);
+    this.updateInverval = setInterval(() => this.forceUpdate(), 1000 / FPS);
   }
 
   // runs after every page render -> checks for events
@@ -120,6 +120,8 @@ class Canvas extends Component {
     canvas.removeEventListener("wheel", this.mouseKeyCallback);
     document.removeEventListener("keypress", this.mouseKeyCallback);
     document.removeEventListener("keydown", this.mouseKeyCallback);
+
+    clearInterval(this.updateInverval);
   }
 
   updateCanvas(context) {
