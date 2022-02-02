@@ -38,9 +38,9 @@ class Path extends BaseShape {
     return {
       attributes: {
         "fill-color": this.fillColor,
-        strokeColor: this.borderColor,
-        strokeWidth: this.borderWidth,
-        lineJoin: this.lineJoin,
+        "stroke-color": this.borderColor,
+        "stroke-width": this.borderWidth,
+        "line-join": this.lineJoin,
       },
       children: [...this.points],
     };

@@ -72,8 +72,8 @@ class Rectangle extends BaseShape {
         width: this.width,
         height: this.height,
         "fill-color": this.fillColor,
-        strokeColor: this.borderColor,
-        strokeWidth: this.borderWidth,
+        "stroke-color": this.borderColor,
+        "stroke-width": this.borderWidth,
       },
     };
   }
@@ -131,8 +131,8 @@ class Circle extends BaseShape {
         y: this.yCoord,
         radius: this.radius,
         "fill-color": this.fillColor,
-        strokeColor: this.borderColor,
-        strokeWidth: this.borderWidth,
+        "stroke-color": this.borderColor,
+        "stroke-width": this.borderWidth,
       },
     };
   }
@@ -195,8 +195,8 @@ class Triangle extends BaseShape {
         width: this.width,
         height: this.height,
         "fill-color": this.fillColor,
-        strokeColor: this.borderColor,
-        strokeWidth: this.borderWidth,
+        "stroke-color": this.borderColor,
+        "stroke-width": this.borderWidth,
       },
     };
   }
