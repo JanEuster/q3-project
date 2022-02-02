@@ -1,7 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NavbarContext } from "./App";
+import GLOBALS from "./Globals";
+
+const MOBILE_WIDTH = 800;
 
 const Nav = styled.nav`
   position: fixed;
@@ -12,10 +16,21 @@ const Nav = styled.nav`
   justify-content: space-between;
   ${(props) => (props.side === "bottom" ? "bottom: 0;" : "")}
 `;
+const NavNav = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const NavLink = styled(Link)`
   text-decoration: none;
   color: var(--light-light-grey);
 `;
+const NavButton = styled.div`
+  color: var(--light-light-grey);
+  cursor: pointer;
+`;
+
 const NavText = styled.div`
   font-family: Iosevka;
   font-size: 2rem;
@@ -73,10 +88,16 @@ const NavLeft = styled.div`
   display: flex;
 `;
 const NavRight = NavLeft;
+const NavDocumentOptionsContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  background-color: var(--light-light-grey);
+  padding: 0 1vw;
+`;
 const NavDocuments = styled.div`
   display: flex;
 
-  @media (max-width: 600px) {
+  @media (max-width: ${MOBILE_WIDTH}px) {
     display: none;
   }
 `;
@@ -89,7 +110,8 @@ const DocContainer = styled.div`
 const BigDivider = styled.div`
   width: 1vw;
   max-width: 15px;
-  background-color: var(--light-light-grey);
+  background-color: ${(props) =>
+    props.color ? `${props.color}` : "var(--light-light-grey)"};
 `;
 const SmallDivider = styled.div`
   width: 4px;
@@ -100,7 +122,7 @@ const SmallDivider = styled.div`
 const HomeContainer = styled.div`
   padding: 0 1vw;
   background-color: var(--mid-orange);
-  @media (max-width: 600px) {
+  @media (max-width: ${MOBILE_WIDTH}px) {
     padding: 0 2vw;
   }
 `;
@@ -110,11 +132,11 @@ const HomeText = styled.div`
   transform: scale(1.2);
   color: var(--dark-grey);
 
-  @media (max-width: 600px) {
+  @media (max-width: ${MOBILE_WIDTH}px) {
     font-size: 3rem;
   }
 `;
-const HomeButton = (props) => {
+const HomeLink = (props) => {
   return (
     <NavLink to="/">
       <HomeContainer>
@@ -141,6 +163,7 @@ const IconContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  padding: 0 2px;
 `;
 const Icon = styled.img`
   height: 2rem;
@@ -148,53 +171,82 @@ const Icon = styled.img`
   transform: scale(1.5);
   margin: 0 0.3rem;
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     height: 3rem;
   }
 `;
 const NavIcon = (props) => {
   return (
-    <Link to={props.link}>
-      <IconContainer>
-        <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
-      </IconContainer>
-    </Link>
+    <>
+      {props.link ? (
+        <Link to={props.link}>
+          <IconContainer>
+            <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
+          </IconContainer>
+        </Link>
+      ) : (
+        <NavButton onClick={props.onClick}>
+          <IconContainer>
+            <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
+          </IconContainer>
+        </NavButton>
+      )}
+    </>
+  );
+};
+
+const DocumentOptions = (props) => {
+  return (
+    <NavDocumentOptionsContainer>
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/save.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/redo.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/undo.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/copy.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/cut.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/paste.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/previous_page.svg"} />
+      <NavIcon onClick={() => {}} src={"/assets/icons/ui/next_page.svg"} />
+    </NavDocumentOptionsContainer>
   );
 };
 
 function Navbar(props) {
   return (
     <Nav side={props.side}>
-      <NavLeft>
-        <HomeButton />
-        <BigDivider />
-        <NavDocuments>
-          <NavbarContext.Consumer>
-            {(value) =>
-              value.documents.map((doc, i) => {
-                let current = false;
-                if (doc === value.currentDoc) {
-                  current = true;
-                }
-                return (
-                  <NavDoc
-                    key={i}
-                    current={current}
-                    link="/"
-                    title={doc.name !== undefined ? doc.name : "Unsaved"}
-                    index={i}
-                    doc={doc}
-                    switchDoc={props.switchDoc}
-                  />
-                );
-              })
-            }
-          </NavbarContext.Consumer>
-        </NavDocuments>
-      </NavLeft>
-      <NavRight>
-        <NavIcon link="/" src={"/assets/icons/ui/settings.svg"} />
-      </NavRight>
+      <NavNav>
+        <NavLeft>
+          <HomeLink />
+          <BigDivider />
+          <NavDocuments>
+            <NavbarContext.Consumer>
+              {(value) =>
+                value.documents.map((doc, i) => {
+                  let current = false;
+                  if (doc === value.currentDoc) {
+                    current = true;
+                  }
+                  return (
+                    <NavDoc
+                      key={i}
+                      current={current}
+                      link="/"
+                      title={doc.name !== undefined ? doc.name : "Unsaved"}
+                      index={i}
+                      doc={doc}
+                      switchDoc={props.switchDoc}
+                    />
+                  );
+                })
+              }
+            </NavbarContext.Consumer>
+          </NavDocuments>
+        </NavLeft>
+        <NavRight>
+          <NavIcon link="/" src={"/assets/icons/ui/settings.svg"} />
+        </NavRight>
+      </NavNav>
+      <BigDivider color={GLOBALS.COLORS.darkgrey} />
+      {useLocation().pathname !== "/" ? <DocumentOptions /> : null}
     </Nav>
   );
 }
