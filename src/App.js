@@ -49,9 +49,9 @@ class App extends Component {
 
       newDoc = new Artboard(width, height, bgColor);
     } else if (docType === "infinite-scroll") {
-      newDoc = new infiniteScrollArtboard(2000, bgColor);
+      newDoc = new infiniteScrollArtboard(GLOBALS.INFINITE_WIDTH, bgColor);
     } else if (docType === "infinite") {
-      newDoc = new infiniteArtboard(2000, bgColor);
+      newDoc = new infiniteArtboard(GLOBALS.INFINITE_WIDTH, bgColor);
     }
 
     this.setState({

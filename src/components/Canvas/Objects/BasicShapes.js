@@ -8,6 +8,12 @@ class BaseShape {
     this.xCoord = xCoord;
     this.yCoord = yCoord;
   }
+
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return { attributes: { x: this.xCoord, y: this.yCoord } };
+  }
+
   moveBounds(x, y) {
     let coords = this.boundingBox.getCoords();
     let endCoords = this.boundingBox.getEndCoords();
@@ -57,6 +63,20 @@ class Rectangle extends BaseShape {
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
   }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        x: this.xCoord,
+        y: this.yCoord,
+        width: this.width,
+        height: this.height,
+        "fill-color": this.fillColor,
+        strokeColor: this.borderColor,
+        strokeWidth: this.borderWidth,
+      },
+    };
+  }
 
   render(context, pixelRatio, baseCoord) {
     context.fillStyle = this.fillColor;
@@ -103,7 +123,19 @@ class Circle extends BaseShape {
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
   }
-
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        x: this.xCoord,
+        y: this.yCoord,
+        radius: this.radius,
+        "fill-color": this.fillColor,
+        strokeColor: this.borderColor,
+        strokeWidth: this.borderWidth,
+      },
+    };
+  }
   render(context, pixelRatio, baseCoord) {
     context.fillStyle = this.fillColor;
 
@@ -153,6 +185,20 @@ class Triangle extends BaseShape {
     this.fillColor = fillColor;
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
+  }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        x: this.xCoord,
+        y: this.yCoord,
+        width: this.width,
+        height: this.height,
+        "fill-color": this.fillColor,
+        strokeColor: this.borderColor,
+        strokeWidth: this.borderWidth,
+      },
+    };
   }
 
   render(context, pixelRatio, baseCoord) {

@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { NavbarContext } from "./App";
+import { saveArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import GLOBALS from "./Globals";
 
 const MOBILE_WIDTH = 800;
@@ -198,14 +199,29 @@ const NavIcon = (props) => {
 const DocumentOptions = (props) => {
   return (
     <NavDocumentOptionsContainer>
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/save.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/redo.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/undo.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/copy.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/cut.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/paste.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/previous_page.svg"} />
-      <NavIcon onClick={() => {}} src={"/assets/icons/ui/next_page.svg"} />
+      <NavbarContext.Consumer>
+        {(value) => (
+          <>
+            <NavIcon
+              onClick={() => saveArtboard(value.currentDoc)}
+              src={"/assets/icons/ui/save.svg"}
+            />
+            <NavIcon onClick={() => {}} src={"/assets/icons/ui/redo.svg"} />
+            <NavIcon onClick={() => {}} src={"/assets/icons/ui/undo.svg"} />
+            <NavIcon onClick={() => {}} src={"/assets/icons/ui/copy.svg"} />
+            <NavIcon onClick={() => {}} src={"/assets/icons/ui/cut.svg"} />
+            <NavIcon onClick={() => {}} src={"/assets/icons/ui/paste.svg"} />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/previous_page.svg"}
+            />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/next_page.svg"}
+            />
+          </>
+        )}
+      </NavbarContext.Consumer>
     </NavDocumentOptionsContainer>
   );
 };

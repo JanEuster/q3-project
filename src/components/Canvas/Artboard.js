@@ -209,5 +209,9 @@ class noArtboard extends Artboard {
   }
 }
 
+function saveArtboard(artboard) {
+  console.log("save", artboard);
+}
+
 export default Artboard;
 export { noArtboard, infiniteScrollArtboard, infiniteArtboard };

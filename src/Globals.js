@@ -1,3 +1,4 @@
+/* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   DOC_TYPES: ["regular", "infinite-scroll", "infinite"],
   DOC_FORMATS: [
@@ -7,6 +8,7 @@ export default {
     { name: "A2", width: 4961, height: 7016 },
     { name: "A1", width: 7016, height: 9933 },
   ],
+  INFINITE_WIDTH: 2000, // exists just to have a resolution for the infinite doc types
   DOC_ORIENTATIONS: ["vertical", "horizontal"],
   COLORS: {
     CANVAS_BG: "#F3F3F3",

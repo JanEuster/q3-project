@@ -4,6 +4,17 @@ class BoundingBox {
     this.wh = [width, height];
     this.endCoords = [xCoord + width, yCoord + height];
   }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      x1: this.coords[0],
+      y1: this.coords[1],
+      x2: this.endCoords[0],
+      y2: this.endCoords[1],
+      width: this.wh[0],
+      height: this.wh[1],
+    };
+  }
 
   // dont know if i actually should define basic getters and setters
   getCoords() {
@@ -63,14 +74,16 @@ class BoundingBox {
   }
   checkBoxCollision(startBox, endBox) {
     // check if this object has a collision with a rectangular box given by the function parameters
-    let boxX1 = startBox.x < endBox.x ? startBox.x : endBox.x 
-    let boxY1 = startBox.y < endBox.y ? startBox.y : endBox.y; 
-    let boxX2 = startBox.x > endBox.x ? startBox.x : endBox.x; 
-    let boxY2 = startBox.y > endBox.y ? startBox.y : endBox.y; 
+    let boxX1 = startBox.x < endBox.x ? startBox.x : endBox.x;
+    let boxY1 = startBox.y < endBox.y ? startBox.y : endBox.y;
+    let boxX2 = startBox.x > endBox.x ? startBox.x : endBox.x;
+    let boxY2 = startBox.y > endBox.y ? startBox.y : endBox.y;
 
     if (
-      this.endCoords[0] > boxX1 && this.coords[0] < boxX2 &&
-      this.endCoords[1] > boxY1 && this.coords[1] < boxY2 
+      this.endCoords[0] > boxX1 &&
+      this.coords[0] < boxX2 &&
+      this.endCoords[1] > boxY1 &&
+      this.coords[1] < boxY2
     ) {
       return true;
     }
