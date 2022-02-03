@@ -11,6 +11,7 @@ import Artboard, {
   noArtboard,
 } from "./components/Canvas/Artboard";
 import GLOBALS from "./Globals";
+import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 
 export const NavbarContext = React.createContext();
 
@@ -63,7 +64,13 @@ class App extends Component {
 
     this.props.history.push("/new");
   }
-  openDocument(path) {}
+  async openDocument(path) {
+    loadArtboard().then((doc) => {
+      this.setState({ currentDoc: doc });
+      this.setState({ documents: [...this.state.documents, doc] });
+      this.props.history.push("/new");
+    });
+  }
   importDocument(path) {}
 
   switchDocument(doc) {

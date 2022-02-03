@@ -22,7 +22,7 @@ class Path extends BaseShape {
     super(0, 0, 0, 0);
 
     this.points = []; // ...splits x and y into separate parameters
-    this.addPoints(points);
+    if (points.length > 0) this.addPoints(points);
 
     this.strokeWidth = strokeWidth;
     this.strokeColor = strokeColor;
@@ -37,10 +37,9 @@ class Path extends BaseShape {
     // return all necessary information for saving document to file
     return {
       attributes: {
-        "fill-color": this.fillColor,
-        "stroke-color": this.borderColor,
-        "stroke-width": this.borderWidth,
-        "line-join": this.lineJoin,
+        strokeColor: this.strokeColor,
+        strokeWidth: this.strokeWidth,
+        lineJoin: this.lineJoin,
       },
       children: [...this.points],
     };
@@ -54,6 +53,13 @@ class Path extends BaseShape {
     points.forEach((p) => {
       this.points.push(new Point(p[0], p[1]));
     });
+    this.boundingBox.setBounds(...this.determineNewBounds());
+  }
+  setPointObjects(points) {
+    this.points = points;
+  }
+
+  newBounds() {
     this.boundingBox.setBounds(...this.determineNewBounds());
   }
 
@@ -184,3 +190,4 @@ class Path extends BaseShape {
 }
 
 export default Path;
+export { Point };

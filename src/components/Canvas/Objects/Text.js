@@ -14,7 +14,7 @@ class Text extends BaseShape {
     this.text = text;
     this.font = font;
     this.fontSize = fontSize;
-    this.fillStyle = fillStyle;
+    this.fillColor = fillStyle;
 
     this.setWidthHeight();
 
@@ -24,12 +24,18 @@ class Text extends BaseShape {
     // return all necessary information for saving document to file
     return {
       attributes: {
+        xCoord: this.xCoord,
+        yCoord: this.yCoord,
         font: this.font,
-        "font-size": this.fontSize,
-        "fill-color": this.fillStyle,
+        fontSize: this.fontSize,
+        fillColor: this.fillColor,
       },
       text: this.text,
     };
+  }
+  newBounds() {
+    this.setWidthHeight();
+    this.setBounds(this.xCoord, this.yCoord);
   }
 
   setBounds(x = this.xCoord, y = this.yCoord) {
@@ -78,7 +84,7 @@ class Text extends BaseShape {
 
   render(context, pixelRatio, baseCoord) {
     context.font = `${this.fontSize * pixelRatio}px ${this.font}`; // i.e. 30px iosevka demibold
-    context.fillStyle = this.fillStyle;
+    context.fillStyle = this.fillColor;
 
     this.width = context.measureText(this.text).width / pixelRatio;
     this.setBounds(this.xCoord, this.yCoord);
