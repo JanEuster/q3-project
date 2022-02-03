@@ -14,19 +14,19 @@
                             <rect x="0" y="0" width="2480.32" height="3507.87" style="fill:rgb(235,235,235);stroke:rgb(57,57,57);stroke-width:240.19px;"/>
                         </g>
                         <g transform="matrix(1.17737,0,0,1,-61.936,-1577.91)">
-                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:33.9px;stroke-miterlimit:4;"/>
+                            <path d="M697.774,1842.33L697.774,1773.49L277.172,1773.49L277.172,1842.33L697.774,1842.33Z" style="fill:rgb(57,57,57);"/>
                         </g>
                         <g transform="matrix(1.17737,0,0,1,-61.936,-1469.99)">
-                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:33.9px;stroke-miterlimit:4;"/>
+                            <path d="M697.774,1842.33L697.774,1773.49L277.172,1773.49L277.172,1842.33L697.774,1842.33Z" style="fill:rgb(57,57,57);"/>
                         </g>
                         <g transform="matrix(0.588685,0,0,1,110.488,-1254.15)">
-                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:45.13px;stroke-miterlimit:4;"/>
+                            <path d="M713.499,1842.33L713.499,1773.49L261.446,1773.49L261.446,1842.33L713.499,1842.33Z" style="fill:rgb(57,57,57);"/>
                         </g>
                         <g transform="matrix(0.878408,0,0,1,25.6291,-1362.07)">
-                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:39.34px;stroke-miterlimit:4;"/>
+                            <path d="M703.126,1842.33L703.126,1773.49L271.819,1773.49L271.819,1842.33L703.126,1842.33Z" style="fill:rgb(57,57,57);"/>
                         </g>
                         <g transform="matrix(0.878408,0,0,1,25.6291,-1146.23)">
-                            <rect x="292.897" y="1792" width="389.151" height="31.811" style="fill:none;stroke:rgb(57,57,57);stroke-width:39.34px;stroke-miterlimit:4;"/>
+                            <path d="M703.126,1842.33L703.126,1773.49L271.819,1773.49L271.819,1842.33L703.126,1842.33Z" style="fill:rgb(57,57,57);"/>
                         </g>
                     </g>
                     <g id="Clip">
