@@ -199,57 +199,53 @@ const NavIcon = (props) => {
 const DocumentOptions = (props) => {
   return (
     <NavDocumentOptionsContainer>
-      <NavbarContext.Consumer>
-        {(value) => (
-          <>
-            <NavIcon
-              onClick={props.callbacks.closeDoc}
-              src={"/assets/icons/ui/close.svg"}
-              alt="close"
-            />
-            <NavIcon
-              onClick={() => saveArtboard(value.currentDoc)}
-              src={"/assets/icons/ui/save.svg"}
-              alt="save"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/redo.svg"}
-              alt="redo"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/undo.svg"}
-              alt="undo"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/copy.svg"}
-              alt="copy"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/cut.svg"}
-              alt="cut"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/paste.svg"}
-              alt="paste"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/previous_page.svg"}
-              alt="previous page"
-            />
-            <NavIcon
-              onClick={() => {}}
-              src={"/assets/icons/ui/next_page.svg"}
-              alt="next page"
-            />
-          </>
-        )}
-      </NavbarContext.Consumer>
+      <>
+        <NavIcon
+          onClick={props.callbacks.closeDoc}
+          src={"/assets/icons/ui/close.svg"}
+          alt="close"
+        />
+        <NavIcon
+          onClick={() => saveArtboard(props.currentDoc)}
+          src={"/assets/icons/ui/save.svg"}
+          alt="save"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/redo.svg"}
+          alt="redo"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/undo.svg"}
+          alt="undo"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/copy.svg"}
+          alt="copy"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/cut.svg"}
+          alt="cut"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/paste.svg"}
+          alt="paste"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/previous_page.svg"}
+          alt="previous page"
+        />
+        <NavIcon
+          onClick={() => {}}
+          src={"/assets/icons/ui/next_page.svg"}
+          alt="next page"
+        />
+      </>
     </NavDocumentOptionsContainer>
   );
 };
@@ -289,9 +285,11 @@ function Navbar(props) {
       <BigDivider color={GLOBALS.COLORS.darkgrey} />
       {useLocation().pathname !== "/" ? (
         <>
-          <DocumentOptions callbacks={props.callbacks} />
+          <DocumentOptions
+            currentDoc={props.appState.currentDoc}
+            callbacks={props.callbacks}
+          />
           <BigDivider color={GLOBALS.COLORS.darkgrey} />
-          )}
         </>
       ) : null}
     </Nav>
