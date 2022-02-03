@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -93,7 +93,7 @@ const NavDocumentOptionsContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   background-color: var(--light-light-grey);
-  padding: 0 1vw;
+  padding: 0 0.5vw;
 `;
 const NavDocuments = styled.div`
   display: flex;
@@ -167,10 +167,10 @@ const IconContainer = styled.div`
   padding: 0 2px;
 `;
 const Icon = styled.img`
-  height: 2rem;
+  height: 1.75rem;
   aspect-ratio: 1;
   transform: scale(1.5);
-  margin: 0 0.3rem;
+  margin: 0 0.25rem;
 
   @media (max-width: 800px) {
     height: 3rem;
@@ -203,21 +203,49 @@ const DocumentOptions = (props) => {
         {(value) => (
           <>
             <NavIcon
+              onClick={props.callbacks.closeDoc}
+              src={"/assets/icons/ui/close.svg"}
+              alt="close"
+            />
+            <NavIcon
               onClick={() => saveArtboard(value.currentDoc)}
               src={"/assets/icons/ui/save.svg"}
+              alt="save"
             />
-            <NavIcon onClick={() => {}} src={"/assets/icons/ui/redo.svg"} />
-            <NavIcon onClick={() => {}} src={"/assets/icons/ui/undo.svg"} />
-            <NavIcon onClick={() => {}} src={"/assets/icons/ui/copy.svg"} />
-            <NavIcon onClick={() => {}} src={"/assets/icons/ui/cut.svg"} />
-            <NavIcon onClick={() => {}} src={"/assets/icons/ui/paste.svg"} />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/redo.svg"}
+              alt="redo"
+            />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/undo.svg"}
+              alt="undo"
+            />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/copy.svg"}
+              alt="copy"
+            />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/cut.svg"}
+              alt="cut"
+            />
+            <NavIcon
+              onClick={() => {}}
+              src={"/assets/icons/ui/paste.svg"}
+              alt="paste"
+            />
             <NavIcon
               onClick={() => {}}
               src={"/assets/icons/ui/previous_page.svg"}
+              alt="previous page"
             />
             <NavIcon
               onClick={() => {}}
               src={"/assets/icons/ui/next_page.svg"}
+              alt="next page"
             />
           </>
         )}
@@ -227,6 +255,7 @@ const DocumentOptions = (props) => {
 };
 
 function Navbar(props) {
+  useEffect(() => console.log("nav re-render"));
   return (
     <Nav side={props.side}>
       <NavNav>
@@ -234,27 +263,23 @@ function Navbar(props) {
           <HomeLink />
           <BigDivider />
           <NavDocuments>
-            <NavbarContext.Consumer>
-              {(value) =>
-                value.documents.map((doc, i) => {
-                  let current = false;
-                  if (doc === value.currentDoc) {
-                    current = true;
-                  }
-                  return (
-                    <NavDoc
-                      key={i}
-                      current={current}
-                      link="/"
-                      title={doc.name !== undefined ? doc.name : "Unsaved"}
-                      index={i}
-                      doc={doc}
-                      switchDoc={props.switchDoc}
-                    />
-                  );
-                })
+            {props.appState.documents.map((doc, i) => {
+              let current = false;
+              if (doc === props.appState.currentDoc) {
+                current = true;
               }
-            </NavbarContext.Consumer>
+              return (
+                <NavDoc
+                  key={i}
+                  current={current}
+                  link="/"
+                  title={doc.name !== undefined ? doc.name : "Unsaved"}
+                  index={i}
+                  doc={doc}
+                  switchDoc={props.callbacks.switchDoc}
+                />
+              );
+            })}
           </NavDocuments>
         </NavLeft>
         <NavRight>
@@ -262,7 +287,13 @@ function Navbar(props) {
         </NavRight>
       </NavNav>
       <BigDivider color={GLOBALS.COLORS.darkgrey} />
-      {useLocation().pathname !== "/" ? <DocumentOptions /> : null}
+      {useLocation().pathname !== "/" ? (
+        <>
+          <DocumentOptions callbacks={props.callbacks} />
+          <BigDivider color={GLOBALS.COLORS.darkgrey} />
+          )}
+        </>
+      ) : null}
     </Nav>
   );
 }

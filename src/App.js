@@ -25,9 +25,12 @@ class App extends Component {
     };
 
     this.switchDoc = this.switchDocument.bind(this);
+    this.closeCurrentDoc = this.closeCurrentDocument.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.currentDoc);
+    console.log(this.state.documents);
     if (this.state.currentDoc !== prevState.currentDoc) {
     }
   }
@@ -79,35 +82,57 @@ class App extends Component {
     this.setState({ currentDoc: this.state.documents[index] });
     this.forceUpdate();
   }
+  closeCurrentDocument() {
+    let index = this.state.documents.indexOf(this.state.currentDoc);
+    let documents = [
+      ...this.state.documents.slice(0, index),
+      ...this.state.documents.slice(index + 1),
+    ];
+    this.setState({ documents: documents });
+
+    if (documents.length > 0) {
+      this.setState({ currentDoc: documents[document.length - 1] });
+    } else {
+      this.setState({ currentDoc: undefined });
+      this.props.history.push("/");
+      this.forceUpdate();
+    }
+  }
 
   render() {
+    var navCallbacks = {
+      switchDoc: this.switchDoc,
+      closeDoc: this.closeCurrentDoc,
+    };
     return (
       <div className="App">
         <Switch>
-          <NavbarContext.Provider value={this.state}>
-            <Route path="/new">
-              <Navbar side="bottom" switchDoc={this.switchDoc} />
-              <Canvas
-                Doc={
-                  this.state.currentDoc
-                    ? this.state.currentDoc
-                    : new noArtboard(GLOBALS.COLORS.CANVAS_BG)
-                }
-              />
-            </Route>
+          <Route path="/new">
+            <Navbar
+              side="bottom"
+              appState={this.state}
+              callbacks={navCallbacks}
+            />
+            <Canvas
+              Doc={
+                this.state.currentDoc
+                  ? this.state.currentDoc
+                  : new noArtboard(GLOBALS.COLORS.CANVAS_BG)
+              }
+            />
+          </Route>
 
-            <Route exact path="/">
-              <Navbar side="top" switchDoc={this.switchDoc} />
-              <Home
-                createCallback={(docType, format, orientation, bgColor) =>
-                  this.createDocument(docType, format, orientation, bgColor)
-                }
-                openCallback={(path) => this.openDocument(path)}
-                importCallback={(path) => this.importDocument(path)}
-                unsetCurrentDoc={() => this.setState({ currentDoc: undefined })}
-              />
-            </Route>
-          </NavbarContext.Provider>
+          <Route exact path="/">
+            <Navbar side="top" appState={this.state} callbacks={navCallbacks} />
+            <Home
+              createCallback={(docType, format, orientation, bgColor) =>
+                this.createDocument(docType, format, orientation, bgColor)
+              }
+              openCallback={(path) => this.openDocument(path)}
+              importCallback={(path) => this.importDocument(path)}
+              unsetCurrentDoc={() => this.setState({ currentDoc: undefined })}
+            />
+          </Route>
 
           <Route
             render={() => (
