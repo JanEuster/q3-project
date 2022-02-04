@@ -13,7 +13,14 @@ function ObjectToArray(obj) {
   });
 }
 function addObjectToXML(obj, parentObj, doc) {
-  let objTag = doc.createElement(obj.constructor.name);
+  let className;
+  Object.values(GLOBALS.SAVE.OBJECT_TYPES).forEach((objType, i) => {
+    if (obj instanceof objType.class) {
+      className = Object.keys(GLOBALS.SAVE.OBJECT_TYPES)[i];
+    }
+  });
+
+  let objTag = doc.createElement(className);
   let info = obj.getSaveInformation();
   if ("attributes" in info) {
     let attributes = ObjectToArray(info.attributes);
@@ -57,6 +64,7 @@ function saveInXML(artboard) {
   var objectsTag = doc.createElement("Objects");
   objectsTag.setAttribute("editable", artboard.editable);
 
+  console.log(artboard.objects);
   artboard.objects.forEach((obj) => {
     addObjectToXML(obj, objectsTag, doc);
   });
@@ -66,7 +74,7 @@ function saveInXML(artboard) {
 
   // combine xml prolog and stringified xml artboard document
   return (
-    `<?xml version="1.0" encoding="UTF-8"?>` +
+    `<?xml version="1.0" encoding="UTF-8"?> \n` +
     xmlFormat(new XMLSerializer().serializeToString(doc.documentElement), {
       collapseContent: true,
       whiteSpaceAtEndOfSelfclosingTag: true,
@@ -88,7 +96,6 @@ function saveArtboard(artboard) {
 
 function XMLToObjects(objectArray) {
   let objects = [];
-  console.log(GLOBALS.SAVE.OBJECT_TYPES);
 
   objectArray.forEach((obj, i) => {
     // console.log(obj.nodeName);
@@ -138,7 +145,6 @@ function XMLToObjects(objectArray) {
     }
 
     newObject.newBounds();
-    console.log(newObject);
     objects.push(newObject);
 
     // let object = new OBJECT_TYPES[obj.nodeName]();
@@ -162,7 +168,7 @@ function XMLToArtboard(xml) {
   } else if (artboardType === "infinite") {
     artboard = new infiniteArtboard(10, "#FFFFFF");
   }
-  console.log(artboardType);
+
   // set Artboard attributes via the attribute.item(index) .nodeName .nodeValue statements
   for (let i = 0; i < artTag.attributes.length; i++) {
     let attr = artTag.attributes.item(i);
