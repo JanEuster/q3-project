@@ -165,6 +165,7 @@ const IconContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 2px;
+  user-select: none;
 `;
 const Icon = styled.img`
   height: 1.75rem;
