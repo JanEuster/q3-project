@@ -41,16 +41,16 @@ function saveInXML(artboard) {
   );
 
   // Artboard Type specific properties
-  if (artboard instanceof Artboard) {
-    artTag.setAttribute("type", "regular");
-    artTag.setAttribute("width", artboard.width);
-    artTag.setAttribute("height", artboard.height);
-  } else if (artboard instanceof infiniteScrollArtboard) {
+  if (artboard instanceof infiniteScrollArtboard) {
     artTag.setAttribute("type", "infinite-scroll");
     artTag.setAttribute("width", artboard.width);
   } else if (artboard instanceof infiniteArtboard) {
     artTag.setAttribute("type", "infinite");
     artTag.setAttribute("width", artboard.width);
+  } else if (artboard instanceof Artboard) {
+    artTag.setAttribute("type", "regular");
+    artTag.setAttribute("width", artboard.width);
+    artTag.setAttribute("height", artboard.height);
   }
   artTag.setAttribute("background-color", artboard.bgColor);
 
@@ -150,9 +150,19 @@ function XMLToObjects(objectArray) {
 }
 
 function XMLToArtboard(xml) {
-  var artboard = new Artboard(10, 10, "#FFFFFF");
   var artTag = xml.getElementsByTagName("Artboard")[0];
+  var artboard;
 
+  // initialize artboard object of type with some default values (width: 10, height: 10, backgroundColor: white)
+  let artboardType = artTag.attributes.type.nodeValue;
+  if (artboardType === "regular") {
+    artboard = new Artboard(10, 10, "#FFFFFF");
+  } else if (artboardType === "infinite-scroll") {
+    artboard = new infiniteScrollArtboard(10, "#FFFFFF");
+  } else if (artboardType === "infinite") {
+    artboard = new infiniteArtboard(10, "#FFFFFF");
+  }
+  console.log(artboardType);
   // set Artboard attributes via the attribute.item(index) .nodeName .nodeValue statements
   for (let i = 0; i < artTag.attributes.length; i++) {
     let attr = artTag.attributes.item(i);
@@ -160,7 +170,7 @@ function XMLToArtboard(xml) {
   }
 
   var objectsTag = xml.getElementsByTagName("Objects")[0];
-  artboard.editable = Boolean(objectsTag.attributes.editable);
+  artboard.editable = Boolean(objectsTag.attributes.editable.nodeValue);
 
   // add objects width their corresponding attributes
   // parameter is an array of all objects
