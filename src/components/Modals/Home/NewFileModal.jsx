@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { ModalBox, ModalTextButton, ModalTitle } from "./BaseModal";
-import Dropdown from "./components/DropDown";
-import { useEffect } from "react";
-import HVSelector from "./components/HVSelector";
-import DocTypeSelector from "./components/DocTypes";
-import { useRef } from "react";
+import {
+  ModalBox,
+  ModalButtonsLeftRight,
+  ModalTextButton,
+  ModalTitle,
+} from "../BaseModal";
+import Dropdown from "../components/DropDown";
+import HVSelector from "../components/HVSelector";
+import DocTypeSelector from "../components/DocTypes";
 
 import GLOBALS from "../../../Globals";
-import RGBSelector from "./components/RGBSelector";
 
 const TextDiv = styled.div`
   float: left;
@@ -85,23 +87,13 @@ const FilesTypesSelection = (props) => {
   );
 };
 
-const ButtonContainerDiv = styled.div`
-  display: inline-block;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-  margin-top: 2vh;
-  margin-bottom: 1vh;
-`;
-
 const NewFileModal = (props) => {
   const [docType, setDocType] = useState(GLOBALS.DOC_TYPES[0]);
   const [format, setFormat] = useState(GLOBALS.DOC_FORMATS[0]);
   const [orientation, setOrientation] = useState(GLOBALS.DOC_ORIENTATIONS[0]);
   const [bgColor, setBG] = useState("#FFFFFF");
 
-  if (props.isOpen === "true") {
+  if (props.isOpen) {
     return (
       <ModalBox style={{ overflowY: "scroll" }}>
         <ModalTitle> Create New Document </ModalTitle>
@@ -123,22 +115,15 @@ const NewFileModal = (props) => {
             setBG={setBG}
             modalRef
           />
-          <ButtonContainerDiv>
+          <ModalButtonsLeftRight>
+            <ModalTextButton text="Back" func={props.func} />
             <ModalTextButton
-              style={{ float: "left", transform: "translate(1.5vw)" }}
-              text="Back"
-              side="left"
-              func={props.func}
-            />
-            <ModalTextButton
-              style={{ float: "right", transform: "translate(-2vw)" }}
               text="Create"
-              side="right"
               func={() =>
                 props.appCallback(docType, format, orientation, bgColor)
               }
             />
-          </ButtonContainerDiv>
+          </ModalButtonsLeftRight>
         </div>
       </ModalBox>
     );

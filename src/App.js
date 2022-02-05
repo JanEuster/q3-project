@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import { ReactComponent as LogoSVG } from "./logo.svg";
 import "./App.css";
 import React, { Component } from "react";
 import { withRouter, Route, Link, Switch } from "react-router-dom";
@@ -11,6 +11,7 @@ import Artboard, {
   noArtboard,
 } from "./components/Canvas/Artboard";
 import GLOBALS from "./Globals";
+import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 
 export const NavbarContext = React.createContext();
 
@@ -24,6 +25,7 @@ class App extends Component {
     };
 
     this.switchDoc = this.switchDocument.bind(this);
+    this.closeCurrentDoc = this.closeCurrentDocument.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -49,9 +51,9 @@ class App extends Component {
 
       newDoc = new Artboard(width, height, bgColor);
     } else if (docType === "infinite-scroll") {
-      newDoc = new infiniteScrollArtboard(2000, bgColor);
+      newDoc = new infiniteScrollArtboard(GLOBALS.INFINITE_WIDTH, bgColor);
     } else if (docType === "infinite") {
-      newDoc = new infiniteArtboard(2000, bgColor);
+      newDoc = new infiniteArtboard(GLOBALS.INFINITE_WIDTH, bgColor);
     }
 
     this.setState({
@@ -63,7 +65,13 @@ class App extends Component {
 
     this.props.history.push("/new");
   }
-  openDocument(path) {}
+  async openDocument(path) {
+    loadArtboard().then((doc) => {
+      this.setState({ currentDoc: doc });
+      this.setState({ documents: [...this.state.documents, doc] });
+      this.props.history.push("/new");
+    });
+  }
   importDocument(path) {}
 
   switchDocument(doc) {
@@ -72,40 +80,62 @@ class App extends Component {
     this.setState({ currentDoc: this.state.documents[index] });
     this.forceUpdate();
   }
+  closeCurrentDocument() {
+    let index = this.state.documents.indexOf(this.state.currentDoc);
+    let documents = [
+      ...this.state.documents.slice(0, index),
+      ...this.state.documents.slice(index + 1),
+    ];
+    this.setState({ documents: documents });
+
+    if (documents.length > 0) {
+      this.setState({ currentDoc: documents[document.length - 1] });
+    } else {
+      this.setState({ currentDoc: undefined });
+      this.props.history.push("/");
+      this.forceUpdate();
+    }
+  }
 
   render() {
+    var navCallbacks = {
+      switchDoc: this.switchDoc,
+      closeDoc: this.closeCurrentDoc,
+    };
     return (
       <div className="App">
         <Switch>
-          <NavbarContext.Provider value={this.state}>
-            <Route path="/new">
-              <Navbar side="bottom" switchDoc={this.switchDoc} />
-              <Canvas
-                Doc={
-                  this.state.currentDoc
-                    ? this.state.currentDoc
-                    : new noArtboard(GLOBALS.COLORS.CANVAS_BG)
-                }
-              />
-            </Route>
+          <Route path="/new">
+            <Navbar
+              side="bottom"
+              appState={this.state}
+              callbacks={navCallbacks}
+            />
+            <Canvas
+              Doc={
+                this.state.currentDoc
+                  ? this.state.currentDoc
+                  : new noArtboard(GLOBALS.COLORS.CANVAS_BG)
+              }
+            />
+          </Route>
 
-            <Route exact path="/">
-              <Navbar side="top" switchDoc={this.switchDoc} />
-              <Home
-                createCallback={(docType, format, orientation, bgColor) =>
-                  this.createDocument(docType, format, orientation, bgColor)
-                }
-                openCallback={(path) => this.openDocument(path)}
-                importCallback={(path) => this.importDocument(path)}
-                unsetCurrentDoc={() => this.setState({ currentDoc: undefined })}
-              />
-            </Route>
-          </NavbarContext.Provider>
+          <Route exact path="/">
+            <Navbar side="top" appState={this.state} callbacks={navCallbacks} />
+            <Home
+              createCallback={(docType, format, orientation, bgColor) =>
+                this.createDocument(docType, format, orientation, bgColor)
+              }
+              openCallback={(path) => this.openDocument(path)}
+              importCallback={(path) => this.importDocument(path)}
+              unsetCurrentDoc={() => this.setState({ currentDoc: undefined })}
+            />
+          </Route>
 
           <Route
             render={() => (
               <h1>
-                {" "}
+                <LogoSVG style={{ height: "20vmin", marginTop: "5vh" }} />
                 404 Error: Page not Found <br /> Go <Link to="/"> Home </Link>
               </h1>
             )}

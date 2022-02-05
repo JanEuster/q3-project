@@ -8,6 +8,13 @@ class BaseShape {
     this.xCoord = xCoord;
     this.yCoord = yCoord;
   }
+
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return { attributes: { xCoord: this.xCoord, yCoord: this.yCoord } };
+  }
+  newBounds() {}
+
   moveBounds(x, y) {
     let coords = this.boundingBox.getCoords();
     let endCoords = this.boundingBox.getEndCoords();
@@ -57,6 +64,29 @@ class Rectangle extends BaseShape {
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
   }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        xCoord: this.xCoord,
+        yCoord: this.yCoord,
+        width: this.width,
+        height: this.height,
+        fillColor: this.fillColor,
+        borderColor: this.borderColor,
+        borderWidth: this.borderWidth,
+      },
+    };
+  }
+
+  newBounds() {
+    this.boundingBox.setBounds(
+      this.xCoord,
+      this.yCoord,
+      this.xCoord + this.width,
+      this.yCoord + this.height
+    );
+  }
 
   render(context, pixelRatio, baseCoord) {
     context.fillStyle = this.fillColor;
@@ -97,11 +127,36 @@ class Circle extends BaseShape {
     } else {
       this.Offset = radius;
     }
+    if (radius === undefined) {
+      this.Offset = 0;
+    }
 
     this.radius = radius;
     this.fillColor = fillColor;
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
+  }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        xCoord: this.xCoord,
+        yCoord: this.yCoord,
+        radius: this.radius,
+        fillColor: this.fillColor,
+        borderColor: this.borderColor,
+        borderWidth: this.borderWidth,
+      },
+    };
+  }
+
+  newBounds() {
+    this.boundingBox.setBounds(
+      this.xCoord - this.radius,
+      this.yCoord - this.radius,
+      this.xCoord - this.radius + this.radius * 2,
+      this.yCoord - this.radius + this.radius * 2
+    );
   }
 
   render(context, pixelRatio, baseCoord) {
@@ -153,6 +208,29 @@ class Triangle extends BaseShape {
     this.fillColor = fillColor;
     this.borderColor = borderColor;
     this.borderWidth = borderWidth;
+  }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        xCoord: this.xCoord,
+        yCoord: this.yCoord,
+        width: this.width,
+        height: this.height,
+        fillColor: this.fillColor,
+        borderColor: this.borderColor,
+        borderWidth: this.borderWidth,
+      },
+    };
+  }
+  newBounds() {
+    this.boundingBox = new BoundingBox(
+      this.xCoord,
+      this.yCoord,
+      this.width,
+      this.height
+    );
+    console.log(this.boundingBox);
   }
 
   render(context, pixelRatio, baseCoord) {
