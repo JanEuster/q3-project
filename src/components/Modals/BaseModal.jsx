@@ -84,7 +84,7 @@ const ModalEntry = React.forwardRef((props, ref) => {
   return (
     <EntryContainer>
       <ModalText>{props.children}</ModalText>
-      <StyledInput ref={ref} />
+      <StyledInput ref={ref} defaultValue={props.defaultValue} />
     </EntryContainer>
   );
 });

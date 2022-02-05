@@ -7,13 +7,13 @@ import {
   ModalTitle,
 } from "../BaseModal";
 
-const SaveFileModal = (props) => {
+const SettingsModal = (props) => {
   const documentName = useRef("");
 
   if (props.isOpen) {
     return (
       <ModalBox>
-        <ModalTitle> Save Document </ModalTitle>
+        <ModalTitle> Document Settings </ModalTitle>
         <ModalEntry ref={documentName} defaultValue={props.currentDoc.name}>
           Document Name
         </ModalEntry>
@@ -36,4 +36,4 @@ const SaveFileModal = (props) => {
   }
 };
 
-export default SaveFileModal;
+export default SettingsModal;

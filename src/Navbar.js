@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { saveArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import GLOBALS from "./Globals";
 import SaveFileModal from "./components/Modals/Canvas/SaveFileModal";
+import SettingsModal from "./components/Modals/Canvas/SettingsModal";
 
 const MOBILE_WIDTH = 800;
 
@@ -180,21 +181,11 @@ const Icon = styled.img`
 `;
 const NavIcon = (props) => {
   return (
-    <>
-      {props.link ? (
-        <Link to={props.link}>
-          <IconContainer>
-            <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
-          </IconContainer>
-        </Link>
-      ) : (
-        <NavButton onClick={props.onClick}>
-          <IconContainer>
-            <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
-          </IconContainer>
-        </NavButton>
-      )}
-    </>
+    <NavButton onClick={props.onClick}>
+      <IconContainer>
+        <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
+      </IconContainer>
+    </NavButton>
   );
 };
 
@@ -255,13 +246,28 @@ const DocumentOptions = (props) => {
 function Navbar(props) {
   const [isModalOpen, setModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (props.appState.currentDoc === undefined && isModalOpen !== false) {
+      setModalOpen(false);
+    }
+  });
   return (
     <>
       <SaveFileModal
         isOpen={props.appState.currentDoc && isModalOpen === "save"}
+        currentDoc={props.appState.currentDoc}
         appCallback={({ name }) => {
           props.appState.currentDoc.name = name;
           saveArtboard(props.appState.currentDoc);
+        }}
+        func={() => setModalOpen(false)}
+      />
+      <SettingsModal
+        isOpen={props.appState.currentDoc && isModalOpen === "settings"}
+        currentDoc={props.appState.currentDoc}
+        appCallback={({ name }) => {
+          props.appState.currentDoc.name = name;
+          setModalOpen(false);
         }}
         func={() => setModalOpen(false)}
       />
@@ -291,7 +297,10 @@ function Navbar(props) {
             </NavDocuments>
           </NavLeft>
           <NavRight>
-            <NavIcon link="/" src={"/assets/icons/ui/settings.svg"} />
+            <NavIcon
+              onClick={() => setModalOpen("settings")}
+              src={"/assets/icons/ui/settings.svg"}
+            />
           </NavRight>
         </NavNav>
         <BigDivider color={GLOBALS.COLORS.darkgrey} />
