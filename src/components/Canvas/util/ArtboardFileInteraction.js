@@ -44,7 +44,7 @@ function saveInXML(artboard) {
   var artTag = doc.createElement("Artboard");
   artTag.setAttribute(
     "name",
-    artboard.name ? artboard.name : "Unnamed Document"
+    artboard.name ? artboard.name : "Untitled Document"
   );
 
   // Artboard Type specific properties
@@ -64,7 +64,6 @@ function saveInXML(artboard) {
   var objectsTag = doc.createElement("Objects");
   objectsTag.setAttribute("editable", artboard.editable);
 
-  console.log(artboard.objects);
   artboard.objects.forEach((obj) => {
     addObjectToXML(obj, objectsTag, doc);
   });
@@ -90,7 +89,7 @@ function saveArtboard(artboard) {
 
   var anchor = document.createElement("a");
   anchor.href = URL.createObjectURL(file);
-  anchor.download = "abc.board";
+  anchor.download = `${artboard.name ? artboard.name : "untitled"}.board`;
   anchor.click();
 }
 

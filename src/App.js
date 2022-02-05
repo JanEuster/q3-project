@@ -29,8 +29,6 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.currentDoc);
-    console.log(this.state.documents);
     if (this.state.currentDoc !== prevState.currentDoc) {
     }
   }

@@ -31,15 +31,27 @@ const ModalTitle = styled.div`
   margin-top: 3vh;
   user-select: none;
 `;
+const ModalText = styled.div`
+  font-family: Iosevka semibold;
+  font-size: calc(9px + ${({ size }) => size || 3}vh);
+  color: ${GLOBALS.COLORS.darkgrey};
+  user-select: none;
+  margin: 0.8rem 2rem;
+`;
+
+const ModalButtonsLeftRight = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1vw 2vw;
+`;
 
 const ModalTextButtonStyle = styled.button`
-  // ${({ side }) => (side == "right" ? `left: 40%;` : `left: 5%;`)};
-  // top: 100px;
   background-color: ${GLOBALS.COLORS.grey};
   color: ${GLOBALS.COLORS.darkgrey};
   font-size: 1vh;
   border: 4px solid ${GLOBALS.COLORS.darkgrey};
-  aspect-ratio: 2;
+  aspect-ratio: 2.4;
   font-family: Iosevka bold;
   font-size: calc(12px + 1.5vw);
   height: calc((12px + 1.5vw) * 1.6);
@@ -54,46 +66,63 @@ const ModalTextButtonStyle = styled.button`
   }
 `;
 
+const StyledInput = styled.input`
+  border: 4px solid ${GLOBALS.COLORS.darkgrey};
+  border-radius: 0;
+  height: 4vw;
+  font-family: Iosevka semibold;
+  font-size: 2vw;
+  padding: 0.2rem;
+  background-color: ${GLOBALS.COLORS.lightlightgrey};
+`;
+const EntryContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const ModalEntry = React.forwardRef((props, ref) => {
+  return (
+    <EntryContainer>
+      <ModalText>{props.children}</ModalText>
+      <StyledInput ref={ref} />
+    </EntryContainer>
+  );
+});
+
 const ModalTextButton = (props) => {
   if (props.redirect && !props.func) {
     return (
-      <div style={props.style}>
-        <ModalTextButtonStyle side={props.side}>
-          <Link
-            to={props.redirect}
-            style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
-            onClick={() => {}}
-          >
-            {props.text}
-          </Link>
-        </ModalTextButtonStyle>
-      </div>
+      <ModalTextButtonStyle side={props.side}>
+        <Link
+          to={props.redirect}
+          style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
+          onClick={() => {}}
+        >
+          {props.text}
+        </Link>
+      </ModalTextButtonStyle>
     );
   } else if (!props.redirect && props.func) {
     return (
-      <div style={props.style}>
-        <ModalTextButtonStyle side={props.side}>
-          <div
-            style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
-            onClick={() => props.func()}
-          >
-            {props.text}
-          </div>
-        </ModalTextButtonStyle>
-      </div>
+      <ModalTextButtonStyle side={props.side}>
+        <div
+          style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
+          onClick={() => props.func()}
+        >
+          {props.text}
+        </div>
+      </ModalTextButtonStyle>
     );
   } else {
     return (
-      <div>
-        <ModalTextButtonStyle side={props.side}>
-          <div
-            style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
-            onClick={() => {}}
-          >
-            {props.text}
-          </div>
-        </ModalTextButtonStyle>
-      </div>
+      <ModalTextButtonStyle side={props.side}>
+        <div
+          style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
+          onClick={() => {}}
+        >
+          {props.text}
+        </div>
+      </ModalTextButtonStyle>
     );
   }
 };
@@ -111,4 +140,11 @@ const BaseModal = (props) => {
 };
 
 export default BaseModal;
-export { ModalBox, ModalTextButton, ModalTitle, ModalTextButtonStyle };
+export {
+  ModalBox,
+  ModalTextButton,
+  ModalTitle,
+  ModalTextButtonStyle,
+  ModalEntry,
+  ModalButtonsLeftRight,
+};

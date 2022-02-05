@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { NavbarContext } from "./App";
+
 import { saveArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import GLOBALS from "./Globals";
+import SaveFileModal from "./components/Modals/Canvas/SaveFileModal";
 
 const MOBILE_WIDTH = 800;
 
@@ -207,7 +208,7 @@ const DocumentOptions = (props) => {
           alt="close"
         />
         <NavIcon
-          onClick={() => saveArtboard(props.currentDoc)}
+          onClick={() => props.setModalOpen("save")}
           src={"/assets/icons/ui/save.svg"}
           alt="save"
         />
@@ -252,48 +253,60 @@ const DocumentOptions = (props) => {
 };
 
 function Navbar(props) {
-  useEffect(() => console.log("nav re-render"));
+  const [isModalOpen, setModalOpen] = useState(false);
+
   return (
-    <Nav side={props.side}>
-      <NavNav>
-        <NavLeft>
-          <HomeLink />
-          <BigDivider />
-          <NavDocuments>
-            {props.appState.documents.map((doc, i) => {
-              let current = false;
-              if (doc === props.appState.currentDoc) {
-                current = true;
-              }
-              return (
-                <NavDoc
-                  key={i}
-                  current={current}
-                  link="/"
-                  title={doc.name !== undefined ? doc.name : "Unsaved"}
-                  index={i}
-                  doc={doc}
-                  switchDoc={props.callbacks.switchDoc}
-                />
-              );
-            })}
-          </NavDocuments>
-        </NavLeft>
-        <NavRight>
-          <NavIcon link="/" src={"/assets/icons/ui/settings.svg"} />
-        </NavRight>
-      </NavNav>
-      <BigDivider color={GLOBALS.COLORS.darkgrey} />
-      {useLocation().pathname !== "/" ? (
-        <>
-          <DocumentOptions
-            currentDoc={props.appState.currentDoc}
-            callbacks={props.callbacks}
-          />
-          <BigDivider color={GLOBALS.COLORS.darkgrey} />
-        </>
-      ) : null}
-    </Nav>
+    <>
+      <SaveFileModal
+        isOpen={props.appState.currentDoc && isModalOpen === "save"}
+        appCallback={({ name }) => {
+          props.appState.currentDoc.name = name;
+          saveArtboard(props.appState.currentDoc);
+        }}
+        func={() => setModalOpen(false)}
+      />
+      <Nav side={props.side}>
+        <NavNav>
+          <NavLeft>
+            <HomeLink />
+            <BigDivider />
+            <NavDocuments>
+              {props.appState.documents.map((doc, i) => {
+                let current = false;
+                if (doc === props.appState.currentDoc) {
+                  current = true;
+                }
+                return (
+                  <NavDoc
+                    key={i}
+                    current={current}
+                    link="/"
+                    title={doc.name !== undefined ? doc.name : "Unsaved"}
+                    index={i}
+                    doc={doc}
+                    switchDoc={props.callbacks.switchDoc}
+                  />
+                );
+              })}
+            </NavDocuments>
+          </NavLeft>
+          <NavRight>
+            <NavIcon link="/" src={"/assets/icons/ui/settings.svg"} />
+          </NavRight>
+        </NavNav>
+        <BigDivider color={GLOBALS.COLORS.darkgrey} />
+        {useLocation().pathname !== "/" ? (
+          <>
+            <DocumentOptions
+              currentDoc={props.appState.currentDoc}
+              callbacks={props.callbacks}
+              setModalOpen={setModalOpen}
+            />
+            <BigDivider color={GLOBALS.COLORS.darkgrey} />
+          </>
+        ) : null}
+      </Nav>
+    </>
   );
 }
 

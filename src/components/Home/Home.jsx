@@ -14,10 +14,7 @@ const Blurred = styled.div`
 `;
 
 function Home(props) {
-  const [isOpenNew, setOpenNew] = useState("false");
-  const [isOpenImport, setOpenImport] = useState("false");
-  const [isOpenOpen, setOpenOpen] = useState("false");
-  const [isOpenAny, setOpenAny] = useState("false"); // is any modal opened?
+  const [isModalOpen, setModalOoen] = useState(false);
 
   // const prevOpenFiles = [];
   const prevOpenFiles = [
@@ -33,26 +30,14 @@ function Home(props) {
     prevOpenFiles.map((f, i) => {
       smallButtons.push(<SmallButton key={i} title={f} link="/" />);
     });
-    belowContent = <div className="small-buttons">{smallButtons}</div>;
+    belowContent = (
+      <>
+        <div className="small-buttons">{smallButtons}</div> <NewUserWelcome />{" "}
+      </>
+    );
   } else {
     belowContent = <NewUserWelcome />;
   }
-
-  useEffect(() => {
-    if (
-      isOpenNew === "true" ||
-      isOpenImport === "true" ||
-      isOpenOpen === "true"
-    ) {
-      setOpenAny("true");
-    } else if (
-      isOpenNew === "false" &&
-      isOpenImport === "false" &&
-      isOpenOpen === "false"
-    ) {
-      setOpenAny("false");
-    }
-  });
 
   useEffect(() => {
     props.unsetCurrentDoc();
@@ -61,30 +46,30 @@ function Home(props) {
   return (
     <>
       <NewFileModal
-        isOpen={isOpenNew}
+        isOpen={isModalOpen === "new"}
         redirect="new"
         appCallback={props.createCallback}
         func={() => {
-          setOpenNew("false");
+          setModalOoen(false);
         }}
       />
       <OpenFileModal
-        isOpen={isOpenOpen}
+        isOpen={isModalOpen === "open"}
         redirect=""
         appCallback={props.openCallback}
         func={() => {
-          setOpenOpen("false");
+          setModalOoen(false);
         }}
       />
       <ImportFileModal
-        isOpen={isOpenImport}
+        isOpen={isModalOpen === "import"}
         redirect=""
         appCallback={props.importCallback}
         func={() => {
-          setOpenImport("false");
+          setModalOoen(false);
         }}
       />
-      <Blurred blur={isOpenAny}>
+      <Blurred blur={isModalOpen}>
         <div className="home">
           <div className="main-buttons">
             <MainButton
@@ -93,9 +78,7 @@ function Home(props) {
               svgTranslate={-13}
               src={process.env.PUBLIC_URL + "/assets/icons/ui/new_file.svg"}
               onClick={() => {
-                isOpenNew === "false"
-                  ? setOpenNew("true")
-                  : setOpenNew("false");
+                setModalOoen("new");
               }}
             />
             <MainButton
@@ -105,9 +88,7 @@ function Home(props) {
               svgScale={1.3}
               svgTranslate={-20}
               onClick={() => {
-                isOpenOpen === "false"
-                  ? setOpenOpen("true")
-                  : setOpenOpen("false");
+                setModalOoen("open");
               }}
             />
             <MainButton
@@ -116,9 +97,7 @@ function Home(props) {
               src={process.env.PUBLIC_URL + "/assets/icons/ui/import_file.svg"}
               svgTranslate={-13}
               onClick={() => {
-                isOpenImport === "false"
-                  ? setOpenImport("true")
-                  : setOpenImport("false");
+                setModalOoen("import");
               }}
             />
           </div>
