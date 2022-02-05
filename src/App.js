@@ -78,7 +78,6 @@ class App extends Component {
     this.props.history.push("/new");
     let index = this.state.documents.indexOf(doc);
     this.setState({ currentDoc: this.state.documents[index] });
-    this.forceUpdate();
   }
   closeCurrentDocument() {
     let index = this.state.documents.indexOf(this.state.currentDoc);
@@ -93,7 +92,6 @@ class App extends Component {
     } else {
       this.setState({ currentDoc: undefined });
       this.props.history.push("/");
-      this.forceUpdate();
     }
   }
 
