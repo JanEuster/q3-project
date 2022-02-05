@@ -51,3 +51,8 @@ nav {
 div a {
   user-select: none;
 }
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}

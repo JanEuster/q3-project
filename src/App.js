@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import { ReactComponent as LogoSVG } from "./logo.svg";
 import "./App.css";
 import React, { Component } from "react";
 import { withRouter, Route, Link, Switch } from "react-router-dom";
@@ -135,7 +135,7 @@ class App extends Component {
           <Route
             render={() => (
               <h1>
-                {" "}
+                <LogoSVG style={{ height: "20vmin", marginTop: "5vh" }} />
                 404 Error: Page not Found <br /> Go <Link to="/"> Home </Link>
               </h1>
             )}

@@ -4,8 +4,7 @@ import styled from "styled-components";
 import NewFileModal from "../Modals/Home/NewFileModal";
 import ImportFileModal from "../Modals/Home/ImportFileModal";
 import OpenFileModal from "../Modals/Home/OpenFileModal";
-
-import appLogo from "../../logo.svg";
+import { ReactComponent as LogoSVG } from "../../logo.svg";
 import "./Home.css";
 
 const Blurred = styled.div`
@@ -18,11 +17,11 @@ function Home(props) {
 
   // const prevOpenFiles = [];
   const prevOpenFiles = [
-    "11111.???",
-    "2222222.???",
-    "33333333.???",
-    "4444.???",
-    "55555.???",
+    // "11111.???",
+    // "2222222.???",
+    // "33333333.???",
+    // "4444.???",
+    // "55555.???",
   ];
   var belowContent;
   if (prevOpenFiles && prevOpenFiles.length > 0) {
@@ -32,7 +31,7 @@ function Home(props) {
     });
     belowContent = (
       <>
-        <div className="small-buttons">{smallButtons}</div> <NewUserWelcome />{" "}
+        <div className="small-buttons">{smallButtons}</div>
       </>
     );
   } else {
@@ -123,6 +122,7 @@ const MainButton = (props) => {
             height: `${scale}%`,
             transform: `translateY(${translate}%)`,
           }}
+          alt=""
         />
         <h1> {props.title} </h1>
       </div>
@@ -157,7 +157,10 @@ const SmallButton = (props) => {
 const NewUserWelcome = (props) => {
   return (
     <div className="user-welcome">
-      <img src={appLogo} alt="logo" />
+      <LogoSVG
+        style={{ width: "25%", minWidth: "100px", userSelect: "none" }}
+        alt="logo"
+      />
       <div className="description" style={{}}>
         <h1>Welcome to Expanded Board</h1>
         <br />
