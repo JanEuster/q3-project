@@ -157,11 +157,8 @@ class SelectionTool {
       // if mousemove: if objects are selected and being moved set their new location according to the cursors current position
       //               else if the selection box is enabled set the position for that
       case "mousemove":
-        if (
-          this.selectedObjects !== [] &&
-          this.moving &&
-          this.collisionOnSelected(coords, Doc).length
-        ) {
+        console.log(this.selectionBox);
+        if (this.selectedObjects !== [] && this.moving) {
           let xDelta = coords.x - this.lastPos.x;
           let yDelta = coords.y - this.lastPos.y;
 
@@ -169,7 +166,8 @@ class SelectionTool {
 
           this.lastPos.x = coords.x;
           this.lastPos.y = coords.y;
-        } else if (this.selectionBox.enabled) {
+        }
+        if (this.selectionBox.enabled) {
           this.selectionBox.setEnd(coords.x, coords.y);
         }
 
