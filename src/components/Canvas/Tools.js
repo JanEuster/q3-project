@@ -157,7 +157,6 @@ class SelectionTool {
       // if mousemove: if objects are selected and being moved set their new location according to the cursors current position
       //               else if the selection box is enabled set the position for that
       case "mousemove":
-        console.log(this.selectionBox);
         if (this.selectedObjects !== [] && this.moving) {
           let xDelta = coords.x - this.lastPos.x;
           let yDelta = coords.y - this.lastPos.y;
@@ -470,7 +469,11 @@ class TextTool {
     return this.activeObject;
   }
 
-  graphic(context, artMeta) {
+  graphic(context, artMeta, Doc) {
+    var artPos = Doc.applyZoomOffset(artMeta);
+    var zoom = Doc.zoom;
+    var pixelRatio = artMeta.pixelRatio;
+
     // show selection box
     if (this.activeObject) {
       let x = this.activeObject.boundingBox.coords[0];
@@ -478,30 +481,31 @@ class TextTool {
       let w = this.activeObject.boundingBox.wh[0];
       let h = this.activeObject.boundingBox.wh[1];
 
-      let pixelRatio = artMeta.pixelRatio;
-      let baseCoord = artMeta.baseCoord;
-
       let offset = 32;
       // context.fillStyle = "#00FF00";
       context.lineWidth = 3; //TODO: lineWidth parameter;
       context.strokeStyle = GLOBALS.COLORS.midorange;
 
       context.strokeRect(
-        baseCoord.w + pixelRatio * (x - offset),
-        baseCoord.h + pixelRatio * (y - offset),
-        pixelRatio * (w + offset * 2) + 10,
-        pixelRatio * (h + offset * 2)
+        artPos.x + zoom * pixelRatio * (x - offset),
+        artPos.y + zoom * pixelRatio * (y - offset),
+        zoom * pixelRatio * (w + offset * 2) + 10,
+        zoom * pixelRatio * (h + offset * 2)
       );
 
       // text cursor
       context.fillRect(
-        baseCoord.w +
-          pixelRatio * (this.activeObject.xCoord + this.activeObject.width) +
+        artPos.x +
+          zoom *
+            pixelRatio *
+            (this.activeObject.xCoord + this.activeObject.width) +
           4,
-        baseCoord.h +
-          pixelRatio * (this.activeObject.yCoord - this.activeObject.height),
+        artPos.y +
+          zoom *
+            pixelRatio *
+            (this.activeObject.yCoord - this.activeObject.height),
         3,
-        pixelRatio * this.activeObject.height
+        zoom * pixelRatio * this.activeObject.height
       );
     }
   }
