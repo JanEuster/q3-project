@@ -1,3 +1,7 @@
+import Artboard, {
+  infiniteArtboard,
+  infiniteScrollArtboard,
+} from "./components/Canvas/Artboard";
 import {
   Rectangle,
   Triangle,
@@ -28,6 +32,17 @@ export default {
     midblue: "#0D79F2",
   },
   SAVE: {
+    ARTBOARD_TYPES: {
+      regular: () => {
+        return new Artboard(10, 10, "#FFFFFF");
+      },
+      "infinite-scroll": () => {
+        return new infiniteScrollArtboard(10, "#FFFFFF");
+      },
+      infinite: () => {
+        return new infiniteArtboard(10, "#FFFFFF");
+      },
+    },
     OBJECT_TYPES: {
       Rectangle: {
         class: Rectangle,
