@@ -130,7 +130,7 @@ const HomeContainer = styled.div`
   }
 `;
 const HomeText = styled.div`
-  font-family: Iosevka black;
+  font-family: Iosevka heavy;
   font-size: 2rem;
   transform: scale(1.2);
   color: var(--dark-grey);
