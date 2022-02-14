@@ -262,6 +262,10 @@ class ColorSettingsPanel extends Panel {
       this.canvas.state.Panels[1].toolSettings["shapes"].components[0].fS = c;
       this.components[1].fS = c;
       this.toolManager.fillColorShape = c;
+    } else if (this.toolManager.activeTool === textT) {
+      this.canvas.state.Panels[1].toolSettings["text"].components[0].fS = c;
+      this.components[1].fS = c;
+      this.toolManager.fillColorText = c;
     }
     
     this.vanishPanel();
@@ -369,8 +373,9 @@ class ToolSettingsPanel extends Panel {
       },
       text: {
         components: [
-          new PanelText(10, 56, "Font Size", 13),
-          new PanelSlider(10, 60, 100, 20, (pos) => {
+          new PanelSettingsColorButton(10, 45, 100, 30, this.toolManager.fillColorText, this.canvas, "textTool"),
+          new PanelText(10, 101, "Font Size", 13),
+          new PanelSlider(10, 105, 100, 20, (pos) => {
             this.toolManager.fontSize = pos * 250;
           }),
         ],

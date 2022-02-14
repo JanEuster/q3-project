@@ -428,7 +428,8 @@ class TextTool {
         coords.y,
         "",
         this.toolManager.font,
-        this.toolManager.fontSize
+        this.toolManager.fontSize,
+        this.toolManager.fillColorText
       );
     } else if (e.type === "mousedown") {
       this.activeObject = new Text(
@@ -436,7 +437,8 @@ class TextTool {
         coords.y,
         "",
         this.toolManager.font,
-        this.toolManager.fontSize
+        this.toolManager.fontSize,
+        this.toolManager.fillColorText
       );
       Doc.objects.push(this.activeObject);
     } else if (this.activeObject && e.type === "keypress") {
@@ -455,6 +457,7 @@ class TextTool {
 
     if (this.activeObject) {
       this.activeObject.fontSize = this.toolManager.fontSize;
+      this.activeObject.setfillColor(this.toolManager.fillColorText);
       this.activeObject.setWidthHeight();
       this.activeObject.setBounds();
     }
@@ -653,6 +656,7 @@ class ToolManager {
     this.strokeStyle = "#111111";
     this.font = "Iosevka bold";
     this.fontSize = 100;
+    this.fillColorText = "#000000";
 
     this.lastObj = NaN;
 
