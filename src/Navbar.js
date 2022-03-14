@@ -215,21 +215,6 @@ const DocumentOptions = (props) => {
         />
         <NavIcon
           onClick={() => { }}
-          src={"/assets/icons/ui/copy.svg"}
-          alt="copy"
-        />
-        <NavIcon
-          onClick={() => { }}
-          src={"/assets/icons/ui/cut.svg"}
-          alt="cut"
-        />
-        <NavIcon
-          onClick={() => { }}
-          src={"/assets/icons/ui/paste.svg"}
-          alt="paste"
-        />
-        <NavIcon
-          onClick={() => { }}
           src={"/assets/icons/ui/previous_page.svg"}
           alt="previous page"
         />

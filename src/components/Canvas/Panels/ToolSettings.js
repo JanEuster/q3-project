@@ -36,7 +36,7 @@ class PanelSettingsColorButton extends PanelButton {
 
   handleColission() {
     //console.log(this.canvas.cp.visible)
-    if(this.canvas.cp.visible) {
+    if (this.canvas.cp.visible) {
       return
     } else {
       let cp = this.canvas.cp.getPanel();
@@ -47,12 +47,15 @@ class PanelSettingsColorButton extends PanelButton {
 
 }
 
-class PanelShapeButton extends PanelButton {
-  constructor(x, y, d, shape) {
+class PanelImageButton extends PanelButton {
+  constructor(x, y, d, image, func = () => { }) {
     super(x, y, d, d);
 
     this.diameter = d;
-    this.shape = shape;
+    this.image = image;
+    this.lW = 3;
+
+    this.func = func
   }
 
   render(context, panelOffset) {
@@ -68,7 +71,7 @@ class PanelShapeButton extends PanelButton {
     );
 
     let icon = new Image();
-    icon.src = this.shape;
+    icon.src = this.image;
     // console.log("OFFSET:", panelOffset.x + this.coords.x,
     //   panelOffset.y + this.coords.y);
     context.drawImage(
@@ -86,6 +89,9 @@ class PanelShapeButton extends PanelButton {
       this.height
     );
     //this.boundingBox.render(context, panelOffset)
+  }
+  handleColission() {
+    this.func()
   }
 }
 
@@ -110,7 +116,7 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
 
     this.icons = [];
     for (let i = 0; i < shapes.length; i++) {
-      this.icons.push("assets/icons/tools/" + this.shapes[i] + ".png");
+      this.icons.push(process.env.PUBLIC_URL + "/assets/icons/tools/" + this.shapes[i] + ".png");
     }
 
     this.icon = this.icons[2]; //current icon
@@ -120,8 +126,8 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
     this.boundingBox = new BoundingBox(x, y, w, h);
 
     this.subComponents = [
-      new PanelShapeButton(
-        this.coords.x + this.margin + 120/2 - diameter*1.5,
+      new PanelImageButton(
+        this.coords.x + this.margin + 120 / 2 - diameter * 1.5,
         this.coords.y + this.margin + this.elementsY * (margin + diameter),
         this.diameter * 2,
         this.icon
@@ -129,13 +135,13 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
     ];
     for (let i = 0; i < shapes.length; i++) {
       this.subComponents.push(
-        new PanelShapeButton(
+        new PanelImageButton(
           this.coords.x +
-            this.margin +
-            (i % this.elementsX) * (margin + diameter),
+          this.margin +
+          (i % this.elementsX) * (margin + diameter),
           this.coords.y +
-            this.margin +
-            Math.floor(i / this.elementsX) * (margin + diameter),
+          this.margin +
+          Math.floor(i / this.elementsX) * (margin + diameter),
           this.diameter,
           this.icons[i]
         )
@@ -197,16 +203,16 @@ class ColorSettingsPanel extends Panel {
     ];
 
     var elementsX = 5;
-    var diameter = 15; 
+    var diameter = 15;
     var border = 8;
     var margin = Math.round((diameter / elementsX) * 2);
     var elementsY = Math.ceil(colors.length / elementsX)
     var width = margin + elementsX * (margin + diameter);
     var height = margin + elementsY * (margin + diameter);
 
-    
-    
-    
+
+
+
     super(-150, -(70 + height) - 260, 120, 160, margin, border);
 
     this.toolManager = toolManager;
@@ -216,30 +222,30 @@ class ColorSettingsPanel extends Panel {
 
 
     var activeColor = this.toolManager.strokeStyle;
-    
+
     this.components.push(
       new PanelText(this.bhalf + margin + (0 % elementsX) * (margin + diameter), border + margin + this.bhalf, "Color-Selection", 13),
     );
-    
+
     this.components.push(
-          new PanelColorButton(
-            this.bhalf + margin + (colors.length % elementsX) * (margin + diameter),
-            this.bhalf + margin + Math.floor(colors.length / elementsX) * (margin + diameter) + diameter * 1.5,
-            width - (this.bhalf + margin),
-            diameter + 10,
-            activeColor,
-            this
-          )
-        ) //active Color
+      new PanelColorButton(
+        this.bhalf + margin + (colors.length % elementsX) * (margin + diameter),
+        this.bhalf + margin + Math.floor(colors.length / elementsX) * (margin + diameter) + diameter * 1.5,
+        width - (this.bhalf + margin),
+        diameter + 10,
+        activeColor,
+        this
+      )
+    ) //active Color
 
 
     for (let i = 0; i < colors.length; i++) {
       this.components.push(
         new PanelColorButton(
-            this.bhalf + margin +
-            (i % elementsX) * (margin + diameter),
-            this.bhalf + margin +
-            Math.floor(i / elementsX) * (margin + diameter) + diameter * 1.5,
+          this.bhalf + margin +
+          (i % elementsX) * (margin + diameter),
+          this.bhalf + margin +
+          Math.floor(i / elementsX) * (margin + diameter) + diameter * 1.5,
           diameter,
           diameter,
           colors[i],
@@ -253,7 +259,7 @@ class ColorSettingsPanel extends Panel {
   setActiveColor(c) {
     // console.log(this.canvas.state.Panels)
     // console.log(this.toolManager.activeTool)
-    if(this.toolManager.activeTool === pencilT) {
+    if (this.toolManager.activeTool === pencilT) {
       this.canvas.state.Panels[1].toolSettings["pencil"].components[0].fS = c;
       this.components[1].fS = c;
       this.toolManager.strokeStyle = c;
@@ -267,7 +273,7 @@ class ColorSettingsPanel extends Panel {
       this.components[1].fS = c;
       this.toolManager.fillColorText = c;
     }
-    
+
     this.vanishPanel();
   }
 
@@ -287,7 +293,7 @@ class ColorSettingsPanel extends Panel {
       this.width + this.border,
       this.height + this.border
     );
-    if ( this.boundingBox.checkCollision(x, y)) {
+    if (this.boundingBox.checkCollision(x, y)) {
       this.components.map((comp) => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y))
           this.setActiveColor(comp.fS);
@@ -332,7 +338,12 @@ class ToolSettingsPanel extends Panel {
     ];
     this.toolSettings = {
       select: {
-        components: [],
+        components: [
+          new PanelImageButton(10, 75, 30, process.env.PUBLIC_URL + "/assets/icons/ui/delete.svg", () => selectionT.deleteSelected()),
+          new PanelImageButton(10, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/copy.svg"),
+          new PanelImageButton(45, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/cut.svg"),
+          new PanelImageButton(80, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/paste.svg"),
+        ],
         size: { height: 160 },
       },
       hand: {
@@ -430,7 +441,6 @@ class ToolSettingsPanel extends Panel {
     components.map((comp) => {
       let active = false;
       if (comp.tool === this.toolManager.activeTool) active = true; // if tool is the active tool it needs to rendered distictively
-
       comp.render(context, panelOffset, active);
     });
   }
