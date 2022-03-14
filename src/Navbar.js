@@ -130,7 +130,7 @@ const HomeContainer = styled.div`
   }
 `;
 const HomeText = styled.div`
-  font-family: Iosevka black;
+  font-family: Iosevka heavy;
   font-size: 2rem;
   transform: scale(1.2);
   color: var(--dark-grey);
@@ -204,37 +204,37 @@ const DocumentOptions = (props) => {
           alt="save"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/redo.svg"}
           alt="redo"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/undo.svg"}
           alt="undo"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/copy.svg"}
           alt="copy"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/cut.svg"}
           alt="cut"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/paste.svg"}
           alt="paste"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/previous_page.svg"}
           alt="previous page"
         />
         <NavIcon
-          onClick={() => {}}
+          onClick={() => { }}
           src={"/assets/icons/ui/next_page.svg"}
           alt="next page"
         />
@@ -287,7 +287,7 @@ function Navbar(props) {
                     key={i}
                     current={current}
                     link="/"
-                    title={doc.name !== undefined ? doc.name : "Unsaved"}
+                    title={doc.name !== undefined ? doc.name : "Untitled"}
                     index={i}
                     doc={doc}
                     switchDoc={props.callbacks.switchDoc}
