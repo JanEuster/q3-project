@@ -72,7 +72,7 @@ class App extends Component {
       this.props.history.push("/new");
     });
   }
-  importDocument(path) {}
+  importDocument(path) { }
 
   switchDocument(doc) {
     this.props.history.push("/new");
@@ -81,14 +81,16 @@ class App extends Component {
   }
   closeCurrentDocument() {
     let index = this.state.documents.indexOf(this.state.currentDoc);
+    console.log(this.state.documents)
     let documents = [
       ...this.state.documents.slice(0, index),
       ...this.state.documents.slice(index + 1),
     ];
+    console.log(documents)
     this.setState({ documents: documents });
 
     if (documents.length > 0) {
-      this.setState({ currentDoc: documents[document.length - 1] });
+      this.setState({ currentDoc: documents[documents.length - 1] });
     } else {
       this.setState({ currentDoc: undefined });
       this.props.history.push("/");
