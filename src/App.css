@@ -25,6 +25,8 @@
 .App {
   text-align: center;
   /*	background-color: var(--light-light-grey); */
+  overflow: scroll;
+  height: 100vh;
 }
 .App-header {
   background-color: #282c34;

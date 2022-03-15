@@ -87,6 +87,11 @@ export default {
         attributes: ["strokeColor", "strokeWidth", "lineJoin"],
         children: { setFunction: "setPointObjects", class: Point },
       },
+      Point: {
+        class: Point,
+        attributes: ["x", "y"],
+        children: false,
+      },
       Text: {
         class: Text,
         attributes: ["xCoord", "yCoord", "font", "fontSize", "fillColor"],

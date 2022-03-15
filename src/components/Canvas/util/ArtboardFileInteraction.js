@@ -59,7 +59,7 @@ function saveInXML(artboard) {
     artTag.setAttribute("width", artboard.width);
     artTag.setAttribute("height", artboard.height);
   }
-  artTag.setAttribute("background-color", artboard.bgColor);
+  artTag.setAttribute("bgColor", artboard.bgColor);
 
   var objectsTag = doc.createElement("Objects");
   objectsTag.setAttribute("editable", artboard.editable);

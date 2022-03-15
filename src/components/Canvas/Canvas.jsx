@@ -30,6 +30,7 @@ class Canvas extends Component {
     this.resizeCallback = (() =>
       this.handleResize(this.canvasRef.current.getContext("2d"))).bind(this);
     this.mouseKeyCallback = ((e) => this.handleCanvasEvent(e)).bind(this);
+    this.unloadWarning = ((e) => { if (this.props.Doc.editable) { e.preventDefault(); e.returnValue = '' } }).bind(this);
   }
 
   componentDidMount() {
@@ -38,25 +39,26 @@ class Canvas extends Component {
     var toolManager = new ToolManager(this.props.Doc);
     this.setState({ Tools: toolManager });
     // testing panels
-    var testPanel = new Panel(20, -350, 200, 300, 16, 8);
-    testPanel.components = [
-      new PanelButton(20, 100, 20, 20),
-      new PanelTitle(20, 30, "Test"),
-      new PanelText(20, 50, "testing testing please"),
-      new PanelTextSwitch(20, 80, "testing"),
-      new PanelSlider(15, 130, 170),
-    ];
+    // var testPanel = new Panel(20, -350, 200, 300, 16, 8);
+    // testPanel.components = [
+    //   new PanelButton(20, 100, 20, 20),
+    //   new PanelTitle(20, 30, "Test"),
+    //   new PanelText(20, 50, "testing testing please"),
+    //   new PanelTextSwitch(20, 80, "testing"),
+    //   new PanelSlider(15, 130, 170),
+    // ];
 
     this.cp = new ColorSettingsPanel(toolManager, this);
     var sp = new ToolSettingsPanel(toolManager, this);
 
-      this.setState({
-      Panels: [toolManager.panel, sp, testPanel],
-      });
+    this.setState({
+      Panels: [toolManager.panel, sp],
+    });
 
     // get canvas
     const canvas = this.canvasRef.current;
 
+    window.addEventListener("beforeunload", this.unloadWarning)
     window.addEventListener("resize", this.resizeCallback);
     canvas.addEventListener("click", this.mouseKeyCallback);
     canvas.addEventListener("mousedown", this.mouseKeyCallback);
@@ -111,6 +113,7 @@ class Canvas extends Component {
     // get canvas
     const canvas = this.canvasRef.current;
 
+    window.removeEventListener("beforeunload", this.unloadWarning)
     window.removeEventListener("resize", this.resizeCallback);
     canvas.removeEventListener("click", this.mouseKeyCallback);
     canvas.removeEventListener("mousedown", this.mouseKeyCallback);

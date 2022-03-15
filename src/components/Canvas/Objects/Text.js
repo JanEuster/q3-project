@@ -81,6 +81,9 @@ class Text extends BaseShape {
   setFontSize(fontSize) {
     this.fontSize = fontSize;
   }
+  setfillColor(fillColor) {
+    this.fillColor = fillColor;
+  }
 
   render(context, pixelRatio, baseCoord) {
     context.font = `${this.fontSize * pixelRatio}px ${this.font}`; // i.e. 30px iosevka demibold

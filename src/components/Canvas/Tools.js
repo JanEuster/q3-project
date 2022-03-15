@@ -113,6 +113,12 @@ class SelectionTool {
     return collisionObjects;
   }
 
+  deleteSelected() {
+    this.selectedObjects.forEach((obj) => this.toolManager.Doc.removeObject(obj));
+    this.selectedObjects = [];
+    this.moving = false;
+  }
+
   select(obj) {
     this.selectedObjects = [obj];
   }
@@ -256,7 +262,7 @@ class HandTool {
     this.icon = "assets/icons/tools/hand.png";
   }
 
-  select() {}
+  select() { }
 
   use(e) {
     if (e instanceof WheelEvent) {
@@ -294,9 +300,9 @@ class HandTool {
     }
   }
 
-  deselect() {}
+  deselect() { }
 
-  graphic() {}
+  graphic() { }
 }
 
 class PencilTool {
@@ -314,7 +320,7 @@ class PencilTool {
     this.icon = "assets/icons/tools/pencil.png";
   }
 
-  select(obj) {}
+  select(obj) { }
 
   use(e, Doc) {
     this.eventCount += 1;
@@ -353,7 +359,7 @@ class PencilTool {
     return this.lastPath;
   }
 
-  graphic(context, artMeta) {}
+  graphic(context, artMeta) { }
 }
 
 class EraserTool extends PencilTool {
@@ -428,7 +434,8 @@ class TextTool {
         coords.y,
         "",
         this.toolManager.font,
-        this.toolManager.fontSize
+        this.toolManager.fontSize,
+        this.toolManager.fillColorText
       );
     } else if (e.type === "mousedown") {
       this.activeObject = new Text(
@@ -436,7 +443,8 @@ class TextTool {
         coords.y,
         "",
         this.toolManager.font,
-        this.toolManager.fontSize
+        this.toolManager.fontSize,
+        this.toolManager.fillColorText
       );
       Doc.objects.push(this.activeObject);
     } else if (this.activeObject && e.type === "keypress") {
@@ -455,6 +463,7 @@ class TextTool {
 
     if (this.activeObject) {
       this.activeObject.fontSize = this.toolManager.fontSize;
+      this.activeObject.setfillColor(this.toolManager.fillColorText);
       this.activeObject.setWidthHeight();
       this.activeObject.setBounds();
     }
@@ -496,14 +505,14 @@ class TextTool {
       // text cursor
       context.fillRect(
         artPos.x +
-          zoom *
-            pixelRatio *
-            (this.activeObject.xCoord + this.activeObject.width) +
-          4,
+        zoom *
+        pixelRatio *
+        (this.activeObject.xCoord + this.activeObject.width) +
+        4,
         artPos.y +
-          zoom *
-            pixelRatio *
-            (this.activeObject.yCoord - this.activeObject.height),
+        zoom *
+        pixelRatio *
+        (this.activeObject.yCoord - this.activeObject.height),
         3,
         zoom * pixelRatio * this.activeObject.height
       );
@@ -522,7 +531,7 @@ class ShapeTool {
     this.lastShape = this.currentShape;
     this.toolManager = undefined;
   }
-  select() {}
+  select() { }
 
   use(e, Doc) {
     let coords = Doc.localCoords(
@@ -631,7 +640,7 @@ class ShapeTool {
   deselect() {
     return this.lastShape;
   }
-  graphic(context, artMeta) {}
+  graphic(context, artMeta) { }
 }
 
 var selectionT = new SelectionTool();
@@ -653,6 +662,7 @@ class ToolManager {
     this.strokeStyle = "#111111";
     this.font = "Iosevka bold";
     this.fontSize = 100;
+    this.fillColorText = "#000000";
 
     this.lastObj = NaN;
 
