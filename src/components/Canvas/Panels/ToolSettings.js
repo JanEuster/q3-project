@@ -95,6 +95,7 @@ class PanelImageButton extends PanelButton {
   }
 }
 
+// TODO: fix the management of shapes and their icons (this.icon and this.activeShape)
 class PanelShapeSelectorComponent extends BasePanelComponent {
   constructor(x, y, elementsX, diameter = 10, toolManager) {
     let shapes = ["circle", "rectangle", "triangle"];
@@ -116,7 +117,7 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
 
     this.icons = [];
     for (let i = 0; i < shapes.length; i++) {
-      this.icons.push(process.env.PUBLIC_URL + "/assets/icons/tools/" + this.shapes[i] + ".png");
+      this.icons.push("assets/icons/tools/" + this.shapes[i] + ".png");
     }
 
     this.icon = this.icons[2]; //current icon
@@ -151,14 +152,14 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
     this.setActiveShape();
   }
   setActiveShape() {
-    this.subComponents[0].shape = this.icon;
+    this.subComponents[0].image = this.icon;
     this.toolManager.shape = this.activeShape;
   }
 
   handleColission(x, y) {
     this.subComponents.map((comp) => {
       if (comp.boundingBox.checkCollision(x, y)) {
-        this.icon = comp.shape; //comp.icon
+        this.icon = comp.image; //comp.icon
         this.activeShape = this.icon.substring(19, this.icon.length - 4); //cut string to shapename
 
         this.setActiveShape();
