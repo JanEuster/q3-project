@@ -1,8 +1,27 @@
 {
   "name": "expanded-board",
+  "description": "",
+  "author": "Jan 'JanEuster' Eusterschulte <jan.eusterschulte@rhgy.de>",
+  "contributors": [
+    "Lennart Brunn <lennart.brunn@rhgy.de>",
+    "Friedrich Maagk <friedrich.maagk@rhgy.de>"
+  ],
   "version": "0.1.0",
   "homepage": ".",
   "private": true,
+  "build": {
+    "remoteBuild": false,
+    "icon": "build/icon.png",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "repo": "q3-project",
+      "owner": "janeuster"
+    }
+  },
   "dependencies": {
     "@testing-library/user-event": "^13.2.1",
     "chokidar": "^3.5.2",
@@ -15,6 +34,7 @@
     "react-scripts": "^5.0.0",
     "styled-components": "^5.3.3",
     "web-vitals": "^2.1.0",
+    "electron-is-dev": "^2.0.0",
     "xml-formatter": "^2.6.0"
   },
   "overrides": {
@@ -32,7 +52,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently -k \"npm start\" \"npm:electron\"",
-    "electron": "wait-on tcp:3000 && electron ."
+    "electron": "wait-on tcp:3000 && electron .",
+    "pack-win": "electron-builder build --win=portable",
+    "pack-linux": "electron-builder build --linux"
   },
   "eslintConfig": {
     "extends": [
@@ -57,7 +79,7 @@
     "@testing-library/react": "^12.1.2",
     "concurrently": "^6.2.1",
     "electron": "^12.2.3",
-    "electron-is-dev": "^2.0.0",
+    "electron-builder": "^22.14.13",
     "gh-pages": "^3.2.3",
     "wait-on": "^6.0.0"
   }
