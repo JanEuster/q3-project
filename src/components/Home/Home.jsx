@@ -8,12 +8,12 @@ import { ReactComponent as LogoSVG } from "../../logo.svg";
 import "./Home.css";
 
 const Blurred = styled.div`
-  filter: blur(${(props) => (props.blur === "true" ? "20" : "0")}px);
+  filter: blur(${(props) => (props.blur !== false ? "20" : "0")}px);
   transition: filter ease-in 50ms;
 `;
 
 function Home(props) {
-  const [isModalOpen, setModalOoen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   // const prevOpenFiles = [];
   const prevOpenFiles = [
@@ -49,7 +49,7 @@ function Home(props) {
         redirect="new"
         appCallback={props.createCallback}
         func={() => {
-          setModalOoen(false);
+          setModalOpen(false);
         }}
       />
       <OpenFileModal
@@ -57,7 +57,7 @@ function Home(props) {
         redirect=""
         appCallback={props.openCallback}
         func={() => {
-          setModalOoen(false);
+          setModalOpen(false);
         }}
       />
       <ImportFileModal
@@ -65,7 +65,7 @@ function Home(props) {
         redirect=""
         appCallback={props.importCallback}
         func={() => {
-          setModalOoen(false);
+          setModalOpen(false);
         }}
       />
       <Blurred blur={isModalOpen}>
@@ -77,7 +77,7 @@ function Home(props) {
               svgTranslate={-13}
               src={process.env.PUBLIC_URL + "/assets/icons/ui/new_file.svg"}
               onClick={() => {
-                setModalOoen("new");
+                setModalOpen("new");
               }}
             />
             <MainButton
@@ -87,7 +87,7 @@ function Home(props) {
               svgScale={1.3}
               svgTranslate={-20}
               onClick={() => {
-                setModalOoen("open");
+                setModalOpen("open");
               }}
             />
             <MainButton
@@ -96,11 +96,12 @@ function Home(props) {
               src={process.env.PUBLIC_URL + "/assets/icons/ui/import_file.svg"}
               svgTranslate={-13}
               onClick={() => {
-                setModalOoen("import");
+                setModalOpen("import");
               }}
             />
           </div>
           {belowContent}
+          <Contact />
         </div>
 
         <footer></footer>
@@ -154,24 +155,55 @@ const SmallButton = (props) => {
   );
 };
 
-const NewUserWelcome = (props) => {
+const Contact = (props) => {
   return (
-    <div className="user-welcome">
-      <LogoSVG
-        style={{ width: "25%", minWidth: "100px", userSelect: "none" }}
-        alt="logo"
-      />
-      <div className="description" style={{}}>
-        <h1>Welcome to Expanded Board</h1>
-        <br />
-        <h3>You haven't opened any Documents yet</h3>
-        <hr style={{ width: "100%" }} />
-        <h4>
-          You can create, open or import a Document and access previous ones on
-          this page
-        </h4>
+    <div style={{ backgroundColor: "var(--light-grey)", margin: "10px", padding: "7px" }}>
+      <h3 style={{ fontFamily: "Iosevka extended heavy" }}>Contact / Source Code</h3>
+      <div style={{ display: "flex", textAlign: "left", justifyContent: "center", padding: "10px" }}>
+        <div style={{ margin: "0 0.5rem" }}>
+          <h5>Jan Eusterschulte</h5>
+          <h5>Lennart Brunn</h5>
+          <h5>Friedrich Maagk</h5>
+        </div>
+        <div style={{ margin: "0 0.5rem" }}>
+          <h5>Email: <a href="mailto:jan.eusterschulte@rhgy.de">jan.eusterschulte@rhgy.de</a></h5>
+          <h5>Email: <a href="mailto:lennart.brunn@rhgy.de">lennart.brunn@rhgy.de</a></h5>
+          <h5>Email: <a href="mailto:friedrich.maagk@rhgy.de">friedrich.maagk@rhgy.de</a></h5>
+        </div>
+        <div style={{ margin: "0 0.5rem" }}>
+          <h5>Github: <a target="_blank" href="http://github.com/janeuster">JanEuster</a></h5>
+          <h5>Github: <a target="_blank" href="http://github.com/Knixxx">Knixxx</a></h5>
+          <h5>Github: <a target="_blank" href="http://github.com/friedrichmaagk">friedrichmaagk</a></h5>
+        </div>
+      </div>
+      <div>
+        <h4><a target="_blank" href="http://github.com/janeuster/q3-project">Github Repository</a></h4>
       </div>
     </div>
+
+  )
+}
+const NewUserWelcome = (props) => {
+  return (
+    <>
+      <div className="user-welcome">
+        <LogoSVG
+          style={{ width: "25%", minWidth: "100px", userSelect: "none" }}
+          alt="logo"
+        />
+        <div className="description" style={{}}>
+          <h1>Welcome to Expanded Board</h1>
+          <br />
+          <h3>You haven't opened any Documents yet</h3>
+          <hr style={{ width: "100%", height: "3px", backgroundColor: "black" }} />
+          <h4>
+            You can create, open or import a Document and access previous ones on
+            this page
+          </h4>
+        </div>
+
+      </div>
+    </>
   );
 };
 
