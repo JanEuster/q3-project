@@ -13,7 +13,12 @@ class BaseShape {
     // return all necessary information for saving document to file
     return { attributes: { xCoord: this.xCoord, yCoord: this.yCoord } };
   }
-  newBounds() {}
+  onLoad() {
+    // executes when a document is loaded from file
+    this.newBounds();
+  }
+
+  newBounds() { }
 
   moveBounds(x, y) {
     let coords = this.boundingBox.getCoords();
@@ -33,7 +38,7 @@ class BaseShape {
     this.yCoord += y;
   }
 
-  render() {}
+  render() { }
 }
 
 class Rectangle extends BaseShape {

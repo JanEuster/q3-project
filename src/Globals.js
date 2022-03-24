@@ -7,6 +7,7 @@ import {
   Triangle,
   Circle,
 } from "./components/Canvas/Objects/BasicShapes";
+import ImageObj from "./components/Canvas/Objects/Image";
 import Path, { Point } from "./components/Canvas/Objects/Paths";
 import Text from "./components/Canvas/Objects/Text";
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
@@ -98,6 +99,11 @@ export default {
         children: false,
         text: true,
       },
+      Image: {
+        class: ImageObj,
+        attributes: ["xCoord", "yCoord", "width", "height", "imageSrc"],
+        children: false,
+      }
     },
     ATTRIBUTE_TYPES: {
       x: Number,
@@ -115,6 +121,7 @@ export default {
       lineJoin: String,
       font: String,
       fontSize: Number,
+      imageSrc: String,
     },
   },
 };

@@ -1,4 +1,5 @@
 import BaseShape from "./BasicShapes";
+import BoundingBox from "./BoundingBox";
 
 class ImageObj extends BaseShape {
   constructor(xCoord, yCoord, width, height, imgSrc) {
@@ -8,8 +9,31 @@ class ImageObj extends BaseShape {
     this.height = height;
 
 
+    this.imageSrc = imgSrc;
     this.image = new Image();
     this.image.src = imgSrc;
+  }
+  getSaveInformation() {
+    // return all necessary information for saving document to file
+    return {
+      attributes: {
+        xCoord: this.xCoord,
+        yCoord: this.yCoord,
+        width: this.width,
+        height: this.height,
+        imageSrc: this.imageSrc,
+      },
+    };
+  }
+  onLoad() {
+    this.newBounds();
+
+    this.image = new Image();
+    this.image.src = this.imageSrc;
+  }
+
+  newBounds() {
+    this.boundingBox = new BoundingBox(this.xCoord, this.yCoord, this.width, this.height);
   }
 
   setImage(src) {
