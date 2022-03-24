@@ -7,7 +7,7 @@ import BasePanelComponent, {
   PanelText,
   PanelTitle,
 } from "./PanelComponents";
-import { selectionT, pencilT, eraserT, textT, shapeT } from "../Tools";
+import { selectionT, pencilT, eraserT, textT, shapeT, imageT } from "../ToolManager";
 import GLOBALS from "../../../Globals";
 
 class PanelColorButton extends PanelButton {
@@ -401,6 +401,12 @@ class ToolSettingsPanel extends Panel {
           new PanelSlider(10, 205, 100, 20, (pos) => {
             this.toolManager.borderWidth = pos * 40;
           }),
+        ],
+        size: { height: 250 },
+      },
+      image: {
+        components: [
+          new PanelImageButton(10, 45, 30, "assets/icons/tools/triangle.png", imageT.loadImage)
         ],
         size: { height: 250 },
       },

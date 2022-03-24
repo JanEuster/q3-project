@@ -1,4 +1,4 @@
-import { Circle, Rectangle, Triangle } from "./Objects/BasicShapes";
+import { Circle, Rectangle, Triangle } from "../Objects/BasicShapes";
 
 class ShapeTool {
   constructor() {

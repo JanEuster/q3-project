@@ -1,3 +1,4 @@
+import ImageObj from "./Objects/Image";
 import Text from "./Objects/Text";
 
 class Artboard {
@@ -11,7 +12,7 @@ class Artboard {
 
     // variable to store all objects in document
     // objects at the end of the list are on top of the other ones --> layer system
-    this.objects = [];
+    this.objects = [new ImageObj(0, 0)];
     this.draw = this.draw.bind(this);
 
     this.editable = true;
@@ -131,11 +132,11 @@ class Artboard {
     let xOffset =
       window.innerWidth / 2 -
       this.zoom *
-        (window.innerWidth / 2 - (artMeta.baseCoord.w + this.viewOffset.x));
+      (window.innerWidth / 2 - (artMeta.baseCoord.w + this.viewOffset.x));
     let yOffset =
       window.innerHeight / 2 -
       this.zoom *
-        (window.innerHeight / 2 - (artMeta.baseCoord.h + this.viewOffset.y));
+      (window.innerHeight / 2 - (artMeta.baseCoord.h + this.viewOffset.y));
 
     // width and hight are simply multiplied by zoom factor
     return {

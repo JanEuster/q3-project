@@ -7,6 +7,7 @@ import PencilTool from "./Tools/PencilTool";
 import SelectionTool from "./Tools/SelectionTool";
 import ShapeTool from "./Tools/ShapeTool";
 import TextTool from "./Tools/TextTool";
+import ImageTool from "./Tools/ImageTool";
 
 var selectionT = new SelectionTool();
 var handT = new HandTool();
@@ -14,12 +15,11 @@ var pencilT = new PencilTool();
 var eraserT = new EraserTool();
 var textT = new TextTool();
 var shapeT = new ShapeTool();
-
+var imageT = new ImageTool();
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
-    this.tools = [];
-    this.tools.push(selectionT, handT, pencilT, eraserT, textT, shapeT);
+    this.tools = [selectionT, handT, pencilT, eraserT, textT, shapeT, imageT];
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
     this.strokeWidthPencil = 10;
@@ -37,6 +37,7 @@ class ToolManager {
     eraserT.toolManager = this;
     shapeT.toolManager = this;
     textT.toolManager = this;
+    imageT.toolManager = this;
 
     this.shape = "triangle";
     this.borderWidth = 25;
@@ -44,18 +45,13 @@ class ToolManager {
 
     this.lastObj = NaN;
 
-    pencilT.toolManager = this;
-    eraserT.toolManager = this;
-    textT.toolManager = this;
-    shapeT.toolManager = this;
-
     this.panel = new Toolbox(this);
     this.settingsPanel = new ToolSettingsPanel(this);
     this.colorpanel = new ColorSettingsPanel(this);
   }
 
   toolSelect() {
-    if (this.activeTool === selectionT && this.lastObj) {
+    if (!(this.activeTool === selectionT && !this.lastObj)) {
       this.activeTool.select(this.lastObj);
     }
   }
@@ -74,4 +70,4 @@ class ToolManager {
 }
 
 export default ToolManager;
-export { selectionT, pencilT, eraserT, textT, shapeT };
+export { selectionT, pencilT, eraserT, textT, shapeT, imageT };
