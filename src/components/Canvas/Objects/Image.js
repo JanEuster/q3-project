@@ -7,11 +7,19 @@ class ImageObj extends BaseShape {
     this.width = width;
     this.height = height;
 
+
     this.image = new Image();
     this.image.src = imgSrc;
   }
+
   setImage(src) {
     this.image.src = src;
+  }
+
+  setWH(width, height) {
+    this.width = width;
+    this.height = height;
+    this.boundingBox.setWH(width, height);
   }
 
   render(context, pixelRatio, baseCoord) {

@@ -12,7 +12,7 @@ class Artboard {
 
     // variable to store all objects in document
     // objects at the end of the list are on top of the other ones --> layer system
-    this.objects = [new ImageObj(0, 0)];
+    this.objects = [];
     this.draw = this.draw.bind(this);
 
     this.editable = true;

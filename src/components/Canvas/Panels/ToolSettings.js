@@ -6,6 +6,7 @@ import BasePanelComponent, {
   PanelSlider,
   PanelText,
   PanelTitle,
+  PanelTextSwitch,
 } from "./PanelComponents";
 import { selectionT, pencilT, eraserT, textT, shapeT, imageT } from "../ToolManager";
 import GLOBALS from "../../../Globals";
@@ -406,9 +407,10 @@ class ToolSettingsPanel extends Panel {
       },
       image: {
         components: [
-          new PanelImageButton(10, 45, 30, "assets/icons/tools/triangle.png", imageT.loadImage)
+          new PanelImageButton(10, 45, 30, "assets/icons/tools/triangle.png", imageT.loadImage),
+          new PanelTextSwitch(10, 100, "aspect ratio", imageT.getMaintainAspectRatio, true)
         ],
-        size: { height: 250 },
+        size: { width: 130, height: 150 },
       },
     };
   }
@@ -453,6 +455,11 @@ class ToolSettingsPanel extends Panel {
   }
 
   render(context) {
+    if (this.toolSettings[this.toolManager.activeTool.name].size.width) {
+      this.width =
+        this.toolSettings[this.toolManager.activeTool.name].size.width;
+      this.x = -(160 + this.width);
+    }
     this.height =
       this.toolSettings[this.toolManager.activeTool.name].size.height;
     this.y = -(70 + this.height);
