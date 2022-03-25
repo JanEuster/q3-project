@@ -143,7 +143,7 @@ function XMLToObjects(objectArray) {
       newObject.text = obj.textContent;
     }
 
-    newObject.newBounds();
+    newObject.onLoad();
     objects.push(newObject);
 
     // let object = new OBJECT_TYPES[obj.nodeName]();

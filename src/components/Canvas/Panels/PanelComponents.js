@@ -12,7 +12,7 @@ class BasePanelComponent {
     console.log("clicked", this);
   }
 
-  render(context, panelOffset) {}
+  render(context, panelOffset) { }
 }
 
 class PanelButton extends BasePanelComponent {
@@ -132,14 +132,15 @@ class PanelTitle extends PanelText {
 }
 
 class PanelTextSwitch extends PanelText {
-  constructor(x, y, text) {
+  constructor(x, y, text, callback, defaultState = false) {
     super(x, y, text);
 
-    this.state = false;
+    this.state = defaultState;
     this.switchFill = { off: GLOBALS.COLORS.grey, on: GLOBALS.COLORS.midblue };
     this.switchDiameter = this.height;
     this.textXOffset = 1.5 * this.switchDiameter;
     this.width = this.width + this.textXOffset;
+    this.callback = callback;
 
     this.boundingBox = new BoundingBox(
       x,
@@ -151,6 +152,8 @@ class PanelTextSwitch extends PanelText {
 
   handleColission() {
     this.state = !this.state;
+
+    this.callback(this.state)
   }
 
   render(context, panelOffset) {
@@ -274,8 +277,8 @@ class PanelSlider extends BasePanelComponent {
 
     context.fillRect(
       panelOffset.x +
-        this.coords.x +
-        this.sliderPosition * (this.width - this.knobWidth),
+      this.coords.x +
+      this.sliderPosition * (this.width - this.knobWidth),
       panelOffset.y + this.coords.y,
       this.knobWidth,
       this.height
@@ -283,8 +286,8 @@ class PanelSlider extends BasePanelComponent {
     context.strokeStyle = GLOBALS.COLORS.grey;
     context.strokeRect(
       panelOffset.x +
-        this.coords.x +
-        this.sliderPosition * (this.width - this.knobWidth),
+      this.coords.x +
+      this.sliderPosition * (this.width - this.knobWidth),
       panelOffset.y + this.coords.y,
       this.knobWidth,
       this.height

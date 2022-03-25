@@ -1,4 +1,5 @@
-import Text from "./Objects/Text";
+import ImageObj from "./Objects/Image";
+import TextObj from "./Objects/Text";
 
 class Artboard {
   //
@@ -131,11 +132,11 @@ class Artboard {
     let xOffset =
       window.innerWidth / 2 -
       this.zoom *
-        (window.innerWidth / 2 - (artMeta.baseCoord.w + this.viewOffset.x));
+      (window.innerWidth / 2 - (artMeta.baseCoord.w + this.viewOffset.x));
     let yOffset =
       window.innerHeight / 2 -
       this.zoom *
-        (window.innerHeight / 2 - (artMeta.baseCoord.h + this.viewOffset.y));
+      (window.innerHeight / 2 - (artMeta.baseCoord.h + this.viewOffset.y));
 
     // width and hight are simply multiplied by zoom factor
     return {
@@ -195,7 +196,7 @@ class noArtboard extends Artboard {
   constructor(bgColor) {
     super(1000, 1000, bgColor);
     this.objects = [
-      new Text(
+      new TextObj(
         0,
         (window.innerHeight / 3) * 2,
         "No Document created",

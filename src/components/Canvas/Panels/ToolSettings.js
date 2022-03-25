@@ -6,8 +6,9 @@ import BasePanelComponent, {
   PanelSlider,
   PanelText,
   PanelTitle,
+  PanelTextSwitch,
 } from "./PanelComponents";
-import { selectionT, pencilT, eraserT, textT, shapeT } from "../Tools";
+import { selectionT, pencilT, eraserT, textT, shapeT, imageT } from "../ToolManager";
 import GLOBALS from "../../../Globals";
 
 class PanelColorButton extends PanelButton {
@@ -404,6 +405,13 @@ class ToolSettingsPanel extends Panel {
         ],
         size: { height: 250 },
       },
+      image: {
+        components: [
+          new PanelImageButton(10, 45, 30, "assets/icons/ui/upload.svg", imageT.loadImage),
+          new PanelTextSwitch(10, 100, "aspect ratio", imageT.getMaintainAspectRatio, true)
+        ],
+        size: { width: 130, height: 150 },
+      },
     };
   }
 
@@ -447,6 +455,11 @@ class ToolSettingsPanel extends Panel {
   }
 
   render(context) {
+    if (this.toolSettings[this.toolManager.activeTool.name].size.width) {
+      this.width =
+        this.toolSettings[this.toolManager.activeTool.name].size.width;
+      this.x = -(160 + this.width);
+    }
     this.height =
       this.toolSettings[this.toolManager.activeTool.name].size.height;
     this.y = -(70 + this.height);

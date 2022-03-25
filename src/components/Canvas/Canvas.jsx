@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ToolManager, { selectionT } from "./Tools";
+import ToolManager, { selectionT } from "./ToolManager";
 
 import Panel from "./Panels/BasePanel";
 import SettingsToolPanel, { ColorSettingsPanel } from "./Panels/ToolSettings";
