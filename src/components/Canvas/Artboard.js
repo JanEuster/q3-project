@@ -1,5 +1,5 @@
 import ImageObj from "./Objects/Image";
-import Text from "./Objects/Text";
+import TextObj from "./Objects/Text";
 
 class Artboard {
   //
@@ -196,7 +196,7 @@ class noArtboard extends Artboard {
   constructor(bgColor) {
     super(1000, 1000, bgColor);
     this.objects = [
-      new Text(
+      new TextObj(
         0,
         (window.innerHeight / 3) * 2,
         "No Document created",

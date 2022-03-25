@@ -9,7 +9,7 @@ import {
 } from "./components/Canvas/Objects/BasicShapes";
 import ImageObj from "./components/Canvas/Objects/Image";
 import Path, { Point } from "./components/Canvas/Objects/Paths";
-import Text from "./components/Canvas/Objects/Text";
+import TextObj from "./components/Canvas/Objects/Text";
 /* eslint import/no-anonymous-default-export: [2, {"allowObject": true}] */
 export default {
   DOC_TYPES: ["regular", "infinite-scroll", "infinite"],
@@ -94,7 +94,7 @@ export default {
         children: false,
       },
       Text: {
-        class: Text,
+        class: TextObj,
         attributes: ["xCoord", "yCoord", "font", "fontSize", "fillColor"],
         children: false,
         text: true,

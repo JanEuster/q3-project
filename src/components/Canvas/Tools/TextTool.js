@@ -1,4 +1,5 @@
 import GLOBALS from "../../../Globals";
+import TextObj from "../Objects/Text";
 
 class TextTool {
   constructor() {
@@ -12,7 +13,7 @@ class TextTool {
   }
 
   select(obj) {
-    if (obj instanceof Text) {
+    if (obj instanceof TextObj) {
       this.activeObject = obj;
     }
   }
@@ -26,7 +27,7 @@ class TextTool {
     );
 
     if (e.type === "click") {
-      this.activeObject = new Text(
+      this.activeObject = new TextObj(
         coords.x,
         coords.y,
         "",
@@ -35,7 +36,7 @@ class TextTool {
         this.toolManager.fillColorText
       );
     } else if (e.type === "mousedown") {
-      this.activeObject = new Text(
+      this.activeObject = new TextObj(
         coords.x,
         coords.y,
         "",

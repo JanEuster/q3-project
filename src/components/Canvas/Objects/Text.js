@@ -1,7 +1,7 @@
 import BaseShape from "./BasicShapes";
 import BoundingBox from "./BoundingBox";
 
-class Text extends BaseShape {
+class TextObj extends BaseShape {
   constructor(
     x,
     y,
@@ -102,4 +102,4 @@ class Text extends BaseShape {
   }
 }
 
-export default Text;
+export default TextObj;
