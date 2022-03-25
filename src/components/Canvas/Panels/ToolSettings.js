@@ -407,7 +407,7 @@ class ToolSettingsPanel extends Panel {
       },
       image: {
         components: [
-          new PanelImageButton(10, 45, 30, "assets/icons/tools/triangle.png", imageT.loadImage),
+          new PanelImageButton(10, 45, 30, "assets/icons/ui/upload.svg", imageT.loadImage),
           new PanelTextSwitch(10, 100, "aspect ratio", imageT.getMaintainAspectRatio, true)
         ],
         size: { width: 130, height: 150 },

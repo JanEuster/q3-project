@@ -3,7 +3,7 @@ import ImageObj from "../Objects/Image";
 
 class ImageTool {
   constructor() {
-    this.icon = "assets/icons/tools/rectangle.png";
+    this.icon = "assets/icons/tools/image.png";
     this.shapes = ["circle", "rectangle", "triangle"];
 
     this.name = "image";
