@@ -17,7 +17,8 @@ class Path extends BaseShape {
     points = [],
     strokeWidth = 10,
     strokeColor = "#0D79F2",
-    lineJoin = "round"
+    fillPath = false,
+    lineJoin = "round",
   ) {
     super(0, 0, 0, 0);
 
@@ -27,6 +28,8 @@ class Path extends BaseShape {
     this.strokeWidth = strokeWidth;
     this.strokeColor = strokeColor;
     this.lineJoin = lineJoin;
+
+    this.fillPath = fillPath;
     // parameter controls how lines(p1 -> p2) are conncted together
     // https://www.w3schools.com/Tags/canvas_linejoin.asp
 
@@ -39,6 +42,7 @@ class Path extends BaseShape {
       attributes: {
         strokeColor: this.strokeColor,
         strokeWidth: this.strokeWidth,
+        fillPath: this.fillPath,
         lineJoin: this.lineJoin,
       },
       children: [...this.points],
@@ -148,6 +152,9 @@ class Path extends BaseShape {
       );
     });
     context.stroke();
+    if (this.fillPath) {
+      context.fill();
+    }
     context.closePath();
 
     this.renderCircle(

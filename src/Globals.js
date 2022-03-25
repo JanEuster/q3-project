@@ -85,7 +85,7 @@ export default {
       },
       Path: {
         class: Path,
-        attributes: ["strokeColor", "strokeWidth", "lineJoin"],
+        attributes: ["strokeColor", "strokeWidth", "fillPath", "lineJoin"],
         children: { setFunction: "setPointObjects", class: Point },
       },
       Point: {
@@ -118,6 +118,7 @@ export default {
       borderWidth: String,
       strokeColor: String,
       strokeWidth: Number,
+      fillPath: Boolean,
       lineJoin: String,
       font: String,
       fontSize: Number,

@@ -24,7 +24,8 @@ class EraserTool extends PencilTool {
       this.currentPath = new Path(
         [[coords.x, coords.y]],
         this.toolManager.strokeWidthEraser,
-        Doc.getBackgroundColour()
+        Doc.getBackgroundColour(),
+        this.fillShape
       );
       Doc.addObject(this.currentPath);
     } else if (this.inUse && e.type === "mousemove") {
