@@ -372,8 +372,9 @@ class ToolSettingsPanel extends Panel {
           new PanelSlider(10, 104, 100, 20, (pos) => {
             this.toolManager.strokeWidthPencil = pos * 40;
           }),
+          new PanelTextSwitch(10, 150, "fill", pencilT.getFillShape),
         ],
-        size: { height: 160 },
+        size: { height: 180 },
       },
       eraser: {
         components: [
@@ -381,6 +382,7 @@ class ToolSettingsPanel extends Panel {
           new PanelSlider(10, 60, 100, 20, (pos) => {
             this.toolManager.strokeWidthEraser = pos * 40;
           }),
+          new PanelTextSwitch(10, 105, "fill", eraserT.getFillShape),
         ],
         size: { height: 160 },
       },

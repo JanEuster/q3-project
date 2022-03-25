@@ -9,11 +9,18 @@ class PencilTool {
     this.pointsToAdd = [];
     this.lastMoveEvent = new Date();
 
+    this.fillShape = false;
+
     this.toolManager = undefined;
 
     this.name = "pencil";
     // this.use = this.use.bind(this);
     this.icon = "assets/icons/tools/pencil.png";
+
+    this.getFillShape = this.getFillShape.bind(this);
+  }
+  getFillShape(state) {
+    this.fillShape = state;
   }
 
   select(obj) { }
@@ -34,7 +41,8 @@ class PencilTool {
       this.currentPath = new Path(
         [[coords.x, coords.y]],
         this.toolManager.strokeWidthPencil,
-        this.toolManager.strokeStyle
+        this.toolManager.strokeStyle,
+        this.fillShape
       );
       Doc.addObject(this.currentPath);
     } else if (this.inUse && e.type === "mousemove") {
