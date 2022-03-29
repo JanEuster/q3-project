@@ -1,3 +1,5 @@
+import Artboard from "../Artboard";
+import ImageObj from "../Objects/Image";
 
 function openImageAsBase64() {
   var anchor = document.createElement("input");
@@ -19,4 +21,24 @@ function openImageAsBase64() {
 }
 
 
-export { openImageAsBase64 };
+async function ImportToArtboard() {
+  return new Promise((res, rej) => {
+    openImageAsBase64().then(imgSrc => {
+
+      let img = new Image();
+      img.src = imgSrc;
+
+      let imgObj, artboard;
+      img.onload = () => {
+        imgObj = new ImageObj(0, 0, img.width, img.height, imgSrc);
+        artboard = new Artboard(img.width, img.height, "#FFFFFF");
+        artboard.addObject(imgObj);
+        res(artboard);
+      }
+    })
+  }
+  )
+
+}
+
+export { openImageAsBase64, ImportToArtboard };
