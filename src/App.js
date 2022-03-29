@@ -12,6 +12,7 @@ import Artboard, {
 } from "./components/Canvas/Artboard";
 import GLOBALS from "./Globals";
 import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
+import { ImportToArtboard } from "./components/Canvas/util/Import";
 
 export const NavbarContext = React.createContext();
 
@@ -72,7 +73,13 @@ class App extends Component {
       this.props.history.push("/new");
     });
   }
-  importDocument(path) { }
+  async importDocument() {
+    ImportToArtboard().then(doc => {
+      this.setState({ currentDoc: doc });
+      this.setState({ documents: [...this.state.documents, doc] });
+      this.props.history.push("/new");
+    });
+  }
 
   switchDocument(doc) {
     this.props.history.push("/new");
@@ -81,12 +88,10 @@ class App extends Component {
   }
   closeCurrentDocument() {
     let index = this.state.documents.indexOf(this.state.currentDoc);
-    console.log(this.state.documents)
     let documents = [
       ...this.state.documents.slice(0, index),
       ...this.state.documents.slice(index + 1),
     ];
-    console.log(documents)
     this.setState({ documents: documents });
 
     if (documents.length > 0) {
