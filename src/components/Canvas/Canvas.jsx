@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ToolManager, { selectionT } from "./ToolManager";
 
 import Panel from "./Panels/BasePanel";
-import SettingsToolPanel, { ColorSettingsPanel } from "./Panels/ToolSettings";
+import { ColorSettingsPanel } from "./Panels/ToolSettings";
 import {
   PanelButton,
   PanelSlider,
@@ -27,10 +27,10 @@ class Canvas extends Component {
 
     this._isMounted = false;
 
-    this.resizeCallback = (() =>
-      this.handleResize(this.canvasRef.current.getContext("2d"))).bind(this);
-    this.mouseKeyCallback = ((e) => this.handleCanvasEvent(e)).bind(this);
-    this.unloadWarning = ((e) => { if (this.props.Doc.editable) { e.preventDefault(); e.returnValue = '' } }).bind(this);
+    this.resizeCallback = () =>
+      this.handleResize(this.canvasRef.current.getContext("2d"));
+    this.mouseKeyCallback = (e) => this.handleCanvasEvent(e);
+    this.unloadWarning = (e) => { if (this.props.Doc.editable) { e.preventDefault(); e.returnValue = '' } };
   }
 
   componentDidMount() {
@@ -137,7 +137,7 @@ class Canvas extends Component {
     this.state.Tools.toolGraphic(context);
 
     // show panels
-    this.state.Panels.map((panel) => {
+    this.state.Panels.forEach((panel) => {
       panel.render(context);
     });
   }

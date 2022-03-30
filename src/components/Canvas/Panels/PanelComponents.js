@@ -96,9 +96,6 @@ class PanelText extends BasePanelComponent {
 }
 
 class PanelFunctionalText extends PanelText {
-  constructor(x, y, textFunc, size) {
-    super(x, y, textFunc, size);
-  }
   render(context, panelOffset) {
     context.font = this.font;
     context.fillStyle = this.fS;

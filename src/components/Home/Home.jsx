@@ -26,7 +26,7 @@ function Home(props) {
   var belowContent;
   if (prevOpenFiles && prevOpenFiles.length > 0) {
     let smallButtons = [];
-    prevOpenFiles.map((f, i) => {
+    prevOpenFiles.forEach((f, i) => {
       smallButtons.push(<SmallButton key={i} title={f} link="/" />);
     });
     belowContent = (
@@ -40,6 +40,7 @@ function Home(props) {
 
   useEffect(() => {
     props.unsetCurrentDoc();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -171,13 +172,13 @@ const Contact = (props) => {
           <h5>Email: <a href="mailto:friedrich.maagk@rhgy.de">friedrich.maagk@rhgy.de</a></h5>
         </div>
         <div style={{ margin: "0 0.5rem" }}>
-          <h5>Github: <a target="_blank" href="http://github.com/janeuster">JanEuster</a></h5>
-          <h5>Github: <a target="_blank" href="http://github.com/Knixxx">Knixxx</a></h5>
-          <h5>Github: <a target="_blank" href="http://github.com/friedrichmaagk">friedrichmaagk</a></h5>
+          <h5>Github: <a target="_blank" href="http://github.com/janeuster" rel="noreferrer">JanEuster</a></h5>
+          <h5>Github: <a target="_blank" href="http://github.com/Knixxx" rel="noreferrer">Knixxx</a></h5>
+          <h5>Github: <a target="_blank" href="http://github.com/friedrichmaagk" rel="noreferrer">friedrichmaagk</a></h5>
         </div>
       </div>
       <div>
-        <h4><a target="_blank" href="http://github.com/janeuster/q3-project">Github Repository</a></h4>
+        <h4><a target="_blank" href="http://github.com/janeuster/q3-project" rel="noreferrer">Github Repository</a></h4>
       </div>
     </div>
 

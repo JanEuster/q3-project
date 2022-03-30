@@ -1,5 +1,4 @@
 import BaseShape from "./BasicShapes";
-import BoundingBox from "./BoundingBox";
 
 class TextObj extends BaseShape {
   constructor(

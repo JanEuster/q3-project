@@ -39,7 +39,7 @@ class App extends Component {
       var width, height;
       var newDoc;
 
-      GLOBALS.DOC_FORMATS.map((FORMAT, i) => {
+      GLOBALS.DOC_FORMATS.forEach((FORMAT, i) => {
         if (format === FORMAT) {
           width = FORMAT.width;
           height = FORMAT.height;

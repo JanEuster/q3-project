@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { useEffect, useRef } from "react";
 import GLOBALS from "../../../Globals";
 
 const DropDownStyle = styled.div`
@@ -119,7 +118,7 @@ class Dropdown extends Component {
 
   render() {
     const options = [];
-    this.props.options.map((opt, i) => {
+    this.props.options.forEach((opt, i) => {
       if (this.state.showAllOptions && opt.name === this.state.currentOption) {
       } else {
         options.push(

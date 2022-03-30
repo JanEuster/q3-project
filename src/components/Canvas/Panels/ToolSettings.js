@@ -158,7 +158,7 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
   }
 
   handleColission(x, y) {
-    this.subComponents.map((comp) => {
+    this.subComponents.forEach((comp) => {
       if (comp.boundingBox.checkCollision(x, y)) {
         this.icon = comp.image; //comp.icon
         this.activeShape = this.icon.substring(19, this.icon.length - 4); //cut string to shapename
@@ -170,7 +170,7 @@ class PanelShapeSelectorComponent extends BasePanelComponent {
   }
 
   renderComponents(context, panelOffset) {
-    this.subComponents.map((comp) => {
+    this.subComponents.forEach((comp) => {
       comp.render(context, panelOffset);
     });
   }
@@ -296,7 +296,7 @@ class ColorSettingsPanel extends Panel {
       this.height + this.border
     );
     if (this.boundingBox.checkCollision(x, y)) {
-      this.components.map((comp) => {
+      this.components.forEach((comp) => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y))
           this.setActiveColor(comp.fS);
       });
@@ -307,7 +307,7 @@ class ColorSettingsPanel extends Panel {
 
   renderComponents(context, panelXY) {
     let panelOffset = panelXY;
-    this.components.map((comp) => {
+    this.components.forEach((comp) => {
       let active = false;
       if (comp.tool === this.toolManager.activeTool) active = true;
 
@@ -432,7 +432,7 @@ class ToolSettingsPanel extends Panel {
         ...this.toolSettings[this.toolManager.activeTool.name].components,
       ];
 
-      components.map((comp) => {
+      components.forEach((comp) => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y)) {
           comp.handleColission(x - panelXY.x, y - panelXY.y);
         }
@@ -449,7 +449,7 @@ class ToolSettingsPanel extends Panel {
       ...this.components,
       ...this.toolSettings[this.toolManager.activeTool.name].components,
     ]; // list of all components
-    components.map((comp) => {
+    components.forEach((comp) => {
       let active = false;
       if (comp.tool === this.toolManager.activeTool) active = true; // if tool is the active tool it needs to rendered distictively
       comp.render(context, panelOffset, active);
