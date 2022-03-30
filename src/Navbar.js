@@ -235,7 +235,7 @@ function Navbar(props) {
     if (props.appState.currentDoc === undefined && isModalOpen !== false) {
       setModalOpen(false);
     }
-  });
+  }, [props.appState.currentDoc, isModalOpen]);
   return (
     <>
       <SaveFileModal

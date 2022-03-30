@@ -160,7 +160,7 @@ function XMLToArtboard(xml) {
 
   // initialize artboard object of type with some default values (width: 10, height: 10, backgroundColor: white)
   let artboardType = artTag.attributes.type.nodeValue;
-  Object.keys(GLOBALS.SAVE.ARTBOARD_TYPES).map((type, i) => {
+  Object.keys(GLOBALS.SAVE.ARTBOARD_TYPES).forEach((type, i) => {
     if (artboardType === type) {
       artboard = Object.values(GLOBALS.SAVE.ARTBOARD_TYPES)[i]();
     }

@@ -1,4 +1,3 @@
-import ImageObj from "./Objects/Image";
 import TextObj from "./Objects/Text";
 
 class Artboard {
@@ -210,9 +209,6 @@ class noArtboard extends Artboard {
   }
 }
 
-function saveArtboard(artboard) {
-  console.log("save", artboard);
-}
 
 export default Artboard;
 export { noArtboard, infiniteScrollArtboard, infiniteArtboard };

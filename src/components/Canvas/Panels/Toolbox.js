@@ -91,7 +91,7 @@ class Toolbox extends Panel {
       this.height + this.border
     );
     if (this.boundingBox.checkCollision(x, y)) {
-      this.components.map((comp) => {
+      this.components.forEach((comp) => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y))
           this.handleColission(comp.tool);
       });
@@ -102,7 +102,7 @@ class Toolbox extends Panel {
 
   renderComponents(context, panelXY) {
     let panelOffset = panelXY; // {x: x, y: y} panel offset to
-    this.components.map((comp) => {
+    this.components.forEach((comp) => {
       let active = false;
       if (comp.tool === this.toolManager.activeTool) active = true; // if tool is the active tool it needs to rendered distictively
 

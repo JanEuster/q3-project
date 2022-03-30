@@ -1,11 +1,4 @@
 import BoundingBox from "../Objects/BoundingBox";
-import {
-  PanelButton,
-  PanelText,
-  PanelTitle,
-  PanelTextSwitch,
-} from "./PanelComponents";
-
 import GLOBALS from "../../../Globals";
 
 class Panel {
@@ -38,7 +31,7 @@ class Panel {
       this.height + this.border
     );
     if (this.boundingBox.checkCollision(x, y)) {
-      this.components.map((comp) => {
+      this.components.forEach((comp) => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y))
           comp.handleColission(x - panelXY.x, y - panelXY.y);
       });
@@ -61,7 +54,7 @@ class Panel {
   }
 
   renderComponents(context, panelXY) {
-    this.components.map((comp) => {
+    this.components.forEach((comp) => {
       let panelOffset = panelXY; // {x: x, y: y} panel offset to
       comp.render(context, panelOffset);
     });

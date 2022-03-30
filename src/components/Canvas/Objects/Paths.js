@@ -73,7 +73,7 @@ class Path extends BaseShape {
     let minY = this.points[0].y;
     let maxX = this.points[0].x;
     let maxY = this.points[0].y;
-    this.points.map((point) => {
+    this.points.forEach((point) => {
       if (point.x < minX) minX = point.x;
       if (point.y < minY) minY = point.y;
       if (point.x > maxX) maxX = point.x;
@@ -84,7 +84,7 @@ class Path extends BaseShape {
 
   // TODO: move Method for Path Objects
   move(x, y) {
-    this.points.map((point) => {
+    this.points.forEach((point) => {
       point.x += x;
       point.y += y;
     });
