@@ -13,8 +13,11 @@ import Artboard, {
 import GLOBALS from "./Globals";
 import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import { ImportToArtboard } from "./components/Canvas/util/Import";
+import Clipboard from "./components/Canvas/Clipboard";
 
 export const NavbarContext = React.createContext();
+
+const CLIPBOARD = new Clipboard();
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +26,7 @@ class App extends Component {
     this.state = {
       currentDoc: undefined,
       documents: [],
+      clipboard: CLIPBOARD,
     };
 
     this.switchDoc = this.switchDocument.bind(this);
@@ -50,11 +54,11 @@ class App extends Component {
         }
       });
 
-      newDoc = new Artboard(width, height, bgColor);
+      newDoc = new Artboard(width, height, bgColor, this.state.clipboard);
     } else if (docType === "infinite-scroll") {
-      newDoc = new infiniteScrollArtboard(GLOBALS.INFINITE_WIDTH, bgColor);
+      newDoc = new infiniteScrollArtboard(GLOBALS.INFINITE_WIDTH, bgColor, this.state.clipboard);
     } else if (docType === "infinite") {
-      newDoc = new infiniteArtboard(GLOBALS.INFINITE_WIDTH, bgColor);
+      newDoc = new infiniteArtboard(GLOBALS.INFINITE_WIDTH, bgColor, this.state.clipboard);
     }
 
     this.setState({
@@ -82,8 +86,15 @@ class App extends Component {
   }
 
   switchDocument(doc) {
-    this.props.history.push("/new");
     let index = this.state.documents.indexOf(doc);
+    // set documents clipboard on document switch 
+    // TODO: would storing the clipboard state within the app be more effective 
+    //       or are there any conditions to set clipboard 
+    if (this.state.currentDoc && this.state.currentDoc.clipboard) {
+      this.state.documents[index].setClipboard(this.state.currentDoc.getClipboard());
+    }
+
+    this.props.history.push("/new");
     this.setState({ currentDoc: this.state.documents[index] });
   }
   closeCurrentDocument() {
@@ -101,6 +112,7 @@ class App extends Component {
       this.props.history.push("/");
     }
   }
+
 
   render() {
     var navCallbacks = {
@@ -152,3 +164,4 @@ class App extends Component {
 }
 
 export default withRouter(App);
+export { CLIPBOARD };
