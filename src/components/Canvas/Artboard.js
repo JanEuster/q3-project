@@ -1,3 +1,4 @@
+import { CLIPBOARD } from "../../App";
 import TextObj from "./Objects/Text";
 
 class Artboard {
@@ -20,6 +21,7 @@ class Artboard {
     this.zoom = 1;
     this.name = undefined;
   }
+
 
   addObject(obj) {
     this.objects.push(obj);

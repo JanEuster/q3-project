@@ -342,9 +342,9 @@ class ToolSettingsPanel extends Panel {
       select: {
         components: [
           new PanelImageButton(10, 75, 30, process.env.PUBLIC_URL + "/assets/icons/ui/delete.svg", () => selectionT.deleteSelected()),
-          new PanelImageButton(10, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/copy.svg"),
-          new PanelImageButton(45, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/cut.svg"),
-          new PanelImageButton(80, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/paste.svg"),
+          new PanelImageButton(10, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/copy.svg", () => selectionT.copyToClipboard()),
+          new PanelImageButton(45, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/cut.svg", () => selectionT.cutToClipboard()),
+          new PanelImageButton(80, 40, 30, process.env.PUBLIC_URL + "/assets/icons/ui/paste.svg", () => selectionT.pasteFromClipboard()),
         ],
         size: { height: 160 },
       },

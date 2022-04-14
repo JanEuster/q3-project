@@ -1,3 +1,4 @@
+import { CLIPBOARD } from "../../../App";
 import GLOBALS from "../../../Globals";
 
 // box that is shown when user drags selection tool across screen to select multiple objects
@@ -108,11 +109,35 @@ class SelectionTool {
     return collisionObjects;
   }
 
+  // tool settings button methods
   deleteSelected() {
     this.selectedObjects.forEach((obj) => this.toolManager.Doc.removeObject(obj));
     this.selectedObjects = [];
     this.moving = false;
   }
+
+  copyToClipboard() {
+    if (this.selectedObjects) {
+      CLIPBOARD.copy(this.selectedObjects);
+    }
+  }
+
+  cutToClipboard() {
+    if (this.selectedObjects) {
+      CLIPBOARD.copy(this.selectedObjects);
+      this.selectedObjects.forEach((obj) => this.toolManager.Doc.removeObject(obj));
+      this.selectedObjects = [];
+    }
+  }
+
+  pasteFromClipboard() {
+    if (CLIPBOARD.paste()) {
+      this.toolManager.Doc.objects.push(...CLIPBOARD.paste());
+      this.selectedObjects = CLIPBOARD.paste();
+    }
+  }
+
+
 
   select(obj) {
     this.selectedObjects = [obj];
