@@ -1,87 +1,80 @@
-# Informatik Leistungskurs Projekt Q3
+# Computer Science Advanced Class Year 12 Project
 
 <br>
 
-### Lehrer: Sergej Lessin
+### Teacher: Sergej Lessin
 
-### Schüler: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
+### Students / Team: 
+- **Jan Eusterschulte** - *Team Lead, Concept, Programming* [ Webdesign, Drawing App ]
+- **Lennart Brunn** - *Programming* [ Drawing App ] 
+- **Friedrich Maagk** - *Graphics*
 
-### Thema: Web basierte GUI Applikation fürs Klassenzimmer
+### Topic: Web based GUI Application for classrooms
 
-### Name: Expanded Board
+<br/>
 
-### <img src="concept-art/logoish.png" style="zoom:10%;" />
+## Project Title: **Expanded Board**
 
-### <u>Nutzung:</u> 
+<img src="concept-art/logoish_256x.png"/>
+<img src="concept-art/favicon_128x.png"/>
 
-- Lehrer: Whiteboard Programm
-- Schüler: Notizen Programm
+### <u>Use cases:</u> 
 
-## Planung
+- Teachers: Whiteboard Application
+- Students: Notetaking Application
 
-- **Werkzeuge (Tools)**
-  - Bewegung (Move)
-  - Auswahl (Select)
-  - Pinsel (Brush)
-  - Radierer 
-  - Formen (Shapes)
-    - Rechteck
-    - Dreieck
+## Planning
+
+- **Tools**
+  - Move
+  - Select
+  - Brush
+  - Eraser
+  - Shapes
+    - Rectangle
+    - Triangle
     - Ellipse
-  - Bild
-    - modifiziertes Rechteck mit Grafik
-  - Stift (Pen)
-    - erstellen eigener Formen  
+  - Images
+  - Pen
+    - create custom Shapes
 - **Panels**
-  - Farben
-  - Werkzeuge (Tools)
-- **Exportieren**
-  - Formate
-    - PNG
-    - JPG
-    - PDF
-- **Speichern**
-  - Eigenes Dateiformat in XML?
+  - Colors
+  - Tools
+- **Export**
+  - PNG
+  - JPG
+  - PDF
+- **Save**
+  - custom XML type file format
 - **Artboard**
-  - unendlich erweiterbares Zeichenbrett
+  - infinitely extendible drawing board
 
 
-- ## Sprachen / Software
+- ## Languages / Software
     - HTML, CSS
-    - Javascript / node.js
-        - Libraries / node packages
-            - React (Web UI)
-            - electron
-            - concurrently & wait-on for react-electron compatibility (wait-on listens to react-webserver to display in electron-desktop-app) [dev dependencies]
+    - Javascript / Node.JS
+    - Frameworks
+        - Create-React-App (Web UI)
+        - Electron (Desktop App)
+    - Libraries / node packages
+        - concurrently & wait-on for react-electron compatibility (wait-on listens to react-webserver to display in electron-desktop-app) [dev dependencies]
+        - styled-components
+        - xml-formatter (save files as xml)
 
     
 
-    ## Funktionsweise 
+    ## Functionality 
 
-    - Web Applikation
-        - Website für Menüs, Dateiauswahl, etc.
-        - Dokumente werden als HTML Canvas Komponente implementiert und können via Javascript gesteuert werden
-    - Desktop Applikation
-        - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatspp)
-        - da **electron** auf chromium basiert, ist es auf jeglichen plattformen anwendbar
+    - Web Application
+      - website for menus etc.
+      - Usage of HTML Canvas Element for Drawing App
+    - Desktop Application
+        - the Electron framwork makes it possible to run a web app as a desktop app (examples of electron apps are Visual Studio Code, Discord, Atom, Microsoft Teams, Signal Desktop, Whatspp Desktop)
+        - Electron is based on chromium and therefore runs a mini version of a chrome browser and then displays the web app
 
-## Phasen
+## Want to Test or Develop this Application further?
 
-| Planung/ Lernen                                              | Implementierung                                              | Testen                                                       |
-| :----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Lennart, Jan, Friedrich: Implementation <br />der Features erarbeiten und Aufteilung präzisieren<br />Lennart, Friedrich: Git, Javascript <br />+ Canvas Basics lernen; in Arbeit mit <br />Repository einfinden<br />*bis 31.10.21* | Aufteilung der Arbeit<br />Lennart: <br />Jan:<br />Friedrich:<br />*bis 16.01.22* | Pull Requests erstellen, bei denen jeder Änderung vorschlagen kann<br />*bis Abgabe (3. Klausur - Datum noch unbekannt)* |
-
-
-
-
-
-
-
-
-
-## Testen / Entwickeln
-
-- ### Vorraussetzungen:
+- ### Requirements:
 	- git
 	- nodejs
 
@@ -103,7 +96,7 @@ foo@bar:~$ cd q3-project
 
 
 ```bash
-foo@bar:~/q3-project$ npm install
+foo@bar:~/q3-project$ npm ci
 ```
 3. #### **Start the Live Development Version**
 
@@ -115,7 +108,27 @@ foo@bar:~/q3-project$ npm run dev
 You will see a desktop application appear. Anytime a file within the repositories directory is changed, those changes will appear in the live development desktop application.
 The app can also be accessed via the browser(localhost:PORT). BY default the port is set to 3000(**localhost:3000**).
 
+4. #### **Build Web App**
 
+<br/>
+
+```bash
+foo@bar:~/q3-project$ npm run build
+```
+5. #### **Generate Electron Desktop App Package**
+
+<br/>
+
+```bash
+foo@bar:~/q3-project$ npm run pack-win
+```
+or
+```bash
+foo@bar:~/q3-project$ npm run pack-linux
+```
+
+<br/>
+<br/>
 
 ## Concept Art
 
