@@ -13,7 +13,7 @@ import Artboard, {
 import GLOBALS from "./Globals";
 import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import { ImportToArtboard } from "./components/Canvas/util/Import";
-import Clipboard from "./components/Canvas/Clipboard";
+import Clipboard from "./components/Canvas/util/Clipboard";
 
 export const NavbarContext = React.createContext();
 
