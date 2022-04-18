@@ -14,6 +14,7 @@ import GLOBALS from "./Globals";
 import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import { ImportToArtboard } from "./components/Canvas/util/Import";
 import Clipboard from "./components/Canvas/util/Clipboard";
+import exportAsImage from "./components/Canvas/util/Export";
 
 export const NavbarContext = React.createContext();
 

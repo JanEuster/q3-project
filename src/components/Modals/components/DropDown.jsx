@@ -6,32 +6,39 @@ const DropDownStyle = styled.div`
   display: inline-block;
   float: left;
   position: relative;
-  width: ${(props) => props.width};
   text-align: center;
+  width: ${props => props.width};
+  height: ${props => props.height};
 `;
 
 const OptionsDiv = styled.div`
   position: absolute;
   float: left;
-  width: calc(100% - ${(props) => props.size} / 8);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(${props => props.optionsLength} * ${props => props.height} * 0.7); 
   transform-origin: top;
   transform: scaleY(${(props) => (props.isOpen ? 1 : 0)});
   z-index: 2000;
-  border: calc(${(props) => props.size} / 16) solid ${GLOBALS.COLORS.darkgrey};
+  border: 5px solid ${GLOBALS.COLORS.darkgrey};
 `;
 
 const OptionButton = styled.button`
   display: block;
   padding: 0vh 0.6vw;
-  // margin: -0.5vw 0;
   width: 100%;
+  height: ${props => props.height};
   border: 0px solid ${GLOBALS.COLORS.darkgrey};
   &:hover {
-    outline: calc(${(props) => props.size} / 14) solid
+    z-index: 99999;
+    outline: 0.3rem solid
       ${GLOBALS.COLORS.lightorange};
     cursor: pointer;
   }
   &:focus {
+    z-index: 99999;
     outline: calc(${(props) => props.size} / 14) solid
       ${GLOBALS.COLORS.midorange};
   }
@@ -46,20 +53,21 @@ const OptionButtonText = styled.div`
 const SelectedOptionButton = styled.button`
   display: block;
   width: 100%;
+  height: 100%;
   padding: 0.2vh 0.6vw;
   font-family: Iosevka bold;
-  font-size: calc(${(props) => props.size} / 2.5);
-  border: calc(${(props) => props.size} / 10) solid ${GLOBALS.COLORS.darkgrey};
+  font-size: calc(${(props) => props.size} * 0.5);
+  border: 0.3rem solid ${GLOBALS.COLORS.darkgrey};
   user-select: none;
 
   &:hover {
-    border: calc(${(props) => props.size} / 10) solid
+    border: 0.3rem solid
       ${GLOBALS.COLORS.lightorange};
     cursor: pointer;
   }
   &:focus {
     outline: none;
-    border: calc(${(props) => props.size} / 10) solid
+    border: 0.3rem solid
       ${GLOBALS.COLORS.midorange};
     border-radius: 0;
   }
@@ -68,11 +76,11 @@ const SelectedOptionButton = styled.button`
 const Option = (props) => {
   return (
     <OptionButton
-      size={props.size}
+      size={props.width}
       onClick={props.onClick}
       onMouseDown={(event) => event.preventDefault()}
     >
-      <OptionButtonText size={props.size}>{props.text}</OptionButtonText>
+      <OptionButtonText size={props.height}>{props.text}</OptionButtonText>
     </OptionButton>
   );
 };
@@ -124,7 +132,8 @@ class Dropdown extends Component {
         options.push(
           <Option
             text={opt.name}
-            size={this.props.width}
+            width={this.props.width}
+            height={this.props.height}
             key={i}
             onClick={() => {
               this.setCurrent(opt);
@@ -138,12 +147,12 @@ class Dropdown extends Component {
     return (
       <DropDownStyle width={this.props.width} height={this.props.height}>
         <SelectedOption
-          size={this.props.width}
+          size={this.props.height}
           currentOption={this.state.currentOption.name}
           toggle={() => this.toggleOpen()}
           setOFF={() => this.setState({ isOpen: false })}
         />
-        <OptionsDiv isOpen={this.state.isOpen} size={this.props.width}>
+        <OptionsDiv isOpen={this.state.isOpen} optionsLength={options.length} width={this.props.width} height={this.props.height}>
           {options}
         </OptionsDiv>
       </DropDownStyle>

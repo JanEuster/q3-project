@@ -20,6 +20,13 @@ export default {
     { name: "A2", width: 4961, height: 7016 },
     { name: "A1", width: 7016, height: 9933 },
   ],
+  EXPORT_FORMATS: [
+    { name: "PNG Image", value: "image/png", suffix: "png" },
+    { name: "JPG Image", value: "image/jpg", suffix: "jpg" },
+    { name: "GIF Image", value: "image/gif", suffix: "gif" },
+    { name: "Bitmap", value: "image/bmp", suffix: "bmp" },
+    { name: "TIFF Image", value: "image/tiff", suffix: "tiff" }
+  ],
   INFINITE_WIDTH: 2000, // exists just to have a resolution for the infinite doc types
   DOC_ORIENTATIONS: ["vertical", "horizontal"],
   COLORS: {

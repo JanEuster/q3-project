@@ -153,9 +153,12 @@ class Artboard {
     context.fillRect(...Object.values(zoomOffsetMeta));
   }
 
-  drawObjects(context, pixelRatio, baseCoord) {
+  drawObjects(context, pixelRatio, baseCoord, ignoreZoom = false) {
+    var zoom = 1;
+    if (!ignoreZoom) zoom = this.zoom
+
     this.objects.forEach((obj) => {
-      obj.render(context, pixelRatio * this.zoom, baseCoord);
+      obj.render(context, pixelRatio * zoom, baseCoord);
     });
   }
 
@@ -168,6 +171,13 @@ class Artboard {
       w: zoomOffsetMeta.x,
       h: zoomOffsetMeta.y,
     });
+  }
+  drawExport(context, offset) {
+    this.drawArtboard(context, offset);
+    this.drawObjects(context, 1, {
+      w: offset.x,
+      h: offset.y,
+    }, true);
   }
 }
 
