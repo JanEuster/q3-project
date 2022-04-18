@@ -7,6 +7,11 @@ import OpenFileModal from "../Modals/Home/OpenFileModal";
 import { ReactComponent as LogoSVG } from "../../logo.svg";
 import "./Home.css";
 
+import GitInfo from "react-git-info/macro";
+const gitInfo = GitInfo();
+
+
+
 const Blurred = styled.div`
   filter: blur(${(props) => (props.blur !== false ? "20" : "0")}px);
   transition: filter ease-in 50ms;
@@ -105,7 +110,10 @@ function Home(props) {
           <Contact />
         </div>
 
-        <footer></footer>
+        <footer>
+          <pre style={{ fontSize: "0.8rem" }}>{gitInfo.commit.date}</pre>
+          <pre>v0.2.0  {gitInfo.branch}  {gitInfo.commit.shortHash}</pre>
+        </footer>
       </Blurred>
     </>
   );
