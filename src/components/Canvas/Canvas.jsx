@@ -86,20 +86,20 @@ class Canvas extends Component {
       var toolManager = new ToolManager(this.props.Doc);
       this.setState({ Tools: toolManager });
       // testing panels
-      var testPanel = new Panel(20, -350, 200, 300, 16, 8);
-      testPanel.components = [
-        new PanelButton(20, 100, 20, 20),
-        new PanelTitle(20, 30, "Test"),
-        new PanelText(20, 50, "testing testing please"),
-        new PanelTextSwitch(20, 80, "testing"),
-        new PanelSlider(15, 130, 170),
-      ];
+      // var testPanel = new Panel(20, -350, 200, 300, 16, 8);
+      // testPanel.components = [
+      //   new PanelButton(20, 100, 20, 20),
+      //   new PanelTitle(20, 30, "Test"),
+      //   new PanelText(20, 50, "testing testing please"),
+      //   new PanelTextSwitch(20, 80, "testing"),
+      //   new PanelSlider(15, 130, 170),
+      // ];
 
       this.cp = new ColorSettingsPanel(toolManager, this);
       var sp = new ToolSettingsPanel(toolManager, this);
 
       this.setState({
-        Panels: [toolManager.panel, sp, testPanel],
+        Panels: [toolManager.panel, sp],
       });
     }
 
