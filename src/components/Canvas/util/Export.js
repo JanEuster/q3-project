@@ -2,7 +2,9 @@ import { infiniteArtboard, infiniteScrollArtboard } from "../Artboard";
 
 const EDGE_BUFFER_WIDTH = 10 // buffer for infinite artboards from furtherst objects
 
-async function exportAsImage(artboard) {
+// TODO: Fix long loading time of file dialog
+async function exportAsImage(artboard, format) {
+  console.log(format)
   var imgCanvas = document.createElement("canvas");
   var imgContext = imgCanvas.getContext("2d");
 
@@ -34,9 +36,7 @@ async function exportAsImage(artboard) {
     })
     offset.y = -yLow + EDGE_BUFFER_WIDTH;
     offset.h = yHigh - yLow + 2 * EDGE_BUFFER_WIDTH;
-    console.log(yLow, yHigh)
   }
-  console.log(offset)
   imgCanvas.width = offset.w;
   imgCanvas.height = offset.h;
 
@@ -47,9 +47,10 @@ async function exportAsImage(artboard) {
   var anchor = document.createElement("a");
   return new Promise(() => {
     imgCanvas.toBlob((blob) => {
-      anchor.href = window.URL.createObjectURL(blob, { type: "image/png" });
-      anchor.download = artboard.name ?? "untitled";
-      anchor.type = "image/png";
+      anchor.href = window.URL.createObjectURL(blob, { type: format.value });
+      // only only image formats are possible using canvas data, because object data isnt stored within the canvas
+      anchor.download = `${artboard.name ?? "untitled"}.${format.suffix}`;
+      anchor.type = format.value;
       anchor.click();
     })
   })

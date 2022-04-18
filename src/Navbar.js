@@ -267,8 +267,8 @@ function Navbar(props) {
       <ExportModal
         isOpen={props.appState.currentDoc && isModalOpen === "export"}
         currentDoc={props.appState.currentDoc}
-        appCallback={() => {
-          exportAsImage(props.appState.currentDoc).then(() => {
+        appCallback={(format) => {
+          exportAsImage(props.appState.currentDoc, format).then(() => {
             setModalOpen(false);
           })
         }}
