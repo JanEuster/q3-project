@@ -14,6 +14,7 @@ import GLOBALS from "./Globals";
 import { loadArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import { ImportToArtboard } from "./components/Canvas/util/Import";
 import Clipboard from "./components/Canvas/Clipboard";
+import exportAsImage from "./components/Canvas/util/Export";
 
 export const NavbarContext = React.createContext();
 
@@ -112,7 +113,6 @@ class App extends Component {
       this.props.history.push("/");
     }
   }
-
 
   render() {
     var navCallbacks = {
