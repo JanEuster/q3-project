@@ -7,6 +7,8 @@ import { saveArtboard } from "./components/Canvas/util/ArtboardFileInteraction";
 import GLOBALS from "./Globals";
 import SaveFileModal from "./components/Modals/Canvas/SaveFileModal";
 import SettingsModal from "./components/Modals/Canvas/SettingsModal";
+import ExportModal from "./components/Modals/Canvas/ExportModal";
+import exportAsImage from "./components/Canvas/util/Export";
 
 const MOBILE_WIDTH = 800;
 
@@ -181,7 +183,7 @@ const Icon = styled.img`
 `;
 const NavIcon = (props) => {
   return (
-    <NavButton onClick={props.onClick}>
+    <NavButton onClick={props.onClick} style={{ transform: `rotate(${props.rotate ?? 0}deg) scale(${props.scale ?? 0.93})` }}>
       <IconContainer>
         <Icon src={process.env.PUBLIC_URL + props.src} alt=""></Icon>
       </IconContainer>
@@ -202,6 +204,12 @@ const DocumentOptions = (props) => {
           onClick={() => props.setModalOpen("save")}
           src={"/assets/icons/ui/save.svg"}
           alt="save"
+        />
+        <NavIcon
+          onClick={() => props.setModalOpen("export")}
+          src={"/assets/icons/ui/upload.svg"}
+          rotate={90}
+          alt="export"
         />
         <NavIcon
           onClick={() => { }}
@@ -253,6 +261,16 @@ function Navbar(props) {
         appCallback={({ name }) => {
           props.appState.currentDoc.name = name;
           setModalOpen(false);
+        }}
+        func={() => setModalOpen(false)}
+      />
+      <ExportModal
+        isOpen={props.appState.currentDoc && isModalOpen === "export"}
+        currentDoc={props.appState.currentDoc}
+        appCallback={(format) => {
+          exportAsImage(props.appState.currentDoc, format).then(() => {
+            setModalOpen(false);
+          })
         }}
         func={() => setModalOpen(false)}
       />

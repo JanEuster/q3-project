@@ -75,17 +75,17 @@ const StyledInput = styled.input`
   padding: 0.2rem;
   background-color: ${GLOBALS.COLORS.lightlightgrey};
 `;
-const EntryContainer = styled.div`
+const ModalRowContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 const ModalEntry = React.forwardRef((props, ref) => {
   return (
-    <EntryContainer>
+    <ModalRowContainer>
       <ModalText>{props.children}</ModalText>
       <StyledInput ref={ref} defaultValue={props.defaultValue} />
-    </EntryContainer>
+    </ModalRowContainer>
   );
 });
 
@@ -96,7 +96,7 @@ const ModalTextButton = (props) => {
         <Link
           to={props.redirect}
           style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
-          onClick={() => {}}
+          onClick={() => { }}
         >
           {props.text}
         </Link>
@@ -118,7 +118,7 @@ const ModalTextButton = (props) => {
       <ModalTextButtonStyle side={props.side}>
         <div
           style={{ margin: "0.2vw", fontFamily: "inherit", color: "inherit" }}
-          onClick={() => {}}
+          onClick={() => { }}
         >
           {props.text}
         </div>
@@ -144,7 +144,9 @@ export {
   ModalBox,
   ModalTextButton,
   ModalTitle,
+  ModalText,
   ModalTextButtonStyle,
   ModalEntry,
   ModalButtonsLeftRight,
+  ModalRowContainer,
 };
