@@ -24,9 +24,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentDoc: undefined,
-      documents: [],
-      clipboard: CLIPBOARD,
+      currentDoc: undefined, // currently opened document of type Artboard or undefined, where undefined means being on the home page
+      documents: [], // all currently opened documents
+      clipboard: CLIPBOARD, // global clipboard object over all documents
     };
 
     this.switchDoc = this.switchDocument.bind(this);
@@ -39,11 +39,19 @@ class App extends Component {
   }
 
   createDocument(docType, format, orientation, bgColor) {
+    // create document/artboard based on these settings entered by the user:
+    //    - document type("regular" width*height, endless-scroll, endless)
+    //    - format(A4,A3,...,TODO: add different standards and custom pixel size canvas opetion)
+    //    - orientation(horizontal or vertical)
+    //    - background color
+    //  => only "regular" artboards require format and orientation
+    //  => while endless-scroll could potentially change orientation/direction of scroll, this is not currently implemented
     if (docType === "regular") {
       var width, height;
       var newDoc;
 
       GLOBALS.DOC_FORMATS.forEach((FORMAT, i) => {
+        // each format has its pixel resolution based on 300ppi density
         if (format === FORMAT) {
           width = FORMAT.width;
           height = FORMAT.height;
@@ -55,6 +63,9 @@ class App extends Component {
       });
 
       newDoc = new Artboard(width, height, bgColor, this.state.clipboard);
+
+      // both infinite-scroll and infinite type documents have predefined resolutions currently
+      // TODO: add size param for infinite doc types
     } else if (docType === "infinite-scroll") {
       newDoc = new infiniteScrollArtboard(GLOBALS.INFINITE_WIDTH, bgColor, this.state.clipboard);
     } else if (docType === "infinite") {
@@ -71,6 +82,7 @@ class App extends Component {
     this.props.history.push("/new");
   }
   async openDocument(path) {
+    // open document from expanded-board project file (currently *.board)
     loadArtboard().then((doc) => {
       this.setState({ currentDoc: doc });
       this.setState({ documents: [...this.state.documents, doc] });
@@ -78,6 +90,8 @@ class App extends Component {
     });
   }
   async importDocument() {
+    // create new artboard based on some file
+    // currently only supports images
     ImportToArtboard().then(doc => {
       this.setState({ currentDoc: doc });
       this.setState({ documents: [...this.state.documents, doc] });
@@ -98,6 +112,7 @@ class App extends Component {
     this.setState({ currentDoc: this.state.documents[index] });
   }
   closeCurrentDocument() {
+    // change currently opened document to undefined if no other document is opened or to the next opened document
     let index = this.state.documents.indexOf(this.state.currentDoc);
     let documents = [
       ...this.state.documents.slice(0, index),

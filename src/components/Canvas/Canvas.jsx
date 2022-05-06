@@ -15,6 +15,8 @@ import Globals from "../../Globals";
 
 var FPS = 120;
 
+// react component which renders a canvas element and updates contents of the artbaord on interval
+// handles mouse/key/touch events and feeds them to corrosponding panels / tools 
 class Canvas extends Component {
   constructor(props) {
     super(props);
