@@ -110,9 +110,12 @@ function Home(props) {
           <Contact />
         </div>
 
-        <footer>
-          <pre style={{ fontSize: "0.8rem" }}>{gitInfo.commit.date}</pre>
-          <pre>v0.2.0  {gitInfo.branch}  {gitInfo.commit.shortHash}</pre>
+        <footer style={{ background: "#393939" }}>
+          <div style={{ display: "inline-block", background: "#f3aa59" }}>
+            <pre style={{ textDecoration: "underline black", textUnderlineOffset: "2px" }}>  expanded-board v0.2.0  </pre>
+            <pre style={{ textDecoration: "underline black", textUnderlineOffset: "3px", textDecorationStyle: "dashed", marginBottom: "2px" }}>{gitInfo.branch} -- {gitInfo.commit.shortHash}</pre>
+            <pre style={{ fontSize: "0.8rem" }}>{gitInfo.commit.date}</pre>
+          </div>
         </footer>
       </Blurred>
     </>
