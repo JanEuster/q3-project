@@ -1,82 +1,39 @@
-# Computer Science Advanced Class Year 12 Project
+## *Computer Science Advanced Class Year 12 Project*
 
-<br>
+# **Expanded-Board**
 
-### Teacher: Sergej Lessin
+### ***What is this App?***
+Its a **Drawing Application** in your [*Browser*](janeuster.github.io/q3-project) or on [*Desktop*](github.com/janeuster/q3-project/releases). It tries keep the **UI** *understandable* and *easy* while **not** being *simple* or *rudimentary*.
+<br/>
+The application is mostly **vector-based** with the exception of images inserted into documents. Therefore all elements within a document are their own **objects** and *changable*.
+<br/>
+*Documents are called* **Artboards**. There are three different **Types of Artboards**: *Regular* -- e.g. A4; *Infinite-Scroll*; *Infinite*; 
+<br/>
+The **Tools** this program provided include a *Move-Tool* for roaming the Artboard, a *Selection-Tool* for selecting, moving and manipulating objects, a *Pencil-Tool* for drawing vector lines, a simple *Eraser* drawing in the color of the background of the artboard, a *Shapes-Tool* allowing you to drag *Rectangles, Triangles and Circles* onto the Artboard and an *Image-Tool* for displaying images within the Artboard.
+<br/>
+You can **Import Images** to be *opened as Artboards* for editing and **Export** any *Artboard to an Image Format*.
 
 ### Students / Team: 
 - **Jan Eusterschulte** - *Team Lead, Concept, Programming* [ Webdesign, Drawing App ]
 - **Lennart Brunn** - *Programming* [ Drawing App ] 
 - **Friedrich Maagk** - *Graphics*
 
-### Topic: Web based GUI Application for classrooms
-
-<br/>
-
-## Project Title: **Expanded Board**
-
-<img src="concept-art/logoish_256x.png"/>
-<img src="concept-art/favicon_128x.png"/>
-
-### <u>Use cases:</u> 
-
-- Teachers: Whiteboard Application
-- Students: Notetaking Application
-
-## Planning
-
-- **Tools**
-  - Move
-  - Select
-  - Brush
-  - Eraser
-  - Shapes
-    - Rectangle
-    - Triangle
-    - Ellipse
-  - Images
-  - Pen
-    - create custom Shapes
-- **Panels**
-  - Colors
-  - Tools
-- **Export**
-  - PNG
-  - JPG
-  - PDF
-- **Save**
-  - custom XML type file format
-- **Artboard**
-  - infinitely extendible drawing board
+### Logo / Favicon
+<img src="concept/logoish_256x.png"/>
+<img src="concept/favicon_128x.png"/>
 
 
-- ## Languages / Software
-    - HTML, CSS
-    - Javascript / Node.JS
-    - Frameworks
-        - Create-React-App (Web UI)
-        - Electron (Desktop App)
-    - Libraries / node packages
-        - concurrently & wait-on for react-electron compatibility (wait-on listens to react-webserver to display in electron-desktop-app) [dev dependencies]
-        - styled-components
-        - xml-formatter (save files as xml)
+## Software
+  - NodeJS
+  - ReactJS - using Create-React-App
+  - Electron
 
-    
 
-    ## Functionality 
-
-    - Web Application
-      - website for menus etc.
-      - Usage of HTML Canvas Element for Drawing App
-    - Desktop Application
-        - the Electron framwork makes it possible to run a web app as a desktop app (examples of electron apps are Visual Studio Code, Discord, Atom, Microsoft Teams, Signal Desktop, Whatspp Desktop)
-        - Electron is based on chromium and therefore runs a mini version of a chrome browser and then displays the web app
-
-## Want to Test or Develop this Application further?
+## Want to Test or Contribute?
 
 - ### Requirements:
-	- git
-	- nodejs
+	- Git
+	- NodeJS
 
 <br/>
 
@@ -132,5 +89,5 @@ foo@bar:~/q3-project$ npm run pack-linux
 
 ## Concept Art
 
-![](concept-art/q3-project.png)
+![](concept/q3-project.png)
 
