@@ -1,89 +1,39 @@
-# Informatik Leistungskurs Projekt Q3
+## *Computer Science Advanced Class Year 12 Project*
 
-<br>
+# **Expanded-Board**
 
-### Lehrer: Sergej Lessin
+### ***What is this App?***
+Its a **Drawing Application** in your [*Browser*](janeuster.github.io/q3-project) or on [*Desktop*](github.com/janeuster/q3-project/releases). It tries keep the **UI** *understandable* and *easy* while **not** being *simple* or *rudimentary*.
+<br/>
+The application is mostly **vector-based** with the exception of images inserted into documents. Therefore all elements within a document are their own **objects** and *changable*.
+<br/>
+*Documents are called* **Artboards**. There are three different **Types of Artboards**: *Regular* -- e.g. A4; *Infinite-Scroll*; *Infinite*; 
+<br/>
+The **Tools** this program provided include a *Move-Tool* for roaming the Artboard, a *Selection-Tool* for selecting, moving and manipulating objects, a *Pencil-Tool* for drawing vector lines, a simple *Eraser* drawing in the color of the background of the artboard, a *Shapes-Tool* allowing you to drag *Rectangles, Triangles and Circles* onto the Artboard and an *Image-Tool* for displaying images within the Artboard.
+<br/>
+You can **Import Images** to be *opened as Artboards* for editing and **Export** any *Artboard to an Image Format*.
 
-### Schüler: Lennart Brunn, Jan Eusterschulte, Friedrich Maagk
+### Students / Team: 
+- **Jan Eusterschulte** - *Team Lead, Concept, Programming* [ Webdesign, Drawing App ]
+- **Lennart Brunn** - *Programming* [ Drawing App ] 
+- **Friedrich Maagk** - *Graphics*
 
-### Thema: Web basierte GUI Applikation fürs Klassenzimmer
-
-### Name: Expanded Board
-
-### <img src="concept-art/logoish.png" style="zoom:10%;" />
-
-### <u>Nutzung:</u> 
-
-- Lehrer: Whiteboard Programm
-- Schüler: Notizen Programm
-
-## Planung
-
-- **Werkzeuge (Tools)**
-  - Bewegung (Move)
-  - Auswahl (Select)
-  - Pinsel (Brush)
-  - Radierer 
-  - Formen (Shapes)
-    - Rechteck
-    - Dreieck
-    - Ellipse
-  - Bild
-    - modifiziertes Rechteck mit Grafik
-  - Stift (Pen)
-    - erstellen eigener Formen  
-- **Panels**
-  - Farben
-  - Werkzeuge (Tools)
-- **Exportieren**
-  - Formate
-    - PNG
-    - JPG
-    - PDF
-- **Speichern**
-  - Eigenes Dateiformat in XML?
-- **Artboard**
-  - unendlich erweiterbares Zeichenbrett
+### Logo / Favicon
+<img src="concept/logoish_256x.png"/>
+<img src="concept/favicon_128x.png"/>
 
 
-- ## Sprachen / Software
-    - HTML, CSS
-    - Javascript / node.js
-        - Libraries / node packages
-            - React (Web UI)
-            - electron
-            - concurrently & wait-on for react-electron compatibility (wait-on listens to react-webserver to display in electron-desktop-app) [dev dependencies]
-
-    
-
-    ## Funktionsweise 
-
-    - Web Applikation
-        - Website für Menüs, Dateiauswahl, etc.
-        - Dokumente werden als HTML Canvas Komponente implementiert und können via Javascript gesteuert werden
-    - Desktop Applikation
-        - **electron** ermöglicht es eine Web Applikation aus HTML, CSS und Javascript als Desktop Programm zu nutzen (Beispiele dafür sind Visual Studio Code, Discord, Atom, Microsoft Teams, Signal, Whatspp)
-        - da **electron** auf chromium basiert, ist es auf jeglichen plattformen anwendbar
-
-## Phasen
-
-| Planung/ Lernen                                              | Implementierung                                              | Testen                                                       |
-| :----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| Lennart, Jan, Friedrich: Implementation <br />der Features erarbeiten und Aufteilung präzisieren<br />Lennart, Friedrich: Git, Javascript <br />+ Canvas Basics lernen; in Arbeit mit <br />Repository einfinden<br />*bis 31.10.21* | Aufteilung der Arbeit<br />Lennart: <br />Jan:<br />Friedrich:<br />*bis 16.01.22* | Pull Requests erstellen, bei denen jeder Änderung vorschlagen kann<br />*bis Abgabe (3. Klausur - Datum noch unbekannt)* |
+## Software
+  - NodeJS
+  - ReactJS - using Create-React-App
+  - Electron
 
 
+## Want to Test or Contribute?
 
-
-
-
-
-
-
-## Testen / Entwickeln
-
-- ### Vorraussetzungen:
-	- git
-	- nodejs
+- ### Requirements:
+	- Git
+	- NodeJS
 
 <br/>
 
@@ -103,7 +53,7 @@ foo@bar:~$ cd q3-project
 
 
 ```bash
-foo@bar:~/q3-project$ npm install
+foo@bar:~/q3-project$ npm ci
 ```
 3. #### **Start the Live Development Version**
 
@@ -115,9 +65,29 @@ foo@bar:~/q3-project$ npm run dev
 You will see a desktop application appear. Anytime a file within the repositories directory is changed, those changes will appear in the live development desktop application.
 The app can also be accessed via the browser(localhost:PORT). BY default the port is set to 3000(**localhost:3000**).
 
+4. #### **Build Web App**
 
+<br/>
+
+```bash
+foo@bar:~/q3-project$ npm run build
+```
+5. #### **Generate Electron Desktop App Package**
+
+<br/>
+
+```bash
+foo@bar:~/q3-project$ npm run pack-win
+```
+or
+```bash
+foo@bar:~/q3-project$ npm run pack-linux
+```
+
+<br/>
+<br/>
 
 ## Concept Art
 
-![](concept-art/q3-project.png)
+![](concept/q3-project.png)
 

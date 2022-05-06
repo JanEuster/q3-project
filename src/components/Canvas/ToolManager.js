@@ -16,6 +16,10 @@ var eraserT = new EraserTool();
 var textT = new TextTool();
 var shapeT = new ShapeTool();
 var imageT = new ImageTool();
+
+// manages tool instances and tool switching
+// also stores tool specific properties which are set by corrosponding toolsettingspanels
+// TODO: Move this ^ into each tool using the tool instances created here
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;

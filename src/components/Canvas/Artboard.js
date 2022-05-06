@@ -1,6 +1,11 @@
 import { CLIPBOARD } from "../../App";
 import TextObj from "./Objects/Text";
 
+// Artboard class is responsible for storing current state of an artboard with all its objects
+// this current state is drawn to the screen at an set intervat using the draw() method
+
+// the class also manages the zooming and panning position on the artboard 
+// and computes the scaled down version of the original artboard size to be displayed on screen
 class Artboard {
   //
   constructor(width, height, bgColor) {
@@ -75,6 +80,11 @@ class Artboard {
   }
 
   getArtboardMetadata() {
+    // computes:
+    // - size of artboard on users screen
+    // - the orientation ?
+    // - the top left coordinates from which the artboard is to be drawn
+    // - the scale on the users screen to determine size objects should be drawn at
     let scrW = window.innerWidth;
     let scrH = window.innerHeight;
     var m = this.margin * 6;
@@ -203,6 +213,7 @@ class infiniteArtboard extends Artboard {
   }
 }
 
+// an artboard to be drawn, then the user is on the href for opened artboards but no artboard is opened
 class noArtboard extends Artboard {
   constructor(bgColor) {
     super(1000, 1000, bgColor);
