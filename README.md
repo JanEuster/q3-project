@@ -3,7 +3,7 @@
 # **Expanded-Board**
 
 ### ***What is this App?***
-Its a **Drawing Application** in your [*Browser*](janeuster.github.io/q3-project) or on [*Desktop*](github.com/janeuster/q3-project/releases). It tries keep the **UI** *understandable* and *easy* while **not** being *simple* or *rudimentary*.
+Its a **Drawing Application** in your [*Browser*](https://janeuster.github.io/q3-project) or on [*Desktop*](https://github.com/janeuster/q3-project/releases). It tries keep the **UI** *understandable* and *easy* while **not** being *simple* or *rudimentary*.
 <br/>
 The application is mostly **vector-based** with the exception of images inserted into documents. Therefore all elements within a document are their own **objects** and *changable*.
 <br/>
