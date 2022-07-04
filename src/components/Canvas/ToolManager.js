@@ -33,6 +33,8 @@ class ToolManager {
     this.fontSize = 100;
     this.fillColorText = "#000000";
 
+    console.log(this.tools)
+
     this.lastObj = NaN;
 
     selectionT.toolManager = this;
@@ -55,12 +57,17 @@ class ToolManager {
   }
 
   toolSelect() {
+    console.log(this.activeTool)
     if (!(this.activeTool === selectionT && !this.lastObj)) {
       this.activeTool.select(this.lastObj);
     }
   }
   toolUse(e) {
     this.activeTool.use(e, this.Doc);
+
+    if (e.type === "mouseup" && this.activeTool !== handT) {
+      this.Doc.history.addStage();
+    }
   }
   toolDeselect() {
     this.lastObj = this.activeTool.deselect();
