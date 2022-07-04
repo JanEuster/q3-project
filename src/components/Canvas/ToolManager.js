@@ -33,8 +33,6 @@ class ToolManager {
     this.fontSize = 100;
     this.fillColorText = "#000000";
 
-    console.log(this.tools)
-
     this.lastObj = NaN;
 
     selectionT.toolManager = this;
@@ -57,7 +55,6 @@ class ToolManager {
   }
 
   toolSelect() {
-    console.log(this.activeTool)
     if (!(this.activeTool === selectionT && !this.lastObj)) {
       this.activeTool.select(this.lastObj);
     }

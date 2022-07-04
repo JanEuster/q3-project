@@ -6,7 +6,7 @@ export default class HistoryTracker {
     this.document = artboard;
 
     this.stages = [];
-    this.redoStages = this.stages;
+    this.redoStages = [];
 
     this.addStage();
   }
@@ -37,30 +37,52 @@ export default class HistoryTracker {
     if (this.stages.length >= 1) console.log("changed?", this.hasContentChanged(newStage, this.stages[this.stages.length - 1]))
     if (this.stages.length < 1 || this.hasContentChanged(newStage, this.stages[this.stages.length - 1])) {
       this.stages.push(newStage);
-      console.log(this.stages[this.stages.length - 1])
     }
+
+    this.resetRedo();
+  }
+
+  // adds new stage even if nothing might have changed
+  // basically just a bad way to avoid having to compare artboard objects in addStage method for now
+  addStageForce() {
+    let newStage = this.generateStageObject();
+    this.stages.push(newStage);
+
+    this.resetRedo();
   }
 
   undo() {
-    this.redoStages = this.stages;
+    if (this.stages.length >= 1) {
+      let undo = this.stages.pop();
+      this.redoStages.push(undo);
 
-    this.stages.pop();
-
-    this.setDocumentStage();
+      console.log(this.redoStages);
+      this.setDocumentStage();
+    }
   }
 
   redo() {
-    let nextStage = this.redoStages.slice(0, 1);
-    this.redoStages = this.redoStages.slice(1);
+    if (this.redoStages.length >= 1) {
+      let nextStage = this.redoStages.slice(this.redoStages.length - 1);
+      this.redoStages = this.redoStages.slice(0, this.redoStages.length - 1);
 
-    this.stages.push(nextStage)
+      console.log(this.redoStages);
+      this.stages.push(...nextStage);
 
-    this.setDocumentStage()
+      this.setDocumentStage();
+    }
+  }
+
+  resetRedo() {
+    // whenever a new object is added to the artboard, the redo history is erased (alternate history)
+    this.redoStages = [];
   }
 
   setDocumentStage() {
     for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
       this.document[prop] = this.stages[this.stages.length - 1][prop];
     }
+
+    this.document.objects = this.stages[this.stages.length - 1].objects;
   }
 }
