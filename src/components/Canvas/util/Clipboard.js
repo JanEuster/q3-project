@@ -1,4 +1,5 @@
 // clipboard for artboard objects across all open documents
+import { copyOfObject } from "../Objects/BasicShapes";
 
 class Clipboard {
   constructor() {
@@ -7,7 +8,7 @@ class Clipboard {
 
   copy(content) {
     this.content = content.map((obj, i) => {
-      return this.copyOfObject(obj);
+      return copyOfObject(obj);
     })
   }
 
@@ -17,16 +18,6 @@ class Clipboard {
 
   clear() {
     this.content = [];
-  }
-
-
-  copyOfObject(obj) {
-    let newObj = new obj.constructor()
-    Object.keys(obj).forEach((attr, i) => {
-      newObj[attr] = obj[attr];
-    })
-    newObj.newBounds();
-    return newObj
   }
 }
 

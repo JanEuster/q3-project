@@ -62,7 +62,7 @@ class ToolManager {
   toolUse(e) {
     this.activeTool.use(e, this.Doc);
 
-    if (e.type === "mouseup" && this.activeTool !== handT) {
+    if (e.type === "mouseup" && this.activeTool !== handT && this.activeTool !== textT) {
       this.Doc.history.addStage();
     }
   }

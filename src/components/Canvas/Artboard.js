@@ -1,4 +1,3 @@
-import { CLIPBOARD } from "../../App";
 import TextObj from "./Objects/Text";
 import HistoryTracker from "./util/ArtboardHistory";
 

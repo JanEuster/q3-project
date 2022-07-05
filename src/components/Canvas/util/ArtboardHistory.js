@@ -1,4 +1,5 @@
 import GLOBALS from "../../../Globals";
+import { copyOfObject, isDifferentObject } from "../Objects/BasicShapes";
 
 
 export default class HistoryTracker {
@@ -11,31 +12,48 @@ export default class HistoryTracker {
     this.addStage();
   }
 
-  generateStageObject() {
+  generateStage() {
     let obj = {}
     for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
       obj[prop] = this.document[prop];
     }
 
-    obj.objects = [...this.document.objects];
+    let artObjs = [];
+    this.document.objects.forEach((obj) => {
+      artObjs.push(copyOfObject(obj));
+    })
+    obj.objects = artObjs;
     return obj
   }
 
   hasContentChanged(stage1, stage2) {
     for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
       if (prop !== "objects" && stage1[prop] != stage2[prop]) return true;
-
-      // objects are changed if arrays are not the same length and not every item is in the other array
-      if (prop === "objects" && !(stage1.objects.length === stage2.objects.length && stage1.objects.every((value, index) => value === stage2.objects[index]))) return true;
     }
-    return false
+
+    // objects are changed if arrays are not the same length and not every item is in the other array
+    if (stage1.objects.length !== stage2.objects.length) {
+      return true;
+    }
+    // objects also changed if properties of a object changed
+    if (stage1.objects.length === stage2.objects.length) {
+      for (let i = 0; i < stage1.objects.length; i++) {
+        let obj1 = stage1.objects[i];
+        let obj2 = stage2.objects[i];
+        if (isDifferentObject(obj1, obj2)) {
+          return true
+        };
+      }
+    }
+    return false;
   }
 
   addStage() {
-    let newStage = this.generateStageObject();
+    let newStage = this.generateStage();
+    console.log(this.stages, newStage)
     // only add stages with different content
-    if (this.stages.length >= 1) console.log("changed?", this.hasContentChanged(newStage, this.stages[this.stages.length - 1]))
     if (this.stages.length < 1 || this.hasContentChanged(newStage, this.stages[this.stages.length - 1])) {
+      console.log("[HISTORY] STAGE ADDED")
       this.stages.push(newStage);
     }
 
@@ -45,14 +63,14 @@ export default class HistoryTracker {
   // adds new stage even if nothing might have changed
   // basically just a bad way to avoid having to compare artboard objects in addStage method for now
   addStageForce() {
-    let newStage = this.generateStageObject();
+    let newStage = this.generateStage();
     this.stages.push(newStage);
 
     this.resetRedo();
   }
 
   undo() {
-    if (this.stages.length >= 1) {
+    if (this.stages.length > 1) {
       let undo = this.stages.pop();
       this.redoStages.push(undo);
 
