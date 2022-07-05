@@ -27,6 +27,9 @@ class Artboard {
     this.name = undefined;
 
     this.history = new HistoryTracker(this);
+    this.history.addStageForce();
+
+    this.toolManager = undefined;
   }
 
 

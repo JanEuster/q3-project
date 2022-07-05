@@ -13,17 +13,17 @@ export default class HistoryTracker {
   }
 
   generateStage() {
-    let obj = {}
+    let stage = {}
     for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
-      obj[prop] = this.document[prop];
+      stage[prop] = this.document[prop];
     }
 
     let artObjs = [];
     this.document.objects.forEach((obj) => {
       artObjs.push(copyOfObject(obj));
     })
-    obj.objects = artObjs;
-    return obj
+    stage.objects = artObjs;
+    return stage
   }
 
   hasContentChanged(stage1, stage2) {
@@ -32,11 +32,13 @@ export default class HistoryTracker {
     }
 
     // objects are changed if arrays are not the same length and not every item is in the other array
+    // console.log(stage1)
+    // console.log(stage2)
     if (stage1.objects.length !== stage2.objects.length) {
       return true;
     }
     // objects also changed if properties of a object changed
-    if (stage1.objects.length === stage2.objects.length) {
+    else {
       for (let i = 0; i < stage1.objects.length; i++) {
         let obj1 = stage1.objects[i];
         let obj2 = stage2.objects[i];
@@ -50,11 +52,17 @@ export default class HistoryTracker {
 
   addStage() {
     let newStage = this.generateStage();
-    console.log(this.stages, newStage)
     // only add stages with different content
+    console.log("stages", this.stages);
+    console.log("redos", this.redoStages);
+    console.log("new", newStage);
+    console.log("current", this.stages[this.stages.length - 1]);
+    console.log(this.stages.length ? this.hasContentChanged(newStage, this.stages[this.stages.length - 1]) : "");
     if (this.stages.length < 1 || this.hasContentChanged(newStage, this.stages[this.stages.length - 1])) {
-      console.log("[HISTORY] STAGE ADDED")
+      console.log("[HISTORY] STAGE ADDED");
       this.stages.push(newStage);
+      console.log("stages", this.stages)
+      console.log("redos", this.redoStages);
     }
 
     this.resetRedo();
@@ -74,9 +82,13 @@ export default class HistoryTracker {
       let undo = this.stages.pop();
       this.redoStages.push(undo);
 
-      console.log(this.redoStages);
+      console.log("stages", this.stages)
+      console.log("redos", this.redoStages);
+
       this.setDocumentStage();
     }
+
+    this.document.toolManager.deselectAllObjects();
   }
 
   redo() {
@@ -84,11 +96,14 @@ export default class HistoryTracker {
       let nextStage = this.redoStages.slice(this.redoStages.length - 1);
       this.redoStages = this.redoStages.slice(0, this.redoStages.length - 1);
 
-      console.log(this.redoStages);
       this.stages.push(...nextStage);
+      console.log("stages", this.stages)
+      console.log("redos", this.redoStages);
 
       this.setDocumentStage();
     }
+
+    this.document.toolManager.deselectAllObjects();
   }
 
   resetRedo() {
