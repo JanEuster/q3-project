@@ -212,14 +212,14 @@ const DocumentOptions = (props) => {
           alt="export"
         />
         <NavIcon
-          onClick={() => { }}
-          src={"/assets/icons/ui/redo.svg"}
-          alt="redo"
-        />
-        <NavIcon
-          onClick={() => { }}
+          onClick={() => props.currentDoc.history.undo()}
           src={"/assets/icons/ui/undo.svg"}
           alt="undo"
+        />
+        <NavIcon
+          onClick={() => props.currentDoc.history.redo()}
+          src={"/assets/icons/ui/redo.svg"}
+          alt="redo"
         />
         <NavIcon
           onClick={() => { }}

@@ -39,6 +39,9 @@ export default {
     midorange: "#FA7D36",
     midblue: "#0D79F2",
   },
+  HISTORY_PROPERTERTIES: [
+    "width", "height", "bgColor", "objects"
+  ],
   SAVE: {
     ARTBOARD_TYPES: {
       regular: () => {
