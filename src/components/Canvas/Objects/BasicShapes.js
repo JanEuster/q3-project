@@ -264,7 +264,9 @@ export class Triangle extends BaseShape {
   }
 }
 
-
+/**
+ * a object instance can never be used for multiple stages/ states or javascript WILL fuck you over
+**/
 export const copyOfObject = (obj) => {
   let newObj = new obj.constructor()
   Object.keys(obj).forEach((attr, i) => {

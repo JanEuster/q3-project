@@ -9,7 +9,7 @@ export default class HistoryTracker {
     this.stages = [];
     this.redoStages = [];
 
-    this.addStage();
+    this.addStageForce();
   }
 
   generateStage() {
@@ -17,18 +17,30 @@ export default class HistoryTracker {
     for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
       stage[prop] = this.document[prop];
     }
-
     let artObjs = [];
     this.document.objects.forEach((obj) => {
       artObjs.push(copyOfObject(obj));
     })
     stage.objects = artObjs;
-    return stage
+    return stage;
+  }
+
+  copyOfStage(stage) {
+    let stageCopy = {};
+    for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
+      stageCopy[prop] = stage[prop];
+    }
+    let artObjs = [];
+    stage.objects.forEach((obj) => {
+      artObjs.push(copyOfObject(obj));
+    })
+    stage.objects = artObjs;
+    return stageCopy;
   }
 
   hasContentChanged(stage1, stage2) {
     for (let prop of GLOBALS.HISTORY_PROPERTERTIES) {
-      if (prop !== "objects" && stage1[prop] != stage2[prop]) return true;
+      if (prop !== "objects" && stage1[prop] !== stage2[prop]) return true;
     }
 
     // objects are changed if arrays are not the same length and not every item is in the other array
@@ -51,12 +63,12 @@ export default class HistoryTracker {
   }
 
   addStage() {
+    console.log("current", this.stages[this.stages.length - 1].objects.length);
     let newStage = this.generateStage();
     // only add stages with different content
+    console.log("new", newStage.objects.length);
     console.log("stages", this.stages);
     console.log("redos", this.redoStages);
-    console.log("new", newStage);
-    console.log("current", this.stages[this.stages.length - 1]);
     console.log(this.stages.length ? this.hasContentChanged(newStage, this.stages[this.stages.length - 1]) : "");
     if (this.stages.length < 1 || this.hasContentChanged(newStage, this.stages[this.stages.length - 1])) {
       console.log("[HISTORY] STAGE ADDED");
@@ -79,8 +91,8 @@ export default class HistoryTracker {
 
   undo() {
     if (this.stages.length > 1) {
-      let undo = this.stages.pop();
-      this.redoStages.push(undo);
+      this.redoStages.push(this.copyOfStage(this.stages[this.stages.length - 1]));
+      this.stages = this.stages.slice(0, -1);
 
       console.log("stages", this.stages)
       console.log("redos", this.redoStages);
@@ -116,6 +128,8 @@ export default class HistoryTracker {
       this.document[prop] = this.stages[this.stages.length - 1][prop];
     }
 
-    this.document.objects = this.stages[this.stages.length - 1].objects;
+    this.document.objects = this.stages[this.stages.length - 1].objects.map((obj) =>
+      copyOfObject(obj)
+    );
   }
 }
