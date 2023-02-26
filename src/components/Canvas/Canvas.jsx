@@ -11,7 +11,7 @@ import {
   PanelTitle,
 } from "./Panels/PanelComponents";
 import ToolSettingsPanel from "./Panels/ToolSettings";
-import Globals from "../../Globals";
+import GLOBALS from "../../Globals";
 
 var FPS = 120;
 
@@ -132,7 +132,7 @@ class Canvas extends Component {
   updateCanvas(context) {
     // reset canvas
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-    context.fillStyle = Globals.COLORS.CANVAS_BG;
+    context.fillStyle = GLOBALS.COLORS.CANVAS_BG;
     context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
     this.props.Doc.draw(context);

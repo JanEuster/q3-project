@@ -23,6 +23,8 @@ var imageT = new ImageTool();
 class ToolManager {
   constructor(Doc) {
     this.Doc = Doc;
+    this.Doc.toolManager = this;
+
     this.tools = [selectionT, handT, pencilT, eraserT, textT, shapeT, imageT];
     this.toolUse = this.toolUse.bind(this);
     this.activeTool = this.tools[0];
@@ -61,6 +63,10 @@ class ToolManager {
   }
   toolUse(e) {
     this.activeTool.use(e, this.Doc);
+
+    if (e.type === "mouseup" && this.activeTool !== handT && this.activeTool !== textT) {
+      this.Doc.history.addStage();
+    }
   }
   toolDeselect() {
     this.lastObj = this.activeTool.deselect();
@@ -70,6 +76,14 @@ class ToolManager {
     const artMeta = this.Doc.getArtboardMetadata();
     // function to display tool related graphics on redraw; i.e. selection box if selection tool is this.activeTool
     this.activeTool.graphic(context, artMeta, this.Doc);
+  }
+
+  deselectAllObjects() {
+    if (this.activeTool === selectionT) {
+      selectionT.selectedObjects = [];
+    } else if (this.activeTool === textT) {
+      textT.activeObject = NaN;
+    }
   }
 }
 

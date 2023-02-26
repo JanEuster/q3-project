@@ -54,6 +54,8 @@ class TextTool {
           Doc.removeObject(this.activeObject);
         } //check if textlength 0
         this.activeObject = NaN;
+
+        this.toolManager.Doc.history.addStageForce();
       } else if (e.key === "Backspace") {
         this.activeObject.removeLastChar();
       }
@@ -73,6 +75,7 @@ class TextTool {
       this.activeObject = NaN;
       return false;
     }
+    this.toolManager.Doc.history.addStageForce();
     return this.activeObject;
   }
 

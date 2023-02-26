@@ -73,7 +73,7 @@ class Toolbox extends Panel {
     }
   }
 
-  handleColission(tool) {
+  handleCollision(tool) {
     if (tool !== this.toolManager.activeTool) {
       this.toolManager.toolDeselect();
       this.toolManager.activeTool = tool;
@@ -93,7 +93,7 @@ class Toolbox extends Panel {
     if (this.boundingBox.checkCollision(x, y)) {
       this.components.forEach((comp) => {
         if (comp.boundingBox.checkCollision(x - panelXY.x, y - panelXY.y))
-          this.handleColission(comp.tool);
+          this.handleCollision(comp.tool);
       });
       return true;
     }

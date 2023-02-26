@@ -1,6 +1,6 @@
 import BoundingBox from "./BoundingBox";
 
-class BaseShape {
+export default class BaseShape {
   constructor(xCoord, yCoord, width, height) {
     // every object inherits a boundingbox
     this.boundingBox = new BoundingBox(xCoord, yCoord, width, height);
@@ -41,7 +41,7 @@ class BaseShape {
   render() { }
 }
 
-class Rectangle extends BaseShape {
+export class Rectangle extends BaseShape {
   constructor(
     xCoord,
     yCoord,
@@ -114,7 +114,7 @@ class Rectangle extends BaseShape {
   }
 }
 
-class Circle extends BaseShape {
+export class Circle extends BaseShape {
   constructor(
     xCoord,
     yCoord,
@@ -185,7 +185,7 @@ class Circle extends BaseShape {
   }
 }
 
-class Triangle extends BaseShape {
+export class Triangle extends BaseShape {
   constructor(
     xCoord,
     yCoord,
@@ -264,5 +264,35 @@ class Triangle extends BaseShape {
   }
 }
 
-export default BaseShape;
-export { Rectangle, Circle, Triangle };
+/**
+ * a object instance can never be used for multiple stages/ states or javascript WILL fuck you over
+**/
+export const copyOfObject = (obj) => {
+  let newObj = new obj.constructor()
+  Object.keys(obj).forEach((attr, i) => {
+    newObj[attr] = obj[attr];
+  })
+  newObj.newBounds();
+  return newObj
+}
+
+export const isDifferentObject = (obj1, obj2) => {
+  // require as a scoped import because there seems to be some kind of circular import problem with Canvas.jsx and Globals.js
+  // .default gives access to the export default object
+  let isDifferent = false;
+
+  Object.values(require("../../../Globals").default.SAVE.OBJECT_TYPES).forEach((objType) => {
+    if (obj1 instanceof objType.class && obj2 instanceof objType.class) {
+      for (let attr of objType.attributes) {
+        if (obj1[attr] !== obj2[attr]) {
+          console.log("DIFFERING ATTRIBUTE OF", attr, obj1[attr], obj2[attr]);
+          isDifferent = true;
+          break;
+        }
+      }
+    }
+  });
+  return isDifferent;
+}
+
+

@@ -1,5 +1,5 @@
-import { CLIPBOARD } from "../../App";
 import TextObj from "./Objects/Text";
+import HistoryTracker from "./util/ArtboardHistory";
 
 // Artboard class is responsible for storing current state of an artboard with all its objects
 // this current state is drawn to the screen at an set intervat using the draw() method
@@ -25,6 +25,10 @@ class Artboard {
     this.viewOffset = { x: 0, y: 0 };
     this.zoom = 1;
     this.name = undefined;
+
+    this.history = new HistoryTracker(this);
+
+    this.toolManager = undefined;
   }
 
 
@@ -40,6 +44,8 @@ class Artboard {
 
   removeObject(obj) {
     this.objects.splice(this.objects.indexOf(obj), 1);
+
+    this.history.addStage();
   }
 
   getBackgroundColour() {
